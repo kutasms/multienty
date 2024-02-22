@@ -69,16 +69,6 @@ email:7437280@qq.com
 - jjwt 0.11.1
 - amqp 2.4.9
 
-## Get start
-
-- maven
-    ```
-    <dependency>
-        <groupId>com.chia</groupId>
-        <artifactId>multienty-spring-boot-starter</artifactId>
-        <version>2024.1.1</version>
-    </dependency>
-    ```
 
 ## Contribute
 
