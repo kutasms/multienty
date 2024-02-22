@@ -1,0 +1,135 @@
+spring:
+    shardingSphere:
+        enabled: true
+    rabbitmq:
+        enabled: true
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        dynamic:
+            enabled: true
+            primary: sharding
+            datasource:
+                ds_root:
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+                    url: jdbc:mysql://xxx.com:33301/mysql?autoReconnect=true&useUnicode=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+                    username: root
+                    password: DGNaGL21335xxxW6Acm
+
+
+    kuta:
+        multi-tenant:
+            domain: order.kutashop.cn
+            security:
+                auth:
+                    header: X-TOKEN
+                    # ALL 接受所有平台token
+                    token-prefix: ALL
+                    base64-secret: 5LmQ6IGa5oOg5piv5LiA5Liq5aW957O757uf5ZWK5aW957O757uf6K+35rOo5oSP5LiN6KaB5Zyo5LiK6Z2i5Y+R5biD6L+d5rOV5L+h5oGv6L+Z5qC3566h55CG5ZGY5Lmf5LiN5aW95aSE55CG55qE
+                    # 令牌持有时间(秒)
+                    token-holding-time: 86400
+                    # 客户持有令牌时间，-1永久
+                    customer-token-time: 86400
+                    # 续期时长
+                    renew-time: 86400
+                    # 是否支持多点登陆
+                    multipoint-login-enabled: true
+                    ignore-paths:
+                        - /file/upload
+                        - /code/generate
+                rsa:
+                    private-key: MIIBVQIBADANBgkqhkiG9w0BvvvvvvvvAT8wggE7AgEAAkEAz9eBnI8kZSN636sdmS1SQWfZQyM063sJKV1GXvIXX01l4IFLu8lbVBoOZcsfAE2Kb7O3X6ZAWDNhe9J8HJO0QQIDAQABAkA+OBJ57rQDfuqSuKQErfeY0uDMY2a9M7jbZCvj0m9CvNsd1TzcRjgsjlfXnACDVNAnfKir9FMSnKsu9CtkmtwBAiEA/H8MEHM2wBtcxOnoS1JbvOGtNB1b6NafJDVQ71uGPuECIQDSudTQ/wRORvFLIPCDYyH/gDWds03dVUuqdTByylcBYQIgcAeWvL3B7x603JHEBZd3KKkhBlx4aSjA13nofSsot0ECIQCpANM23yBD60/AMmXS6iGtOdVGajSrq6noxt4ZYkBPYQIhANSIs+yKopWSC5moEb4y3IEjWTrlD9OqvfEdJTW7YaQT
+                    public-key: MFwwDQYJKoZIhvcNAQEBBQADvvvvvvJBAM/XgZyPJGUjet+rHZktUkFn2UMjNOt7CSldRl7yF19NZeCBS7vJW1QaDmXLHwBNim+zt1+mQFgzYXvSfByTtEECAwEAAQ==
+                wechat:
+                    pay:
+                        v3NotifyUrls:
+                            order-pay: ${spring.kuta.multi-tenant.domain}/trade/wx/handleWxV3PayNotify/%s
+            file:
+                # 大写
+                storage-mode: LOCAL
+                custom:
+                    custom-file-upload-service-impl-class: com.chia.kutashop.core.strategy.file.impl.QNYFileUploadServiceImpl
+                local:
+                    path-prefix: C:\projects\xxx\store
+                    url-prefix: https://${spring.kuta.multi-tenant.domain}/local/
+
+        code-generator:
+            author: "Multi Tenant Auto Generator"
+            root-package: com.chia.kutashop
+            common-module-name: kutashop-core
+            table-prefix: ks_
+            controller-module-name: kutashop-order
+            # controller save path=project-path(user.dir) + "/" + controller-module-name + controller-file-path-suffix
+            controller-file-path-suffix: /src/main/java/com/chia/kutashop/order/controller
+            dto-file-path-suffix: /src/main/java/com/chia/kutashop
+            # AUTO, NONE, INPUT, ASSIGN_ID, ASSIGN_UUID
+            id-type: INPUT
+            logic-delete-column-name: deleted
+            
+            dto-full-package-name: com.chia.kutashop.core.domain.dto
+            table-fills:
+                version: INSERT
+                create_time: INSERT
+                update_time: UPDATE
+                deleted: INSERT
+                status: INSERT
+            packages:
+                controller: order.controller
+                entity: core.pojo
+                service: core.service.order
+                mapper: core.mapper
+                service-impl: core.service.order.impl
+                dto: core.domain.dto
+                parameter: core.parameter
+            formatter:
+                controller: "%sController"
+                entity: "%s"
+                service: "%sService"
+                service-impl: "%sServiceImpl"
+                mapper: "%sMapper"
+                xml: "%sMapper"
+            database:
+                host: xxx.com
+                port: 33301
+                db-name: t_order_1
+                username: t_order_1
+                password: fjJn8u3fh8bwnAZz
+            package-merge-mapping:
+                Trade: order
+                Order: order
+                OrderDetail: order
+                OrderItem: order
+                OrderItemError: order
+                OrderItemSurcharge: order
+                OrderItemAttr: order
+                OrderItemDelivery: order
+                PolymericPayment: order
+                RefundLog: order
+                PayLog: order
+                PaymentDetail: order
+                OrderAfter: order
+                OrderAfterFlow: order
+                AfterRefund: order
+                ShoppingCart: order
+                OrderBuyCoupon: order
+                OrderBuyMember: order
+                StandingBook: order
+            tables:
+                - ks_trade
+                - ks_order
+                - ks_order_detail
+                - ks_order_item
+                - ks_order_item_error
+                - ks_order_item_surcharge
+                - ks_order_item_attr
+                - ks_order_item_delivery
+                - ks_polymeric_payment
+                - ks_refund_log
+                - ks_pay_log
+                - ks_payment_detail
+                - ks_order_after
+                - ks_order_after_flow
+                - ks_after_refund
+                - ks_shopping_cart
+                - ks_order_buy_coupon
+                - ks_order_buy_member
+                - ks_standing_book

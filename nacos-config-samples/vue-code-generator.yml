@@ -1,0 +1,150 @@
+spring:
+    kuta:
+        vue-code-generator:
+            enabled: true
+            project-path: C:\projects\xxx\xxxx-vue-platform\src
+            # 接口
+            apis:
+                enabled: true
+                path: api
+            components:
+                path: components
+                mapping:
+                    value-type-selector:
+                        type: SELECT
+                        entity: Dict
+                        key: dict_id
+                        label: label
+                        multiple: false
+            input-icon-mapping:
+                label: kt-icon-name-fill
+                alias: kt-icon-name-fill
+            # 页面
+            views:
+                enabled: true
+                path: views
+                formatter:
+                    valueType: valueType2CN
+                    status: status2CN
+                path-override:
+                    Notice: system
+                    Dict: system
+                    JsonConfig: system
+                    Setting: system
+                    User: system
+                    Role: system
+                    WebLog: system
+                    ChineseCity: system
+                    Word: system
+                    Label: main
+                    RabbitLog: main
+                    Tenant: main
+                    UploadFile: main
+                    Category: storage
+                    CategorySkuProp: storage
+                    CategorySkuPropValue: storage
+                    Product: storage
+                    ProductCase: storage
+                    ProductCaseMedia: storage
+                    ProductCert: storage
+                    ProductMedia: storage
+                    ProductSku: storage
+                    SkuAttribute: storage
+                pages:
+                    Dict:
+                        override: false
+                        # 用于提示的标签字段
+                        tips-label-field: label
+                        index:
+                            # 页面类型分联动(LINKAGE)、表格(TABLE)
+                            page-type: LINKAGE
+                            # 是否允许数据创建
+                            data-create-enabled: false
+                            # 联动设置，当page-type为LINKAGE时有效
+                            linkage:
+                                # 联动字段
+                                field: pid
+                                # 联动深度
+                                depth: 2
+                                # 用于在子级中展示所属父级的标签的字段
+                                label-field: label
+                                # 每一层盒子宽度
+                                box-width: 200px
+                            # 搜索区域元素数组，支持 keywords, status, city
+                            search-input-items: [keywords, status]
+                            # search-input-items设置为status时有效
+                            selectable-status: "[-1, 3, 8]"
+                            table:
+                                # 是否显示序号
+                                serial-number-enabled: false
+                                table-columns: [label, alias, valueType, remark]
+                                table-item-actions: [edit, delete]
+                        editor:
+                            label-width: 100px
+                            form-items:
+                                label:
+                                    component: el-input
+                                alias:
+                                    component: el-input
+                                valueType:
+                                    component: value-type-selector
+                                    name: valueTypeSelector
+                                    path: views/system/components/valueTypeSelector
+                                value:
+                                    component: kt-value-selector
+                                    bindings:
+                                        v-model: form.value
+                                        value-type: form.valueType
+                                deletable:
+                                    component: el-checkbox
+                                encrypted:
+                                    component: el-checkbox
+                                remark:
+                                    component: el-input
+                                    type: textarea
+                    ChineseCity:
+                        index:
+                            search-input-items:
+                                - keywords
+                            keywordsPlaceHolder: 请输入城市名称
+                            # search-input-items设置为status时有效
+                            selectable-status: "[-1, 3, 8]"
+                            table:
+                                paging:
+                                    layout: "prev, pager, next"
+                                    pager-count: 11
+                                table-columns: [cityId, cityName, createTime, updateTime]
+                                table-item-actions: [edit, delete, web-log]
+                        editor:
+                            props:
+                                pid: cityPid
+                            size:
+                                width: 500px
+                                height: 50%
+                                top: 25%
+                            form-items:
+                                label:
+                                    component: el-input
+                                alias:
+                                    component: el-input
+                                valueType:
+                                    component: value-type-selector
+                                    name: valueTypeSelector
+                                    path: views/system/components/valueTypeSelector
+                                value:
+                                    component: kt-value-selector
+                                    bindings:
+                                        v-model: form.value
+                                        value-type: form.valueType
+                                deletable:
+                                    component: el-checkbox
+                                encrypted:
+                                    component: el-checkbox
+                                remark:
+                                    component: el-input
+                                    type: textarea
+                        # selector:
+                        #     # 选择器有3种类型 1. dialog, 2. select, 3.popover, 4.cascader
+                        #     type: dialog
+                        #     dialog-table:
+                        #         columns: []

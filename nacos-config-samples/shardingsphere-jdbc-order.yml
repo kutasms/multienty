@@ -1,0 +1,97 @@
+spring:
+    shardingsphere:
+        enabled: true
+        dataSource:
+            common:
+                type: com.alibaba.druid.pool.DruidDataSource
+                validationQuery: SELECT 1 FROM DUAL
+            names:
+                ds_order_1, ds_order_2
+            ds_order_1:
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: com.mysql.cj.jdbc.Driver
+                url: jdbc:mysql://xxx.com:33301/ks_order_1?autoReconnect=true&useUnicode=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+                username: ks_order_1
+                password: fjJnj33xxxbwnAZz
+            ds_order_2:
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: com.mysql.cj.jdbc.Driver
+                url: jdbc:mysql://xxx.com:33301/ks_order_2?autoReconnect=true&useUnicode=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+                username: ks_order_2
+                password: 84eAYYxxxxiLKCDj
+        rules:
+            sharding:
+                tables:
+                    ks_trade:
+                        actualDataNodes: ds_order_${1..2}.ks_trade_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_trade")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_order:
+                        actualDataNodes: ds_order_${1..2}.ks_order_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_order")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_order_detail:
+                        actualDataNodes: ds_order_${1..2}.ks_order_detail_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_order_detail")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_order_item:
+                        actualDataNodes: ds_order_${1..2}.ks_order_item_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_order_item")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_order_item_attr:
+                        actualDataNodes: ds_order_${1..2}.ks_order_item_attr_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_order_item_attr")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_order_buy_member:
+                        actualDataNodes: ds_order_${1..2}.ks_order_buy_member_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_order_buy_member")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time
+                    ks_standing_book:
+                        actualDataNodes: ds_order_${1..2}.ks_standing_book_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_standing_book")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time 
+                    ks_pay_log:
+                        actualDataNodes: ds_order_${1..2}.ks_pay_log_${com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool.tableNames("ks_pay_log")}
+                        tableStrategy:
+                            standard:
+                                shardingAlgorithmName: create-time-standard
+                                shardingColumn: create_time 
+                shardingAlgorithms:
+                    create-time-interval:
+                        type: INTERVAL
+                        props:
+                            datetime-pattern: yyyy-MM-dd HH:mm:ss
+                            datetime-lower: "2024-02-17 00:00:00"
+                            datetime-interval-unit: MONTHS
+                            sharding-suffix-pattern: yyyyMM
+                    create-time-standard:
+                        type: CLASS_BASED
+                        props:
+                            strategy: standard
+                            algorithmClassName: com.chia.multienty.core.sharding.algorithm.CreateTimeShardingAlgorithm
+                    order-db-inline:
+                        type: INLINE
+                        props: 
+                            algorithm-expression: ds_order_${tenant_id % 2 + 1}
+                defaultDatabaseStrategy:
+                    standard:
+                        shardingColumn: tenant_id
+                        shardingAlgorithmName: order-db-inline
+                bindingTables:
+                    - ks_order, ks_order_detail
+        props:
+            sql-show: true

@@ -1,0 +1,97 @@
+spring:
+    main:
+        allow-bean-definition-overriding: true
+    cloud:
+        sentinel:
+            enabled: false
+            eager: true
+            transport:
+                dashboard: sentinel.xxx.cn:6666
+    flyway:
+        enabled: false
+        locations: classpath:db/migration
+        validate-on-migrate: true
+        clean-disabled: true
+        baseline-on-migrate: true
+        extensions:
+            location-prefix: classpath:db/migration/
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        dynamic:
+            strict: false
+            druid:
+                initialSize: 1
+                minIdle: 3
+                maxActive: 20
+                # 配置获取连接等待超时的时间
+                maxWait: 60000
+                # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+                timeBetweenEvictionRunsMillis: 60000
+                # 配置一个连接在池中最小生存的时间，单位是毫秒
+                minEvictableIdleTimeMillis: 30000
+                validationQuery: select 'x'
+                testWhileIdle: true
+                testOnBorrow: false
+                testOnReturn: false
+                # 打开PSCache，并且指定每个连接上PSCache的大小
+                poolPreparedStatements: true
+                maxPoolPreparedStatementPerConnectionSize: 20
+                # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+                filters: config,stat,slf4j
+                # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+                connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
+                # 合并多个DruidDataSource的监控数据
+                useGlobalDataSourceStat: true
+    kuta:
+        multi-tenant:
+            # 登录失败阈值
+            login-failure-threshold: 5
+            standalone-tenant-db-name-prefix: 'ks_sa_'
+            master-db-name: 'master'
+            jackson:
+                date-format: yyyy-MM-dd HH:mm:ss
+                time-zone: GMT+8
+            wechat:
+                third-party:
+                    enabled: true
+                    app-id: xxxxxxxxxxxx
+                    app-secret: ad83decxxxx3d2ddf008xxxxx19c430
+                    message-verify-token: if823n48v7ah3ivhan
+                    message-decrypt-key: fi3817vj0lzxxxj9fV46jljxxxxx12ijgiv9Zjk3mmW
+                    auth-redirect-uri: https://merchant.xxx.cn/#/wxAuthResult
+                    required-private-infos:
+                        - onLocationChange
+            algorithms:
+                resource-mapping:
+                    cotenancy-tenant:
+                        type: 'COTENANCY'
+                        props:
+                            use-standalone-database: false
+                            divide-table-by-date: false
+                            file-upload-strategy: LOCAL
+                    enterprise-tenant:
+                        type: 'ENTERPRISE'
+                        props:
+                            use-standalone-database: true
+                            divide-table-by-date: false
+                            file-upload-strategy: OSS
+                    flagship-tenant:
+                        type: 'FLAGSHIP'
+                        props:
+                            use-standalone-database: true
+                            divide-table-by-date: false
+                            file-upload-strategy: OBS
+                            
+mybatis-plus:
+    global-config:
+        banner: true
+        db-config:
+            # 已删除
+            logic-delete-value: true
+            #未删除
+            logic-not-delete-value: false
+    type-aliases-package: com.xxx.xxxx.core.pojo;com.chia.multienty.core.pojo
+    mapperLocations: classpath*:mapper/**/*.xml
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
