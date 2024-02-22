@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../tools/apache-maven-3.6.3" />
+        <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="C:\tools\.m2\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectId" id="2aIyCeGXjYTDALnbD9dZn6lGDOt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/projects/multi-tenant/multi-tenant-generator/src/test/java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.5103448&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\multi-tenant\multi-tenant-generator\src\test\java" />
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\resources\mapper" />
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\service" />
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core" />
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\wechat\thirdplatform\sdk\tools" />
+      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.chia.multitenant.core" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.chia.multitenant.core.registercenter.nacos.impl" />
+      <recent name="com.chia.multitenant.core.pojo" />
+      <recent name="com.chia.multitenant.core.util" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.chia.multitenant.core.strategy.pay.domain.bo" />
+      <recent name="com.chia.multitenant.core.strategy.pay.domain.request" />
+      <recent name="com.chia.multitenant.core.tools" />
+      <recent name="com.chia.multitenant.core.sharding.algorithm" />
+      <recent name="com.chia.multitenant.core.domain.wechat" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.NacosServiceImplTest.updateYamlConfig">
+    <configuration default="true" type="Application" factoryName="Application">
+      <shortenClasspath name="MANIFEST" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosServiceImplTest.getAppConfig" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-generator" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chia.multitenant.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chia.multitenant.generator" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multitenant.generator.NacosServiceImplTest" />
+      <option name="METHOD_NAME" value="getAppConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosServiceImplTest.getConfig (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-generator" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="impl" />
+      <option name="MAIN_CLASS_NAME" value="impl.NacosServiceImplTest" />
+      <option name="METHOD_NAME" value="getConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosServiceImplTest.getConfig (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-generator" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chia.multitenant.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chia.multitenant.generator" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multitenant.generator.NacosServiceImplTest" />
+      <option name="METHOD_NAME" value="getConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosServiceImplTest.getConfig" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-core" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chia.multitenant.core.registercenter.nacos.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chia.multitenant.core.registercenter.nacos.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multitenant.core.registercenter.nacos.impl.NacosServiceImplTest" />
+      <option name="METHOD_NAME" value="getConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosServiceImplTest.updateYamlConfig" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-generator" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chia.multitenant.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chia.multitenant.generator" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multitenant.generator.NacosServiceImplTest" />
+      <option name="METHOD_NAME" value="updateYamlConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <shortenClasspath name="MANIFEST" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="multienty" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="multienty" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.NacosServiceImplTest.updateYamlConfig" />
+        <item itemvalue="JUnit.NacosServiceImplTest.getAppConfig" />
+        <item itemvalue="JUnit.NacosServiceImplTest.getConfig (2)" />
+        <item itemvalue="JUnit.NacosServiceImplTest.getConfig (1)" />
+        <item itemvalue="JUnit.NacosServiceImplTest.getConfig" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="" />
+      <created>1704020263573</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704020263573</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.ftl" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/CodeGeneratorController.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/sharding/listener/NacosShardingConfigListener.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../tools/.m2/repository/com/alibaba/nacos/nacos-client/2.2.0/nacos-client-2.2.0-sources.jar!/com/alibaba/nacos/client/config/impl/CacheData.java</url>
+          <line>181</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.chia.multitenant.core.registercenter.nacos.NacosConfiguration$$EnhancerBySpringCGLIB$$2e009466" memberName="kutaNacosProperties" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>
