@@ -16,7 +16,7 @@ Multienty can recognize the sharding rules configured in ***shardingsphere*** an
 
 In addition, we also provide various page code generation for backend management UI. you can see ***/vue/code/generate***
 
-## Join Select
+## Join Query
 ***mybatis-plus-join-boot-starter*** has extended mybatis-plus and provided join query functionality. On this basis, we have further encapsulated it so that you can easily perform associated queries in the code.
 
 ## Nacos config center
