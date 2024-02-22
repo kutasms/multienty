@@ -1,0 +1,5 @@
+com\chia\multienty\spring\boot\condition\MultiTenantSpringBootCondition.class
+com\chia\multienty\spring\boot\MultiTenantSpringBootConfiguration$Builder.class
+com\chia\multienty\spring\boot\registry\AbstractAlgorithmBeanRegistry.class
+com\chia\multienty\spring\boot\registry\TenantResourceMappingAlgorithmBeanRegistry.class
+com\chia\multienty\spring\boot\MultiTenantSpringBootConfiguration.class

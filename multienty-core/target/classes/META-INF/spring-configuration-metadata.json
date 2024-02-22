@@ -1,0 +1,437 @@
+{
+  "groups": [
+    {
+      "name": "spring.cloud.nacos.config",
+      "type": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.datasource.dynamic",
+      "type": "com.chia.multienty.core.sharding.properties.ShardingSphereExtendProperties",
+      "sourceType": "com.chia.multienty.core.sharding.properties.ShardingSphereExtendProperties"
+    },
+    {
+      "name": "spring.flyway.extensions",
+      "type": "com.chia.multienty.core.flyway.proerties.FlywayExtensionProperties",
+      "sourceType": "com.chia.multienty.core.flyway.proerties.FlywayExtensionProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator",
+      "type": "com.chia.multienty.core.mybatis.generator.GeneratorProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantSecurityProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantSecurityProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.rsa",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantRsaProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantRsaProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator",
+      "type": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.shardingsphere.datasource",
+      "type": "com.chia.multienty.core.properties.KutaShardingSphereProperties",
+      "sourceType": "com.chia.multienty.core.properties.KutaShardingSphereProperties"
+    },
+    {
+      "name": "spring.shardingsphere.rules",
+      "type": "com.chia.multienty.core.sharding.config.KutaYamlShardingRuleSpringBootConfiguration",
+      "sourceType": "com.chia.multienty.core.sharding.config.KutaYamlShardingRuleSpringBootConfiguration"
+    },
+    {
+      "name": "spring.sms",
+      "type": "com.chia.multienty.core.strategy.sms.properties.SMSProperties",
+      "sourceType": "com.chia.multienty.core.strategy.sms.properties.SMSProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.cloud.nacos.config.extension-configs",
+      "type": "com.chia.multienty.core.registercenter.nacos.NacosExtensionConfig[]",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.cloud.nacos.config.file-extension",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.cloud.nacos.config.namespace",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.cloud.nacos.config.password",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.cloud.nacos.config.server-addr",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.cloud.nacos.config.username",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.registercenter.nacos.KutaNacosProperties"
+    },
+    {
+      "name": "spring.datasource.dynamic.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.chia.multienty.core.sharding.properties.ShardingSphereExtendProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.flyway.extensions.location-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.flyway.proerties.FlywayExtensionProperties",
+      "defaultValue": "classpath:db\/"
+    },
+    {
+      "name": "spring.kuta.code-generator.author",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties",
+      "defaultValue": "Multi Tenant Auto Generator"
+    },
+    {
+      "name": "spring.kuta.code-generator.common-module-name",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.controller-file-path-suffix",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.controller-module-name",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.database",
+      "type": "com.chia.multienty.core.mybatis.generator.GeneratorDatabaseProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.dto-file-path-suffix",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.dto-full-package-name",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.formatter",
+      "type": "com.chia.multienty.core.mybatis.generator.GeneratorFormatterProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.id-type",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties",
+      "defaultValue": "INPUT"
+    },
+    {
+      "name": "spring.kuta.code-generator.logic-delete-column-name",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.package-merge-mapping",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.packages",
+      "type": "com.chia.multienty.core.mybatis.generator.GeneratorPackageProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.root-package",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.super-entity-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.super-entity-columns",
+      "type": "java.lang.String[]",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.table-fills",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.table-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.code-generator.tables",
+      "type": "java.lang.String[]",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.GeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.algorithms",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAlgorithmProperties",
+      "description": "是否启动独立数据库模式 普通客户为分表的租户模式，有部分客户可能需要部署独立数据库",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.base-module-enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用基础模块，启用后将提供基础模块controller服务",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.kuta.multi-tenant.domain",
+      "type": "java.lang.String",
+      "description": "域名",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties",
+      "description": "文件相关配置",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.cos",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.custom",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.local",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.obs",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.oss",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.file.storage-mode",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantFileProperties",
+      "defaultValue": "LOCAL"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.jackson",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantJacksonProperties",
+      "description": "jackson相关配置",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.login-failure-threshold",
+      "type": "java.lang.Integer",
+      "description": "登录失败阈值",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.master-db-name",
+      "type": "java.lang.String",
+      "description": "主控数据库名称",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties",
+      "defaultValue": "master"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantSecurityProperties",
+      "description": "安全配置",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantSecurityProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.base64-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.customer-token-time",
+      "type": "java.lang.Integer",
+      "description": "客户持有令牌时间",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties",
+      "defaultValue": 86400
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.header",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.ignore-paths",
+      "type": "java.lang.String[]",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.multipoint-login-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.renew-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.token-holding-time",
+      "type": "java.lang.Integer",
+      "description": "管理端持有令牌时间",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties",
+      "defaultValue": 86400
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.auth.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantAuthProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.rsa",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantRsaProperties",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantSecurityProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.rsa.private-key",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantRsaProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.security.rsa.public-key",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantRsaProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.sm4-private-key",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.standalone-tenant-db-name-prefix",
+      "type": "java.lang.String",
+      "description": "独立部署租户数据库名称前缀",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties",
+      "defaultValue": "db-sa-"
+    },
+    {
+      "name": "spring.kuta.multi-tenant.user-module-enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用用户模块，启用后将提供用户模块controller服务",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.kuta.multi-tenant.wechat",
+      "type": "com.chia.multienty.core.properties.yaml.YamlMultiTenantWechatProperties",
+      "description": "微信配置",
+      "sourceType": "com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.apis",
+      "type": "com.chia.multienty.core.mybatis.generator.vue.VueGeneratorApiProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.components",
+      "type": "com.chia.multienty.core.mybatis.generator.vue.VueGeneratorComponentsProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.input-icon-mapping",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.project-path",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.kuta.vue-code-generator.views",
+      "type": "com.chia.multienty.core.mybatis.generator.vue.VueGeneratorViewsProperties",
+      "sourceType": "com.chia.multienty.core.mybatis.generator.vue.VueCodeGeneratorProperties"
+    },
+    {
+      "name": "spring.shardingsphere.datasource.data-source",
+      "type": "java.util.Map<java.lang.String,java.lang.Object>",
+      "sourceType": "com.chia.multienty.core.properties.KutaShardingSphereProperties"
+    },
+    {
+      "name": "spring.shardingsphere.datasource.props",
+      "type": "java.util.Map<java.lang.String,java.lang.Object>",
+      "sourceType": "com.chia.multienty.core.properties.KutaShardingSphereProperties"
+    },
+    {
+      "name": "spring.shardingsphere.datasource.rules",
+      "type": "java.util.Map<java.lang.String,java.lang.Object>",
+      "sourceType": "com.chia.multienty.core.properties.KutaShardingSphereProperties"
+    },
+    {
+      "name": "spring.shardingsphere.rules.sharding",
+      "type": "org.apache.shardingsphere.sharding.yaml.config.YamlShardingRuleConfiguration",
+      "sourceType": "com.chia.multienty.core.sharding.config.KutaYamlShardingRuleSpringBootConfiguration"
+    },
+    {
+      "name": "spring.sms.active",
+      "type": "java.lang.String",
+      "sourceType": "com.chia.multienty.core.strategy.sms.properties.SMSProperties"
+    },
+    {
+      "name": "spring.sms.aliyun",
+      "type": "com.chia.multienty.core.strategy.sms.properties.AliyunSMSProperties",
+      "sourceType": "com.chia.multienty.core.strategy.sms.properties.SMSProperties"
+    }
+  ],
+  "hints": []
+}
