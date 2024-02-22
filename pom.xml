@@ -42,7 +42,6 @@
          <flyway.version>7.15.0</flyway.version>
          <nacos.version>2.2.0</nacos.version>
          <rocketmq.version>4.9.4</rocketmq.version>
-         <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
          <shardingsphere-jdbc.version>5.2.1</shardingsphere-jdbc.version>
          <wxv3.version>0.2.12</wxv3.version>
          <ognl.version>3.2</ognl.version>
