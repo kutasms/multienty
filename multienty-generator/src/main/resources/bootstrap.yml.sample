@@ -1,0 +1,114 @@
+server:
+  port: 8808
+logging:
+  config: classpath:logback-spring.xml
+spring:
+  application:
+    name: multi-tenant-generator
+  cloud:
+    nacos:
+      discovery:
+	    # 请按自身情况配置
+        server-addr: nacos.xxx.cn:88888
+        namespace: xxxx-xxxx-xxxx-xxxx
+        username: xxxx
+        password: xxxx
+      config:
+        server-addr: nacos.xxx.cn:88888
+        namespace: xxxx-xxxx-xxxx-xxxx
+        username: xxxx
+        password: xxxx
+        file-extension: yml
+#        extension-configs[0]:
+#          data-id: shardingsphere-jdbc-order.yml
+#          group: shardingsphere
+#          refresh: true
+        extension-configs[0]:
+          data-id: kuta-multi-tenant.yml
+          group: DEFAULT_GROUP
+          refresh: true
+        extension-configs[1]:
+          data-id: redis.yml
+          group: DEFAULT_GROUP
+          refresh: true
+        extension-configs[2]:
+          data-id: rabbitmq.yml
+          group: DEFAULT_GROUP
+          refresh: true
+        extension-configs[3]:
+          data-id: vue-code-generator.yml
+          group: VUE_GROUP
+          refresh: true
+seata:
+  enabled: false
+  application-id: seata-server
+  # 客户端和服务端在同一个事务组; Seata 事务组编号，用于 TC 集群名, 一定要和 config.tx(nacos) 中配置的相同
+  tx-service-group: tx_master_group
+  # 自动数据源代理
+  enable-auto-data-source-proxy: false
+  # 数据源代理模式(分布式事务方案)
+  data-source-proxy-mode: AT
+  service:
+    vgroup-mapping:
+      tx_master_group: default
+  config:
+    # support: nacos, consul, apollo, zk, etcd3, file
+    type: nacos
+    nacos:
+	  # 请按自身情况配置
+      server-addr: nacos.xxx.cn:8888
+      namespace: xxxx-xxxx-xxxx-xxxx
+      group: SEATA_GROUP
+      username: xxxx
+      password: xxxx
+      data-id: seata-server.properties
+      cluster: default
+  registry:
+    # support: nacos, eureka, redis, zk, consul, etcd3, sofa
+    type: nacos
+    nacos:
+	  # 请按自身情况配置
+      server-addr: nacos.xxxx.com:88888
+      namespace: 047e6c28-0068-4ee9-9b15-454b5da9c7a5
+      group: SEATA_GROUP
+      username: xxxx
+      password: xxxx
+      # 默认TC集群名
+      cluster: default
+      # 服务名,与服务端中registry.conf配置要一致
+      application: seata-server
+      context-path:
+
+dubbo:
+  enabled: false
+  metadata-report:
+    # 请按自身情况配置
+    address: nacos://xxxx.com:88888?username=${dubbo.metadata-report.username}&password=${dubbo.metadata-report.password}
+    username: xxxx
+    password: xxxx
+    parameters:
+      namespace: 273e34a2-bc14-41bd-ac55-b8ab8ba27e4a
+    retry-times: 30  #重试次数,默认100
+    cycle-report: false #关闭定时刷新
+  application:
+    name: generator-provider
+    logger: slf4j
+    # 禁用QOS同一台机器可能会有端口冲突现象
+    qos-enable: false
+    qos-accept-foreign-ip: false
+    service-discovery:
+      migration: FORCE_APPLICATION # FORCE_APPLICATION，只消费应用级地址，如无地址则报错,单订阅 3.x 地址
+  protocol:
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: com.chia.kutashop.master.dubbo.service.impl
+  cloud:
+    subscribed-services: kuta-user #, kuta-order, kuta-delivery, kuta-marketing, kuta-storage
+
+  registry:
+    address: nacos://xxxx.com:88888?username=${dubbo.metadata-report.username}&password=${dubbo.metadata-report.password}
+    parameters:
+      namespace: xxxx-xxxx-xxxx-xxxx
+  consumer:
+    check: false
