@@ -53,11 +53,11 @@ List<OrderDTO> list = selectJoinList(OrderDTO.class, MTJoinWrappers.lambda(Order
 Multienty has implemented the acquisition and update of nacos configuration. Please develop your own UI interface. It is recommended to cooperate with ShardingArgorithmTool to achieve dynamic creation and update of independent tenants.
 
 ## Basic Data Table
-The multi core mysql resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
+multienty-core-mysql-resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
 ```
 spring.multi-tenant.base-module-enabled = true
 ```
-## Strategys
+## Strategies
 - file upload
     - Implemented local and Alioss mode.
 - payment
