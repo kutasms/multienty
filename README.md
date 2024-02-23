@@ -1,4 +1,18 @@
 # Multi Tenant Solution for SAAS (Micro Services)
+<div align="center">
+
+English | [简体中文](./README.zh.md)
+
+![Static Badge](https://img.shields.io/badge/springboot-2.6.13-blue)
+![Static Badge](https://img.shields.io/badge/dubbo-3.0.8-red)
+![Static Badge](https://img.shields.io/badge/nacos-2.2.0-brightgreen)
+![Static Badge](https://img.shields.io/badge/seata-1.6.1-fedcba)
+
+![Static Badge](https://img.shields.io/badge/shardingsphere-5.2.1-yellow)
+![Static Badge](https://img.shields.io/badge/sentinel-1.8.6-8A2BE2)
+![Static Badge](https://img.shields.io/badge/mybatis_plus-3.5.5-blue)
+
+</div>
 
 Multienty integrates multiple mature middleware to provide you with a one-stop solution.
 
@@ -17,10 +31,8 @@ Multienty can recognize the sharding rules configured in ***shardingsphere*** an
 In addition, we also provide various page code generation for backend management UI. you can see ***/vue/code/generate***
 
 ## Join Query
-***mybatis-plus-join-boot-starter*** has extended mybatis-plus and provided join query functionality. On this basis, we have further encapsulated it so that you can easily perform associated queries in the code.
 
-## Nacos config center
-Multienty has implemented the acquisition and update of nacos configuration. Please develop your own UI interface. It is recommended to cooperate with ShardingArgorithmTool to achieve dynamic creation and update of independent tenants.
+***mybatis-plus-join-boot-starter*** has extended mybatis-plus and provided join query functionality. On this basis, we have further encapsulated it so that you can easily perform associated queries in the code.
 
 example:
 ```
@@ -34,6 +46,10 @@ List<OrderDTO> list = selectJoinList(OrderDTO.class, MTJoinWrappers.lambda(Order
                     .le(Order::getCreateTime, TimeUtil.maxTime(createTime.toLocalDate()))
             );
 ```
+
+## Nacos config center
+Multienty has implemented the acquisition and update of nacos configuration. Please develop your own UI interface. It is recommended to cooperate with ShardingArgorithmTool to achieve dynamic creation and update of independent tenants.
+
 ## Basic Data Table
 The multi core mysql resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
 ```
