@@ -1,6 +1,6 @@
 
 <div align="center">
-
+  
 # Multi Tenant Solution for SAAS (Micro Services)
 
 English | [简体中文](./README.zh.md)
@@ -16,7 +16,7 @@ English | [简体中文](./README.zh.md)
 
 </div>
 
-Multienty integrates multiple mature middleware to provide you with a one-stop solution.
+Multienty (/ˈmʌltɪˌentɪ/) integrates multiple mature middleware to provide you with a one-stop solution.
 
 This project is based on Springboot, with a version requirement of ***2.6.13***. Please ensure that your development environment matches this project before use.
 
