@@ -21,14 +21,12 @@ import ${cfg.package_parameter}.${entity}DisableParameter;
 import com.github.yulichang.toolkit.MPJWrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import constants.domain.com.chia.multienty.core.MultiTenantConstants;
-import mybatis.com.chia.multienty.core.MTLambdaWrapper;
-import util.com.chia.multienty.core.ListUtil;
-import enums.domain.com.chia.multienty.core.StatusEnum;
-import constants.domain.com.chia.multienty.core.MultiTenantConstants;
+import com.chia.multienty.core.domain.constants.MultiTenantConstants;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
+import com.chia.multienty.core.util.ListUtil;
 <#if cfg.sharding??>
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import tools.com.chia.multienty.core.MultiTenantContext;
+import com.chia.multienty.core.tools.MultiTenantContext;
 import com.baomidou.dynamic.datasource.annotation.DS;
 </#if>
 

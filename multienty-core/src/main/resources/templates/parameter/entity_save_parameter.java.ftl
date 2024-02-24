@@ -3,7 +3,7 @@ package ${cfg.package_parameter};
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import annotation.com.chia.multienty.core.LogMetaId;
+import com.chia.multienty.core.annotation.LogMetaId;
 <#list table.importPackages as pkg>
 <#if pkg?index_of("com.baomidou.mybatisplus.annotation") == -1>
 import ${pkg};

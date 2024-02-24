@@ -1,12 +1,12 @@
 package ${cfg.package_parameter};
 
 import lombok.Data;
-import annotation.com.chia.multienty.core.LogMetaId;
+import com.chia.multienty.core.annotation.LogMetaId;
+import javax.validation.constraints.NotNull;
 <#list table.importPackages as pkg>
 <#if pkg?index_of("com.baomidou.mybatisplus.annotation") == -1>
 import ${pkg};
 </#if>
-import javax.validation.constraints.NotNull;
 </#list>
 <#if swagger>
 import io.swagger.annotations.ApiModel;

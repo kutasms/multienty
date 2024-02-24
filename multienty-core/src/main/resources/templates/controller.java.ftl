@@ -19,8 +19,8 @@ import ${cfg.package_parameter}.${entity}DisableParameter;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import annotation.com.chia.multienty.core.WebLog;
-import basic.domain.com.chia.multienty.core.Result;
+import com.chia.multienty.core.annotation.WebLog;
+import com.chia.multienty.core.domain.basic.Result;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>

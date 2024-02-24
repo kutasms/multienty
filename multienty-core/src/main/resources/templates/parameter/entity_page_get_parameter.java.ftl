@@ -1,7 +1,7 @@
 package ${cfg.package_parameter};
 
 import lombok.Data;
-import mybatis.com.chia.multienty.core.DefaultListGetParameter;
+import com.chia.multienty.core.mybatis.DefaultListGetParameter;
 import ${cfg.package_dto}.${entity}DTO;
 <#list table.importPackages as pkg>
 <#if pkg?index_of("com.baomidou.mybatisplus.annotation") == -1>
