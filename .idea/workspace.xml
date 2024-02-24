@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.0.5__alter_setting_ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.0.5__alter_setting_ddl.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,19 +194,6 @@
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <shortenClasspath name="MANIFEST" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="multienty" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="multienty" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
