@@ -1,0 +1,17 @@
+spring:
+    redis:
+        enabled: true
+        host: xxx.xxx.xxx.xxx
+        port: 8165
+        password: xxxxx
+        database: 0
+        timeout: 10000
+        runningRedisInitialize: false
+        pingConnectionInterval: 1000
+        globalPrefix: KS-
+        jedis:
+            pool:
+                max-active: 6000
+                max-wait: 1000
+                max-idle: 400
+                min-idle: 0

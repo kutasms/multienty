@@ -1,0 +1,35 @@
+spring:
+    rabbitmq:
+      host: xxx.xxx.xxx.xxx
+      port: 10086
+      username: xxxx
+      password: xxxxx
+      virtual-host: /
+      publisher-confirm-type: correlated
+      publisher-returns: true
+      retry-execute-cron: "0 0/1 * * * ? "
+      # 每三分钟从数据库加载需要发送的Rabbit消息
+      reload-from-db-interval: 180000
+      retry-running: true
+      # 每超过1分钟重发一次
+      resubmit-threshold: 60000
+      # 重试的时候从缓存中删除阈值，超过(N * retry-threshold)则从缓存中删除
+      retry-remove-threshold: 5
+      #虚拟主机，使用server默认host
+      #virtual-host: JCcccHost
+      listener:
+        simple:
+          # 并行消费数量 格式：N/M-N
+          concurrency: 1
+          #手动确认模式
+          acknowledge-mode: manual
+          retry:
+            enabled: true
+            #最大重试次数
+            max-attempts: 10
+            # 重试最大间隔时间
+            max-interval: 10000
+            # 重试初始间隔时间
+            initial-interval: 2000
+            # 间隔时间乘子，间隔时间*乘子=下一次的间隔时间，最大不能超过设置的最大间隔时间
+            multiplier: 2
