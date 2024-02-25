@@ -30,7 +30,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chia.multienty.core.tools.MultiTenantContext;
 import com.baomidou.dynamic.datasource.annotation.DS;
 </#if>
-
+<#if idType ??>
+import com.chia.multienty.core.tools.IdWorkerProvider;
+</#if>
 /**
  * <p>
  * ${table.comment!} 服务实现类
@@ -139,6 +141,15 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public void save(${entity}SaveParameter parameter) {
         ${entity} ${entity?uncap_first} = new ${entity}();
         BeanUtils.copyProperties(parameter, ${entity?uncap_first});
+        <#list table.fields as field>
+            <#if field.keyFlag>
+                <#if idType ??>
+                    <#if idType == "INPUT">
+        ${entity?uncap_first}.set${field.propertyName?cap_first}(IdWorkerProvider.next());
+                    </#if>
+                </#if>
+            </#if>
+        </#list>
         saveTE(${entity?uncap_first});
     <#if cfg.sharding??>
         <#if cfg.sharding.shardingDatabase && cfg.sharding.databaseShardingColumnName == "tenantId">
