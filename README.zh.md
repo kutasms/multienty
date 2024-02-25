@@ -20,6 +20,21 @@ Multienty集成了多个优秀的中间件，为您提供一站式多租户SAAS�
 
 本项目基于Springboot***2.6.13***. 在接入之前请确认您的开发环境可支持.
 
+## 案例
+为了让各位更好的使用Multienty,我们在知乎编写了详细的教程，并且将整个demo项目开源
+https://gitee.com/kutasms/saas-demo, 感兴趣的朋友可前往围观。
+
+知乎地址：
+
+[SaaS平台开发实战(一)：快速搭建环境](https://zhuanlan.zhihu.com/p/683628573)
+
+[SaaS平台开发实战(二)：基础服务模块](https://zhuanlan.zhihu.com/p/683660274)
+
+[SaaS平台开发实战(三)：用户服务模块](https://zhuanlan.zhihu.com/p/683753657)
+
+[SaaS平台开发实战(四)：让基础模块和用户模块运行起来](https://zhuanlan.zhihu.com/p/683760795)
+
+[SaaS平台开发实战(五)：订单服务模块](https://zhuanlan.zhihu.com/p/683873298)
 
 ## 数据库
 
