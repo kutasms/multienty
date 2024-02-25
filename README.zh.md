@@ -51,11 +51,11 @@ Multienty可以识别***shardingsphere***中配置的分片规则，并自动生
 
 
 
-## Nacos config center
+## Nacos配置中心
 
 Multienty已经实现了nacos配置的获取和更新。请开发您自己的UI界面。建议与ShardingArgorithTool合作，实现独立租户的动态创建和更新。
 
-## Basic Data Table
+## 基础数据表
 multienty-core-mysql-resource 模块提供了一些基础数据库表配置，您可以在自己的项目Maven pom文件中引用, 然后在nacos配置中开启如下设置，flyway将自动完成基础数据表的生成。基础数据表的pojo,mapper,service, serviceImpl, controller已在multienty-core模块中加入，您不用再次生成。
 ```
 spring.multi-tenant.base-module-enabled = true
