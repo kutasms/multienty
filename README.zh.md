@@ -21,10 +21,13 @@ Multienty集成了多个优秀的中间件，为您提供一站式多租户SAAS�
 本项目基于Springboot***2.6.13***. 在接入之前请确认您的开发环境可支持.
 
 ## 案例
-为了让各位更好的使用Multienty,我们在知乎编写了详细的教程，并且将整个demo项目开源
-https://gitee.com/kutasms/saas-demo, 感兴趣的朋友可前往围观。
+为了让各位更好的使用Multienty,我们编写了demo并将整个demo项目开源,感兴趣的朋友可前往围观。
 
-知乎地址：
+[github地址](https://github.com/kutasms/saas-demo)
+
+[gitee地址](https://gitee.com/kutasms/saas-demo)
+
+我们在知乎编写了详细的教程，地址如下：
 
 [SaaS平台开发实战(一)：快速搭建环境](https://zhuanlan.zhihu.com/p/683628573)
 
