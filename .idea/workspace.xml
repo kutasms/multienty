@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/controller.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/controller.java.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_delete_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_delete_parameter.java.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_page_get_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_page_get_parameter.java.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_save_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_save_parameter.java.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_update_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_update_parameter.java.ftl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/serviceImpl.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/serviceImpl.java.ftl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -24,8 +24,9 @@ import org.springframework.beans.BeanUtils;
 import com.chia.multienty.core.domain.constants.MultiTenantConstants;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.util.ListUtil;
-<#if cfg.sharding??>
+import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+<#if cfg.sharding??>
 import com.chia.multienty.core.tools.MultiTenantContext;
 import com.baomidou.dynamic.datasource.annotation.DS;
 </#if>
