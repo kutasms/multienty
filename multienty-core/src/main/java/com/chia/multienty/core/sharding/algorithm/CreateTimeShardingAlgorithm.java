@@ -1,6 +1,5 @@
 package com.chia.multienty.core.sharding.algorithm;
 
-import com.chia.multienty.core.domain.enums.SymbolEnum;
 import com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool;
 import com.google.common.collect.Range;
 import org.apache.shardingsphere.sharding.api.sharding.standard.PreciseShardingValue;
@@ -21,7 +20,7 @@ public class CreateTimeShardingAlgorithm implements StandardShardingAlgorithm<Lo
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<LocalDateTime> shardingValue) {
         String tableSuffix = shardingValue.getValue().format(DateTimeFormatter.ofPattern("yyyyMM"));
         String logicTableName = shardingValue.getDataNodeInfo().getPrefix();
-        String actualTableName = logicTableName.concat(SymbolEnum.UNDER_LINE.getCode()).concat(tableSuffix);
+        String actualTableName = logicTableName.concat(tableSuffix);
 
         String result = ShardingAlgorithmTool.checkExists(logicTableName, actualTableName);
         if(!availableTargetNames.contains(result)) {
