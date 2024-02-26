@@ -19,9 +19,8 @@ public class CreateTimeShardingAlgorithm implements StandardShardingAlgorithm<Lo
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<LocalDateTime> shardingValue) {
         String tableSuffix = shardingValue.getValue().format(DateTimeFormatter.ofPattern("yyyyMM"));
-        String logicTableName = shardingValue.getDataNodeInfo().getPrefix();
-        String actualTableName = logicTableName.concat(tableSuffix);
-
+        String logicTableName = shardingValue.getLogicTableName();
+        String actualTableName = shardingValue.getDataNodeInfo().getPrefix().concat(tableSuffix);
         String result = ShardingAlgorithmTool.checkExists(logicTableName, actualTableName);
         if(!availableTargetNames.contains(result)) {
             availableTargetNames.add(result);

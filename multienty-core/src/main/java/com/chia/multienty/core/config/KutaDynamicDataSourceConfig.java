@@ -8,6 +8,7 @@ import com.baomidou.dynamic.datasource.provider.AbstractDataSourceProvider;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
+import com.chia.multienty.core.domain.constants.MultiTenantConstants;
 import com.chia.multienty.core.sharding.properties.ShardingSphereExtendProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class KutaDynamicDataSourceConfig {
             public Map<String, DataSource> loadDataSources() {
                 Map<String, DataSource> dataSourceMap = createDataSourceMap(datasourceMap);
                 if(shardingSphereExtendProperties.getEnabled()) {
-                    dataSourceMap.put("sharding", shardingSphereDataSource);
+                    dataSourceMap.put(MultiTenantConstants.DS_SHARDING, shardingSphereDataSource);
                 }
                 return dataSourceMap;
             }

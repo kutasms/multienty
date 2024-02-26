@@ -62,16 +62,6 @@ public class ShardingAlgorithmTool {
 
     private static final YamlShardingRuleAlgorithmProviderConfigurationSwapper SHARDING_RULE_ALGORITHM_SWAPPER = new YamlShardingRuleAlgorithmProviderConfigurationSwapper();
 
-//    static {
-//        String tableSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-//        String actualTableName = "test".concat("_").concat(tableSuffix);
-////        tableNameCache.add(actualTableName);
-////        Set<String> testSet = new HashSet<>();
-////        testSet.add(actualTableName);
-////        tableNameCache.put("test", testSet);
-//        tableNameCache.add(actualTableName);
-//    }
-
 
 
     @SneakyThrows
@@ -274,20 +264,31 @@ public class ShardingAlgorithmTool {
         tableNameCache.addAll(list);
     }
 
+    private static Map<String, String> waitCopyTables = new HashMap<>();
+
+    public static void copyTablesAfterStarted() {
+        if(waitCopyTables.size() > 0) {
+            waitCopyTables.forEach((k,v) -> {
+                copyTableForAllDS(k, v);
+            });
+        }
+    }
+
     public static List<String> tableNames(String logicTableName) {
         List<String> names = new ArrayList<>();
         String prefix = logicTableName + "_";
         String currentMonthSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-        if(tableNameCache.size() == 1) {
-            reload();
-        }
-        for (String tableName : tableNameCache) {
-            if(tableName.startsWith(prefix)) {
-                String[] split = tableName.split("_");
-                names.add(split[split.length-1]);
-            }
-        }
+//        if(tableNameCache.size() == 0) {
+//            reload();
+//        }
+//        for (String tableName : tableNameCache) {
+//            if(tableName.startsWith(prefix)) {
+//                String[] split = tableName.split("_");
+//                names.add(split[split.length-1]);
+//            }
+//        }
         if(!names.contains(currentMonthSuffix)) {
+            waitCopyTables.put(logicTableName, prefix + currentMonthSuffix);
             names.add(currentMonthSuffix);
         }
         return names;

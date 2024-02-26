@@ -1,12 +1,14 @@
 package com.chia.multienty.core.flyway.config;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.chia.multienty.core.flyway.condition.FlywayExtensionCondition;
 import com.chia.multienty.core.flyway.proerties.FlywayExtensionProperties;
 import com.chia.multienty.core.flyway.util.FlywayUtil;
-import com.chia.multienty.core.flyway.condition.FlywayExtensionCondition;
 import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.sharding.tools.ShardingAlgorithmTool;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.spring.boot.ShardingSphereAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,12 +24,13 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties(FlywayExtensionProperties.class)
 @ConditionalOnClass({
         FlywayExtensionProperties.class,
-        DataSource.class
+        DataSource.class,
+        ShardingSphereAutoConfiguration.class
 })
 @Conditional(FlywayExtensionCondition.class)
 @Configuration
 @EnableTransactionManagement
-public class MultiTenantFlywayConfiguration {
+public class MultientyFlywayConfiguration {
     @Value("${spring.application.name}")
     private String appName;
 
@@ -45,5 +48,6 @@ public class MultiTenantFlywayConfiguration {
         log.info(">>>>>>>>> Use flyway to migrate each data source in the dynamic data source ");
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         FlywayUtil.migrateDynamicDataSource(ds);
+        ShardingAlgorithmTool.copyTablesAfterStarted();
     }
 }
