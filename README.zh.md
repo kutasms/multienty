@@ -9,7 +9,6 @@
 ![Static Badge](https://img.shields.io/badge/dubbo-3.0.8-red)
 ![Static Badge](https://img.shields.io/badge/nacos-2.2.0-brightgreen)
 ![Static Badge](https://img.shields.io/badge/seata-1.6.1-fedcba)
-
 ![Static Badge](https://img.shields.io/badge/shardingsphere-5.2.1-yellow)
 ![Static Badge](https://img.shields.io/badge/sentinel-1.8.6-8A2BE2)
 ![Static Badge](https://img.shields.io/badge/mybatis_plus-3.5.5-blue)
