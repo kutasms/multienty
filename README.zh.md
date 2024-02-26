@@ -39,6 +39,8 @@ Multienty集成了多个优秀的中间件，为您提供一站式多租户SAAS�
 
 [SaaS平台开发实战(五)：订单服务模块](https://zhuanlan.zhihu.com/p/683873298)
 
+[SaaS平台开发实战(六)：模拟客户下订单](https://zhuanlan.zhihu.com/p/684010126)
+
 ## 数据库
 
 Multienty 集成了 ***Shardingsphere***, ***DynamicDatasource***以及***Flyway***, 可提供稳定的数据分片, 数据加密, 数据迁移, 多数据源, 以及读写分离等能力.
