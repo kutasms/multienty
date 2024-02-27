@@ -1,0 +1,33 @@
+server:
+  port: 9999
+logging:
+  config: classpath:logback-spring.xml
+spring:
+  application:
+    name: multienty-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.xxx.cn:xxx
+        namespace: 7bef6b7c-1c69-4935-86de-da8c3cb668b3
+        username: xxxx
+        password: xxxx
+    gateway:
+      # 是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
+      discovery:
+        locator:
+          # 路由访问方式：http://Gateway_HOST:Gateway_PORT/大写的serviceId/**，其中微服务应用名默认大写访问。
+          enabled: true
+          #使用小写service-id
+          #lower-case-service-id: true
+      routes:
+        - id: order-route
+          uri: http://localhost:8877
+          predicates:
+            - Path=/ord/**
+        - id: master-route
+          uri: http://localhost:8879
+          predicates:
+            - Path=/mst/**
+          filters:
+            - StripPrefix=1

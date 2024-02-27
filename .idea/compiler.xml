@@ -10,6 +10,7 @@
         <module name="multienty-core-mysql-resource" />
         <module name="multienty-spring-boot-starter" />
         <module name="multienty-wechat-third-party" />
+        <module name="multienty-gateway" />
         <module name="multienty-generator" />
         <module name="multienty-core" />
       </profile>
@@ -20,6 +21,7 @@
       <module name="multienty" options="" />
       <module name="multienty-core" options="-parameters" />
       <module name="multienty-core-mysql-resource" options="-parameters" />
+      <module name="multienty-gateway" options="-parameters" />
       <module name="multienty-generator" options="-parameters" />
       <module name="multienty-spring-boot-starter" options="-parameters" />
       <module name="multienty-wechat-third-party" options="-parameters" />
