@@ -53,9 +53,8 @@ List<OrderDTO> list = selectJoinList(OrderDTO.class, MTJoinWrappers.lambda(Order
 Multienty has implemented the acquisition and update of nacos configuration. Please develop your own UI interface. It is recommended to cooperate with ShardingArgorithmTool to achieve dynamic creation and update of independent tenants.
 
 ## Service Monitor
-spring-boot-admin can provide service monitoring function and can send emails in case of service abnormalities. **multienty-admin** integrates xxx and simplifies configuration
-
-
+spring-boot-admin can provide service monitoring function and can send emails in case of service abnormalities. **multienty-admin** integrates xxx and simplifies configuration.
+![spring boot admin](./doc/images/spring_boot_admin.png)
 
 ## Basic Data Table
 multienty-core-mysql-resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
