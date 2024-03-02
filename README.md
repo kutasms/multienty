@@ -9,6 +9,7 @@ English | [简体中文](./README.zh.md)
 ![Static Badge](https://img.shields.io/badge/dubbo-3.0.8-red)
 ![Static Badge](https://img.shields.io/badge/nacos-2.2.0-brightgreen)
 ![Static Badge](https://img.shields.io/badge/seata-1.6.1-fedcba)
+![Static Badge](https://img.shields.io/badge/spring_boot_admin-2.6.11-blue)
 ![Static Badge](https://img.shields.io/badge/shardingsphere-5.2.1-yellow)
 ![Static Badge](https://img.shields.io/badge/sentinel-1.8.6-8A2BE2)
 ![Static Badge](https://img.shields.io/badge/mybatis_plus-3.5.5-blue)
@@ -50,6 +51,11 @@ List<OrderDTO> list = selectJoinList(OrderDTO.class, MTJoinWrappers.lambda(Order
 
 ## Nacos config center
 Multienty has implemented the acquisition and update of nacos configuration. Please develop your own UI interface. It is recommended to cooperate with ShardingArgorithmTool to achieve dynamic creation and update of independent tenants.
+
+## Service Monitor
+spring-boot-admin can provide service monitoring function and can send emails in case of service abnormalities. **multienty-admin** integrates xxx and simplifies configuration
+
+
 
 ## Basic Data Table
 multienty-core-mysql-resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
