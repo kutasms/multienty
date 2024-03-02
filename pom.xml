@@ -19,7 +19,7 @@
         <module>multienty-core</module>
         <module>multienty-core-mysql-resource</module>
         <module>multienty-spring-boot-starter</module>
-        <module>multienty-generator</module><module>multienty-wechat-third-party</module><module>multienty-gateway</module>
+        <module>multienty-generator</module><module>multienty-wechat-third-party</module><module>multienty-gateway</module><module>multienty-admin</module>
     </modules>
 
      <properties>
@@ -64,6 +64,7 @@
          <user-agent.version>1.20</user-agent.version>
          <httpcomponent.version>4.5.13</httpcomponent.version>
          <commons-codec.version>1.9</commons-codec.version>
+         <boot-admin.version>2.6.11</boot-admin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -77,12 +78,6 @@
                         <artifactId>lettuce-core</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <!-- 支付宝 -->
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>${aliyun.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>

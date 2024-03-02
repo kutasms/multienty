@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/multienty-admin/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/java/com/chia/multienty/boot/admin/MultientyAdminApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/java/com/chia/multienty/boot/admin/config/NacosConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/java/com/chia/multienty/boot/admin/config/SecurityConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/java/com/chia/multienty/boot/admin/config/WebMvcConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-admin/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/config/MultientyServletContextListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-spring-boot-starter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-spring-boot-starter/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +73,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/projects/multienty/multienty-gateway/src/main/resources&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/projects/multienty/multienty-boot-admin/src/main/resources&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.5103448&quot;,
@@ -69,11 +82,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\multienty\multienty-boot-admin\src\main\resources" />
       <recent name="C:\projects\multienty\multienty-gateway\src\main\resources" />
       <recent name="C:\projects\multi-tenant\multi-tenant-generator\src\test\java" />
       <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\resources\mapper" />
       <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\service" />
-      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\wechat\thirdplatform\sdk\tools" />
@@ -91,14 +104,14 @@
       <recent name="com.chia.multitenant.core.util" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.chia.multienty.boot.admin.config" />
       <recent name="com.chia.multitenant.core.strategy.pay.domain.bo" />
       <recent name="com.chia.multitenant.core.strategy.pay.domain.request" />
       <recent name="com.chia.multitenant.core.tools" />
       <recent name="com.chia.multitenant.core.sharding.algorithm" />
-      <recent name="com.chia.multitenant.core.domain.wechat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GatewayApplication">
+  <component name="RunManager" selected="Application.MultientyAdminApplication">
     <configuration name="GatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.chia.multienty.gateway.GatewayApplication" />
       <module name="multienty-gateway" />
@@ -106,6 +119,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.chia.multienty.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MultientyAdminApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.boot.admin.MultientyAdminApplication" />
+      <module name="multienty-admin" />
+      <shortenClasspath name="MANIFEST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chia.multienty.boot.admin.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -131,23 +158,6 @@
       <option name="PACKAGE_NAME" value="com.chia.multitenant.generator" />
       <option name="MAIN_CLASS_NAME" value="com.chia.multitenant.generator.NacosServiceImplTest" />
       <option name="METHOD_NAME" value="getAppConfig" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="NacosServiceImplTest.getConfig (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="multienty-generator" />
-      <shortenClasspath name="MANIFEST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="impl" />
-      <option name="MAIN_CLASS_NAME" value="impl.NacosServiceImplTest" />
-      <option name="METHOD_NAME" value="getConfig" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -196,11 +206,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MultientyAdminApplication" />
         <item itemvalue="Application.GatewayApplication" />
         <item itemvalue="JUnit.NacosServiceImplTest.updateYamlConfig" />
         <item itemvalue="JUnit.NacosServiceImplTest.getAppConfig" />
         <item itemvalue="JUnit.NacosServiceImplTest.getConfig (2)" />
-        <item itemvalue="JUnit.NacosServiceImplTest.getConfig (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -243,5 +253,10 @@
         <PinnedItemInfo parentTag="com.chia.multitenant.core.registercenter.nacos.NacosConfiguration$$EnhancerBySpringCGLIB$$2e009466" memberName="kutaNacosProperties" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/multienty$MultientyAdminApplication.ic" NAME="MultientyAdminApplication Coverage Results" MODIFIED="1709349213696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.chia.multienty.boot.admin.*</FILTER>
+    </SUITE>
   </component>
 </project>

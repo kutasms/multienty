@@ -8,8 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="multienty-core-mysql-resource" />
-        <module name="multienty-spring-boot-starter" />
+        <module name="multienty-admin" />
         <module name="multienty-wechat-third-party" />
+        <module name="multienty-spring-boot-starter" />
         <module name="multienty-gateway" />
         <module name="multienty-generator" />
         <module name="multienty-core" />
@@ -19,6 +20,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="multienty" options="" />
+      <module name="multienty-admin" options="-parameters" />
       <module name="multienty-core" options="-parameters" />
       <module name="multienty-core-mysql-resource" options="-parameters" />
       <module name="multienty-gateway" options="-parameters" />
