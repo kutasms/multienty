@@ -1,0 +1,70 @@
+package com.chia.multienty.gateway.config;
+
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
+import com.chia.multienty.core.service.impl.DelegatingUserDetailsServiceImpl;
+import com.chia.multienty.core.tools.TokenProvider;
+import com.chia.multienty.core.util.SpringUtil;
+import com.chia.multienty.gateway.filter.JwtTokenAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import reactor.core.publisher.Mono;
+
+@Configuration
+@RequiredArgsConstructor
+@ConditionalOnClass({YamlMultientyProperties.class})
+public class SecurityConfig implements ApplicationContextAware {
+
+    @Bean
+    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http,
+                                                TokenProvider tokenProvider,
+                                                YamlMultientyProperties properties,
+                                                ReactiveAuthenticationManager reactiveAuthenticationManager) {
+
+        return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .authenticationManager(reactiveAuthenticationManager)
+                .exceptionHandling().authenticationEntryPoint(
+                        (swe, e) -> {
+                            swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                            return swe.getResponse().writeWith(Mono.just(new DefaultDataBufferFactory().wrap("UNAUTHORIZED".getBytes())));
+                        })
+                .accessDeniedHandler((swe, e) -> {
+                    swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                    return swe.getResponse().writeWith(Mono.just(new DefaultDataBufferFactory().wrap("FORBIDDEN".getBytes())));
+                }).and()
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+                .authorizeExchange(it -> it
+//                        .pathMatchers(HttpMethod.POST, "/oauth/access_token_get").permitAll()
+                        .pathMatchers(properties.getSecurity().getIgnorePaths()).permitAll()
+                        .anyExchange().authenticated()
+                )
+                .addFilterAt(new JwtTokenAuthenticationFilter(tokenProvider, properties), SecurityWebFiltersOrder.HTTP_BASIC)
+                .build();
+    }
+    @Bean
+    public ReactiveAuthenticationManager reactiveAuthenticationManager(PasswordEncoder passwordEncoder) {
+        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =
+                new UserDetailsRepositoryReactiveAuthenticationManager(new DelegatingUserDetailsServiceImpl());
+        authenticationManager.setPasswordEncoder(passwordEncoder);
+        return authenticationManager;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringUtil.setContext(applicationContext);
+    }
+}
