@@ -44,6 +44,17 @@ Multienty集成了多个优秀的中间件，为您提供一站式多租户SAAS�
 
 [SaaS平台开发实战(八)：multienty-Admin服务状态监听](https://blog.csdn.net/baiyinianhua/article/details/136412971)
 
+## 网关 & OAuth鉴权
+在网关和OAuth授权服务中我们使用Spring-Webflux,之所以不使用spring-WebMVC的原因是webflux基于响应式流编程支持，而网关和鉴权节点相对业务逻辑较简单，可支持更大并发量。
+
+性能测试结果可参考:
+
+[Spring MVC 与 Spring Webflux 性能测试，谁更强？](https://www.cnblogs.com/hefeng2014/p/17759037.html)
+
+
+- multienty-gateway **网关服务** 默认端口9999
+- multienty-oauth **授权服务** 默认端口9998
+
 ## 数据库
 
 Multienty 集成了 ***Shardingsphere***, ***DynamicDatasource***以及***Flyway***, 可提供稳定的数据分片, 数据加密, 数据迁移, 多数据源, 以及读写分离等能力.

@@ -20,6 +20,17 @@ Multienty (/ˈmʌltɪˌentɪ/) integrates multiple mature middleware to provide 
 
 This project is based on Springboot, with a version requirement of ***2.6.13***. Please ensure that your development environment matches this project before use.
 
+## Gateway & OAuth
+We use Spring Webflux in gateway and OAuth authorization services, and the reason why we do not use Spring WebMVC is that webflux supports responsive stream programming, while gateway and authentication nodes have relatively simple business logic and can support larger concurrency.
+
+The performance test results can refer to::
+
+[Spring MVC and Spring Webflux performance testing, who is stronger？](https://www.cnblogs.com/hefeng2014/p/17759037.html)
+
+
+- multienty-gateway **Gateway Service** default port:9999
+- multienty-oauth **OAuth Authorization Service** default port:9998
+
 
 ## Database
 
