@@ -4,7 +4,7 @@ import com.chia.multienty.core.domain.constants.ResourceMappingConstants;
 import com.chia.multienty.core.domain.enums.FileStorageMode;
 import com.chia.multienty.core.domain.spi.TenantResourceMappingAlgorithm;
 import com.chia.multienty.core.strategy.file.FileUploadService;
-import com.chia.multienty.core.tools.MultiTenantServiceLoader;
+import com.chia.multienty.core.tools.MultientyServiceLoader;
 import com.chia.multienty.core.util.SpringUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -33,8 +33,8 @@ public abstract class AbstractResourceMappingAlgorithm implements TenantResource
     @SneakyThrows
     public FileUploadService getFileUploadService() {
         FileStorageMode strategy = getFileUploadStrategy();
-        MultiTenantServiceLoader.register(FileUploadService.class);
-        Collection<FileUploadService> instances = MultiTenantServiceLoader.getInstances(FileUploadService.class);
+        MultientyServiceLoader.register(FileUploadService.class);
+        Collection<FileUploadService> instances = MultientyServiceLoader.getInstances(FileUploadService.class);
         FileUploadService service = null;
         if(strategy.equals(FileStorageMode.CUSTOM)) {
             String className = props.getProperty("impl-class");

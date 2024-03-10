@@ -12,13 +12,17 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum HttpResultEnum {
-
+    FAILURE(101, "失败"),
     SUCCESS(200,"成功"),
+    UNAUTHORIZED(401, "您还未授权"),
+    ACCESS_DENIED(403, "您无此操作权限"),
     RESPONSE_TYPE_ERROR(501, "响应类型错误"),
+    PATTERN_SERVICE_UNAVAILABLE(503, "%s服务不可用"),
     UNEXPECTED_ARG_TYPE_ERROR(601, "参数校验类型不匹配"),
     CONSTRAINT_VIOLATION(602, "方法RequestParam/PathVariable形式参数校验异常"),
     METHOD_ARG_NOT_VALID(603, "参数校验不通过"),
     BIND_EXCEPTION(604, "提交参数校不符合规则"),
+    UNHANDLED_EXCEPTION(605, "未处理异常"),
     ACCOUNT_NOT_PERMITTED(1000,"账号未被许可"),
     SYSTEM_ERROR(1001,"系统异常,请稍后再试"),
     SYSTEM_HINT(1002,"系统提示信息"),
@@ -64,6 +68,7 @@ public enum HttpResultEnum {
     ARG_LOSE_PATTERN(11014, "参数%s丢失"),
     HEADER_LOSE_PATTERN(11015,"请求头%s丢失"),
     COLLECTION_IS_EMPTY_PATTERN(11016, "%s列表不能为空"),
+    HEADER_ERROR_PATTERN(11017, "请求头%s错误"),
     BASIC_DICT_NAME_EXISTS(12001,"字典名称已存在,请修改后重试"),
     DICT_OPERATION_LIMITED(12002,"系统级字典配置无法更改或删除"),
     DEMO_ACCOUNT_OPERATION_LIMITED(12003,"演示账号无法编辑数据"),
@@ -89,14 +94,17 @@ public enum HttpResultEnum {
     LOGIN_APPLICATION_FAILURE(20017, "登录平台编号错误"),
     DISALLOWED_LOGIN_MODE(20018, "不允许的登录模式"),
     REVIEW_FAIL_NEED_REASON(20019, "当审核为失败时，请填写失败原因"),
+    ACCOUNT_NOT_EXIST(20020, "帐号不存在"),
+    PASSWORD_ERROR(20021, "帐号或密码错误"),
+    ACCOUNT_EXPIRED(20022, "帐号已过期"),
     USER_OLD_PASSWORD_ERROR(30001,"原密码错误"),
     USER_SMS_LOCKING(30002,"连续发送短信导致用户短信发送状态锁定"),
     USER_PAYMENT_PASSWORD_ERROR(30003, "支付密码输入错误"),
     USER_PAYMENT_PASSWORD_NOT_SET(30004,"请先设置支付密码"),
-    USER_ACCOUNT_LOCKED(30005,"连续多次输入密码出错,账号已锁定"),
+    USER_ACCOUNT_LOCKED(30005,"账号已锁定"),
     USER_NOT_REGISTERED(30006,"用户未注册"),
     USER_ALREADY_REGISTERED(30007, "该用户已注册"),
-    USER_NAME_OR_PASSWORD_ERROR(30008, "用户名或者密码错误"),
+    USERNAME_OR_PASSWORD_ERROR(30008, "用户名或者密码错误"),
     USER_LOGGED_OFF(30009,"该用户已被注销"),
     USER_STATE_DISABLED(30010,"该用户已被限制使用"),
     USER_RESIGNED(30011,"用户已离职"),
@@ -107,12 +115,13 @@ public enum HttpResultEnum {
     USER_VALIDATION_ERROR(30016,"用户身份效验失败"),
     USER_PASSWORD_INCONSISTENT(30017,"两次输入密码不一致"),
     WECHAT_AUTHORIZATION_FAILURE(30018,"微信授权失败"),
-
     USER_IN_BLACK_LIST(30019,"您已被拉入黑名单"),
     USER_BANK_CARD_EXISTS(30020,"此银行卡已存在，请更换其他银行卡"),
     ALIPAY_MINI_APP_AUTHORIZATION_FAILURE(30021,"支付宝小程序授权失败"),
     USER_MOBILE_NUMBER_VALIDATION_FAILURE(30022,"手机号码验证失败"),
+    USER_NOT_EXISTS(30023, "帐号不存在"),
     USER_PAYMENT_PASSWORD_UPDATE_CODE_EXPIRED(30024,"本次支付密码修改的验证码已过期,请重试发送验证短信"),
+    USER_ACCOUNT_EXPIRED(30025,"账号已过期"),
     USER_MOBILE_NUMBER_EXISTS(30028,"此手机号码已被其他用户使用"),
     USER_MOBILE_NUMBER_BOUND_BY_OTHER_WEIXIN(30029,"此手机号码已绑定其他微信账号"),
 
@@ -139,37 +148,19 @@ public enum HttpResultEnum {
     AFTER_STATE_UPDATED_CANNOT_PROCESS_REQUEST(41003,"该售后单状态已变更,无法进行该操作"),
     AFTER_EXISTS_NOT_COMPLETED(41005,"此订单还有未完成的售后任务"),
     AFTER_ORDER_REVIEWED(41006,"订单已审核，无法进行其他操作"),
-
-
     PROMOTION_NEXT_RANK_NOT_BIGGER(70001,"下一级应比上一级数值更大"),
     PROMOTION_CANNOT_CREATE_RELATIONSHIP_WITH_PROMOTER(70002,"分销员之间不允许建立关系"),
     PROMOTION_PROTECTION_PERIOD_INVALID(70003,"保护期时间需要小于有效期"),
     PROMOTION_MOBILE_NUMBER_EXISTS(70004,"该手机号已绑定分销员"),
     PROMOTION_INVITEE_CANNOT_BE_SELF(70005,"邀请人不能是自己"),
     PROMOTION_USER_MUST_CUSTOMER(70006,"该用户并非平台会员"),
-    PROMOTION_USER_DISABLED(70007,"该用户已停用"),
+    USER_DISABLED(70007,"该用户已停用"),
     PROMOTION_USER_IN_BLACK_LIST(70008,"该用户已被拉入黑名单"),
     PROMOTION_NOT_SET_RANK(70009,"未设置分销员等级"),
     PROMOTION_CANNOT_ROBBING_CUSTOMER(70010,"当前关系设置不允许抢客"),
     PROMOTION_RANK_EXISTS(70011,"已设置相同分销员等级"),
-
-    HOSPITAL_DISABLED(71001, "此医院已不再提供服务"),
-    DEPARTMENT_DISABLED(72001,"此科室已不再提供服务"),
-
     ORDER_TIME_CONFLICT(73001,"此服务人员在指定时间段已有预约"),
-
-    CAREGIVERS_UPDATE_ERROR(74001, "护工状态已变更，操作失败"),
     CAREGIVER_HAS_NOT_COMPLETED_ORDER(74002,"您还有未完成的订单"),
-    CAREGIVER_DATE_CONFLICT(74003,"护工时间冲突,可能已被其他客户预约"),
-
-    PRICE_STRATEGY_MUST_HAVE_UNIVERSAL(75001, "价格策略中须包含通用价格"),
-    PRICE_STRATEGY_KEEP_LEAST_ONE(75002, "同一医院至少保留一个价格策略"),
-    PRICE_STRATEGY_CANNOT_DELETE_IMMEDIATELY(75003,"生效中的价格策略不能直接删除,请先禁用"),
-
-    SETTLEMENT_STRATEGY_CANNOT_DELETE_IMMEDIATELY(76001,"生效中的结佣策略不能直接删除,请先禁用"),
-    SETTLEMENT_STRATEGY_KEEP_LEAST_ONE(76002, "同一医院至少保留一个结佣策略"),
-
-    OPERATOR_MUST_HAVE_HOSPITAL(77001, "您当前尚未设置医院，请联系公司管理员"),
 
     ;
 

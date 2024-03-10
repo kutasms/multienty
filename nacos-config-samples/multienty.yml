@@ -7,6 +7,24 @@ spring:
             eager: true
             transport:
                 dashboard: sentinel.xxx.cn:6666
+    security:
+        user:
+            name: "admin"
+            password: "admin123"
+    boot:
+        admin:
+            discovery:
+                enabled: true
+            client:
+                enabled: true
+                url: http://localhost:9986
+                username: ${spring.security.user.name}
+                password: ${spring.security.user.password}
+                instance:
+                    name: ${spring.application.name}
+                    metadata:
+                        user.name: ${spring.security.user.name}
+                        user.password: ${spring.security.user.password}
     flyway:
         enabled: false
         locations: classpath:db/migration
@@ -26,13 +44,18 @@ spring:
                 # 配置获取连接等待超时的时间
                 maxWait: 60000
                 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-                timeBetweenEvictionRunsMillis: 60000
+                timeBetweenEvictionRunsMillis: 10000
                 # 配置一个连接在池中最小生存的时间，单位是毫秒
                 minEvictableIdleTimeMillis: 30000
+                # 验证的SQL
                 validationQuery: select 'x'
+                # 验证SQL超时时间
+                validationQueryTimeout: 5000
+                # 每隔timeBetweenEvictionRunsMillis时长使用validationQuery去验证非活动的连接
                 testWhileIdle: true
                 testOnBorrow: false
                 testOnReturn: false
+
                 # 打开PSCache，并且指定每个连接上PSCache的大小
                 poolPreparedStatements: true
                 maxPoolPreparedStatementPerConnectionSize: 20
@@ -42,45 +65,56 @@ spring:
                 connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
                 # 合并多个DruidDataSource的监控数据
                 useGlobalDataSourceStat: true
-    kuta:
-        multi-tenant:
-            # 登录失败阈值
-            login-failure-threshold: 5
-            standalone-tenant-db-name-prefix: 'ks_sa_'
-            master-db-name: 'master'
-            jackson:
-                date-format: yyyy-MM-dd HH:mm:ss
-                time-zone: GMT+8
-            wechat:
-                third-party:
-                    enabled: true
-                    app-id: xxxxxxxxxxxx
-                    app-secret: ad83decxxxx3d2ddf008xxxxx19c430
-                    message-verify-token: if823n48v7ah3ivhan
-                    message-decrypt-key: fi3817vj0lzxxxj9fV46jljxxxxx12ijgiv9Zjk3mmW
-                    auth-redirect-uri: https://merchant.xxx.cn/#/wxAuthResult
-                    required-private-infos:
-                        - onLocationChange
-            algorithms:
-                resource-mapping:
-                    cotenancy-tenant:
-                        type: 'COTENANCY'
-                        props:
-                            use-standalone-database: false
-                            divide-table-by-date: false
-                            file-upload-strategy: LOCAL
-                    enterprise-tenant:
-                        type: 'ENTERPRISE'
-                        props:
-                            use-standalone-database: true
-                            divide-table-by-date: false
-                            file-upload-strategy: OSS
-                    flagship-tenant:
-                        type: 'FLAGSHIP'
-                        props:
-                            use-standalone-database: true
-                            divide-table-by-date: false
-                            file-upload-strategy: OBS
+    multienty:
+        # 登录失败阈值
+        login-failure-threshold: 5
+        standalone-tenant-db-name-prefix: 'ks_sa_'
+        master-db-name: 'master'
+        jackson:
+            date-format: yyyy-MM-dd HH:mm:ss
+            time-zone: GMT+8
+        security:
+            auth:
+                base64-secret: xxxxx
+                header: X-TOKEN
+                # 令牌持有时间(秒)
+                access-token-expired: 1800
+                # 刷新令牌有效期(秒)
+                refresh-token-expired: 1300
+                # 续期时长(秒)
+                renew-duration: 1800
+                # 是否支持多点登陆
+                multipoint-login-enabled: true
+        wechat:
+            third-party:
+                enabled: true
+                app-id: xxxxxxxxxxxx
+                app-secret: ad83decxxxx3d2ddf008xxxxx19c430
+                message-verify-token: if823n48v7ah3ivhan
+                message-decrypt-key: fi3817vj0lzxxxj9fV46jljxxxxx12ijgiv9Zjk3mmW
+                auth-redirect-uri: https://merchant.xxx.cn/#/wxAuthResult
+                required-private-infos:
+                    - onLocationChange
+        algorithms:
+            resource-mapping:
+                cotenancy-tenant:
+                    type: 'COTENANCY'
+                    props:
+                        use-standalone-database: false
+                        divide-table-by-date: false
+                        file-upload-strategy: LOCAL
+                enterprise-tenant:
+                    type: 'ENTERPRISE'
+                    props:
+                        use-standalone-database: true
+                        divide-table-by-date: false
+                        file-upload-strategy: OSS
+                flagship-tenant:
+                    type: 'FLAGSHIP'
+                    props:
+                        use-standalone-database: true
+                        divide-table-by-date: false
+                        file-upload-strategy: OBS
                             
 mybatis-plus:
     global-config:
@@ -95,3 +129,25 @@ mybatis-plus:
     configuration:
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+management:
+    health:
+        redis:
+            enabled: false
+        sentinel:
+            enabled: false
+        ldap:
+            enabled: false
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: always
+
+undertow:
+    io-threads: 16
+    worker-threads: 256
+    buffer-size: 1024
+    buffers-per-region: 1024
+    direct-buffers: true

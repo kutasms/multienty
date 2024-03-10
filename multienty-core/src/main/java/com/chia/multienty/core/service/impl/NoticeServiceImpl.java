@@ -3,7 +3,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.NoticeDTO;
 import com.chia.multienty.core.mapper.NoticeMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Notice;
 import com.chia.multienty.core.service.NoticeService;
@@ -44,7 +44,7 @@ public class NoticeServiceImpl extends KutaBaseServiceImpl<NoticeMapper, Notice>
     @Override
     public IPage<NoticeDTO> getPage(NoticePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), NoticeDTO.class,
-                new KutaLambdaWrapper<Notice>()
+                new MTLambdaWrapper<Notice>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getNoticeIds()), Notice::getNoticeId, parameter.getNoticeIds())
         );

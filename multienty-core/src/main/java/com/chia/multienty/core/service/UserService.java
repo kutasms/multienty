@@ -2,6 +2,7 @@ package com.chia.multienty.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.PublicKeyDTO;
 import com.chia.multienty.core.domain.dto.UserDTO;
 import com.chia.multienty.core.domain.vo.LoggedUserVO;
@@ -11,6 +12,9 @@ import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.parameter.user.*;
 import com.chia.multienty.core.pojo.User;
 import com.chia.multienty.core.strategy.sms.domain.SMSResult;
+import reactor.core.publisher.Mono;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -20,29 +24,22 @@ import com.chia.multienty.core.strategy.sms.domain.SMSResult;
  * @author Multi Tenant Auto Generator
  * @since 2024-01-03
  */
-public interface UserService extends KutaBaseService<User> {
+public interface UserService extends KutaBaseService<User>, MultientyUserService {
 
-    UserDTO getByToken(String token);
-
-    void refreshToken(String token);
-
-    void saveToken(String token, UserDTO user);
 
     PublicKeyDTO getPublicKey();
 
-    String createToken(String username, UserDTO user);
-
-
     SMSResult sendVerificationCode(LoginVerificationCodeSendParameter parameter);
 
-    LoginResult login(LoginParameter parameter) throws Exception;
+    Mono<Result<LoginResult>> login(LoginParameter parameter) throws Exception;
 
-    void logout(LogoutParameter parameter);
+    void logout();
 
     UserDTO getDetail(Long userId);
 
+    LoggedUserVO getUserInfo() throws IOException;
 
-    LoggedUserVO getUserInfo() throws KutaRuntimeException;
+    LoggedUserVO getUserInfo(Long userId, UserDTO userDTO) throws KutaRuntimeException, IOException;
 
     UserDTO getByPhone(String phone, SFunction<User, ?>... columns);
 

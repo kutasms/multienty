@@ -3,7 +3,7 @@ package com.chia.multienty.core.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
-import com.chia.multienty.core.domain.constants.MultiTenantConstants;
+import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.domain.dto.PermissionDTO;
 import com.chia.multienty.core.domain.dto.UserDTO;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
@@ -32,7 +32,7 @@ import java.util.List;
 @Slf4j(topic = "MenuController")
 @Api(tags = "菜单前端控制器")
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class MenuController {
 
     private final PermissionService permissionService;
@@ -40,9 +40,9 @@ public class MenuController {
     @PostMapping("navigate")
     @ApiOperation(value = "菜单导航")
     public Result<List<PermissionVO>> navigate(HttpServletRequest request) {
-        UserDTO user = (UserDTO) request.getAttribute(MultiTenantConstants.CACHED_PLATFORM_USER_KEY);
+        UserDTO user = (UserDTO) request.getAttribute(MultientyConstants.CACHED_PLATFORM_USER_KEY);
         List<PermissionDTO> permissions = permissionService.getUserPermissions(user.getUserId(),
-                MultiTenantConstants.APPLICATION_TYPE_PLATFORM.longValue());
+                MultientyConstants.APPLICATION_TYPE_PLATFORM.longValue());
         List<PermissionVO> vos = permissionService.getFormattedVO(permissions);
         return new Result<>(vos, HttpResultEnum.SUCCESS.getCode());
     }

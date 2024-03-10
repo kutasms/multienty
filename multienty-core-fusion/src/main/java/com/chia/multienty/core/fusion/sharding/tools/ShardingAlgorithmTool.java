@@ -7,7 +7,6 @@ import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.domain.enums.SymbolEnum;
 import com.chia.multienty.core.fusion.flyway.util.FlywayUtil;
 import com.chia.multienty.core.fusion.sharding.registry.MTShardingAlgorithmProvidedBeanRegistry;
-import com.chia.multienty.core.mapper.ShardingTableMapper;
 import com.chia.multienty.core.tools.TableCopier;
 import com.chia.multienty.core.util.SpringUtil;
 import com.chia.multienty.core.util.TimeUtil;
@@ -18,8 +17,6 @@ import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataS
 import org.apache.shardingsphere.infra.datasource.props.DataSourceProperties;
 import org.apache.shardingsphere.infra.util.expr.InlineExpressionParser;
 import org.apache.shardingsphere.infra.util.yaml.YamlEngine;
-import org.apache.shardingsphere.infra.yaml.config.swapper.resource.YamlDataSourceConfigurationSwapper;
-import org.apache.shardingsphere.infra.yaml.config.swapper.rule.YamlRuleConfigurationSwapperEngine;
 import org.apache.shardingsphere.mode.manager.ContextManager;
 import org.apache.shardingsphere.sharding.algorithm.config.AlgorithmProvidedShardingRuleConfiguration;
 import org.apache.shardingsphere.sharding.spi.KeyGenerateAlgorithm;
@@ -27,6 +24,7 @@ import org.apache.shardingsphere.sharding.spi.ShardingAlgorithm;
 import org.apache.shardingsphere.sharding.spring.boot.rule.YamlShardingRuleSpringBootConfiguration;
 import org.apache.shardingsphere.sharding.yaml.swapper.YamlShardingRuleAlgorithmProviderConfigurationSwapper;
 import org.apache.shardingsphere.spring.boot.datasource.AopProxyUtils;
+import org.apache.shardingsphere.spring.boot.datasource.DataSourceMapSetter;
 import org.apache.shardingsphere.spring.boot.util.PropertyUtil;
 import org.codehaus.groovy.reflection.ReflectionUtils;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
@@ -39,35 +37,57 @@ import org.yaml.snakeyaml.Yaml;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.String.join;
 
 @Slf4j
 public class ShardingAlgorithmTool {
+
     private static final Set<String> tableNameCache = new HashSet<>();
 
     private static final String FIELD_CONTEXT_MANAGER = "contextManager";
     private static final String FIELD_DATABASE_NAME = "databaseName";
 
-    private static final String PREFIX = "spring";
 
-    private static final YamlDataSourceConfigurationSwapper DATA_SOURCE_SWAPPER = new YamlDataSourceConfigurationSwapper();
-
-    private static final YamlRuleConfigurationSwapperEngine RULE_SWAPPER_ENGINE = new YamlRuleConfigurationSwapperEngine();
-
-    private static final YamlShardingRuleAlgorithmProviderConfigurationSwapper SHARDING_RULE_ALGORITHM_SWAPPER = new YamlShardingRuleAlgorithmProviderConfigurationSwapper();
+    private static final YamlShardingRuleAlgorithmProviderConfigurationSwapper SHARDING_RULE_ALGORITHM_SWAPPER
+            = new YamlShardingRuleAlgorithmProviderConfigurationSwapper();
 
 
 
     @SneakyThrows
     public static List<String> getAllTableNames() {
-        ShardingTableMapper mapper = SpringUtil.getBean(ShardingTableMapper.class);
-        return mapper.getTableNames();
+
+        Map<String, DataSource> dataSourceMap = DataSourceMapSetter.getDataSourceMap(SpringUtil.getApplicationContext().getEnvironment());
+        List<String> tableNames = new ArrayList<>();
+        Optional<DataSource> any = dataSourceMap.values().stream().findAny();
+        any.ifPresent(ds -> {
+            try {
+                Connection connection = ds.getConnection();
+                Statement statement = connection.createStatement();
+                boolean success = statement.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE ENGINE = 'InnoDB' " +
+                        "AND TABLE_NAME NOT IN ('flyway_schema_history','undo_log');");
+                if(success) {
+                    ResultSet resultSet = statement.getResultSet();
+                    while (resultSet.next()) {
+                        String tableName = resultSet.getString(1);
+                        tableNames.add(tableName);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return tableNames;
     }
     @SneakyThrows
     public static String checkExists(String logicTableName, String actualTableName) {
@@ -100,18 +120,6 @@ public class ShardingAlgorithmTool {
         return (ContextManager) contextManagerField.get(dataSource);
     }
 
-    private void setContextManager(ShardingSphereDataSource dataSource, ContextManager manager) {
-        try {
-            Field contextManagerField = dataSource.getClass().getDeclaredField(FIELD_CONTEXT_MANAGER);
-            contextManagerField.setAccessible(true);
-            contextManagerField.set(dataSource, manager);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
     @SneakyThrows
     public static String getDbName(ShardingSphereDataSource dataSource) {
         Field dbNameField = dataSource.getClass().getDeclaredField(FIELD_DATABASE_NAME);
@@ -141,6 +149,7 @@ public class ShardingAlgorithmTool {
 
     @SneakyThrows
     public static void refreshShardingConfig(ShardingSphereDataSource dataSource, String configContext, String dataId, String groupId) {
+
         ContextManager contextManager = getContextManager(dataSource);
         String dbName = getDbName(dataSource);
         Yaml yaml = new Yaml();
@@ -238,6 +247,8 @@ public class ShardingAlgorithmTool {
 
     private static final String JNDI_NAME = "jndi-name";
 
+
+
     private static List<String> getDataSourceNames(final StandardEnvironment standardEnv) {
         standardEnv.setIgnoreUnresolvableNestedPlaceholders(true);
         String dataSourceNames = standardEnv.getProperty(DATASOURCE_PREFIX + DATA_SOURCE_NAME);
@@ -259,14 +270,15 @@ public class ShardingAlgorithmTool {
 
 
     public static void reload() {
-        List<String> list = getAllTableNames();
+        List<String> allTableNames = getAllTableNames();
         tableNameCache.clear();
-        tableNameCache.addAll(list);
+        tableNameCache.addAll(allTableNames);
     }
 
     private static Map<String, String> waitCopyTables = new HashMap<>();
 
-    public static void copyTablesAfterStarted() {
+    @SneakyThrows
+    public static void postAfterStarted() {
         if(waitCopyTables.size() > 0) {
             waitCopyTables.forEach((k,v) -> {
                 copyTableForAllDS(k, v);
@@ -274,22 +286,28 @@ public class ShardingAlgorithmTool {
         }
     }
 
-    public static List<String> tableNames(String logicTableName) {
-        List<String> names = new ArrayList<>();
+
+
+
+    public static Set<String> tableNames(String logicTableName) {
+        if(tableNameCache.size() == 0) {
+            reload();
+        }
+        Set<String> names = new HashSet<>();
         String prefix = logicTableName + "_";
         String currentMonthSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-//        if(tableNameCache.size() == 0) {
-//            reload();
-//        }
-//        for (String tableName : tableNameCache) {
-//            if(tableName.startsWith(prefix)) {
-//                String[] split = tableName.split("_");
-//                names.add(split[split.length-1]);
-//            }
-//        }
-        if(!names.contains(currentMonthSuffix)) {
+        if(tableNameCache.size() > 0) {
+            String pattern = String.format("^%s_\\d{6}$", logicTableName);
+            Pattern compile = Pattern.compile(pattern);
+            for (String tableName : tableNameCache) {
+                if (compile.matcher(tableName).find()) {
+                    names.add(tableName);
+                }
+            }
+        }
+        if(!names.contains(prefix + currentMonthSuffix)) {
             waitCopyTables.put(logicTableName, prefix + currentMonthSuffix);
-            names.add(currentMonthSuffix);
+            names.add(prefix + currentMonthSuffix);
         }
         return names;
     }

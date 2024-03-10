@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.chia.multienty.core.domain.dto.RabbitLogDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.RabbitLogMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.RabbitLog;
 import com.chia.multienty.core.service.RabbitLogService;
@@ -76,7 +76,7 @@ public class RabbitLogServiceImpl extends KutaBaseServiceImpl<RabbitLogMapper, R
     @Override
     public IPage<RabbitLogDTO> getPage(RabbitLogPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), RabbitLogDTO.class,
-                new KutaLambdaWrapper<RabbitLog>()
+                new MTLambdaWrapper<RabbitLog>()
                         .solveGenericParameters(parameter)
                         .le(RabbitLog::getTimestamp, parameter.getTimestamp())
                         .in(!ListUtil.isEmpty(parameter.getRids()), RabbitLog::getRid, parameter.getRids())

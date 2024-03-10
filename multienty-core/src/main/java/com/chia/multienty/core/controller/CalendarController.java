@@ -19,7 +19,7 @@ import io.swagger.annotations.Api;
 @RequestMapping("/calendar")
 @RequiredArgsConstructor
 @Api(tags = "日历前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class CalendarController {
 
 }

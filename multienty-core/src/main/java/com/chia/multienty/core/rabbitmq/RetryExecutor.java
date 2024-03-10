@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.RabbitLogDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
-import com.chia.multienty.core.dubbo.service.DubboMultiTenantService;
+import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.log.RabbitLogPageGetParameter;
 import com.chia.multienty.core.pojo.RabbitLog;
@@ -63,7 +63,7 @@ public class RetryExecutor {
     }
 
     @Autowired
-    private DubboMultiTenantService dubboMultiTenantService;
+    private DubboMultientyService dubboMultientyService;
 
     @Scheduled(cron = "${spring.rabbitmq.retry-execute-cron}")
     protected void retry() {
@@ -91,11 +91,11 @@ public class RetryExecutor {
             parameter.setPageSize(100);
             parameter.setCurrentPage(1);
             parameter.setTimestamp(System.currentTimeMillis() + reloadFromDbInterval);
-            if(dubboMultiTenantService == null) {
+            if(dubboMultientyService == null) {
                 log.warn("多租户基础Dubbo服务无法连接...");
                 return;
             }
-            IPage<RabbitLogDTO> page = dubboMultiTenantService.getRabbitLogPage(parameter);
+            IPage<RabbitLogDTO> page = dubboMultientyService.getRabbitLogPage(parameter);
 
             if(page.getTotal() > 0) {
                 page.getRecords().forEach(rabbitLog -> {

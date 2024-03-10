@@ -27,4 +27,5 @@ public class NacosConfiguration {
         ConfigService configService = NacosFactory.createConfigService(properties);
         return configService;
     }
+
 }

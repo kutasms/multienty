@@ -2,6 +2,7 @@ package com.chia.multienty.core.domain.vo;
 
 import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.enums.LoginMode;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class DecryptedLoginInfo {
      * 登录类型
      */
     @ApiModelProperty("登录类型")
+    @JsonProperty(value = "mode")
     private LoginMode loginMode = LoginMode.USERNAME_PASSWORD;
 
 }

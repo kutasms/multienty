@@ -3,7 +3,7 @@ package com.chia.multienty.core.service.impl;
 import com.chia.multienty.core.domain.dto.WechatMppRegisterAuditDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatMppRegisterAuditMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatMppRegisterAudit;
 import com.chia.multienty.core.service.WechatMppRegisterAuditService;
@@ -46,7 +46,7 @@ public class WechatMppRegisterAuditServiceImpl extends KutaBaseServiceImpl<Wecha
     @Override
     public IPage<WechatMppRegisterAuditDTO> getPage(WechatMppRegisterAuditPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatMppRegisterAuditDTO.class,
-                new KutaLambdaWrapper<WechatMppRegisterAudit>()
+                new MTLambdaWrapper<WechatMppRegisterAudit>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getAuditIds()), WechatMppRegisterAudit::getAuditId, parameter.getAuditIds())
         );

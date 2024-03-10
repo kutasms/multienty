@@ -3,7 +3,7 @@ package com.chia.multienty.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chia.multienty.core.domain.dto.WechatAppFuncScopeDTO;
 import com.chia.multienty.core.mapper.WechatAppFuncScopeMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatAppFuncScope;
 import com.chia.multienty.core.service.WechatAppFuncScopeService;
@@ -44,7 +44,7 @@ public class WechatAppFuncScopeServiceImpl extends KutaBaseServiceImpl<WechatApp
     @Override
     public IPage<WechatAppFuncScopeDTO> getPage(WechatAppFuncScopePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatAppFuncScopeDTO.class,
-                new KutaLambdaWrapper<WechatAppFuncScope>()
+                new MTLambdaWrapper<WechatAppFuncScope>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getFsIds()), WechatAppFuncScope::getFsId, parameter.getFsIds())
         );

@@ -9,7 +9,7 @@ import com.chia.multienty.core.domain.enums.UploadFileType;
 import com.chia.multienty.core.parameter.base.FileRemoveParameter;
 import com.chia.multienty.core.pojo.UploadedFile;
 import com.chia.multienty.core.strategy.file.FileUploadService;
-import com.chia.multienty.core.tools.MultiTenantContext;
+import com.chia.multienty.core.tools.MultientyContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +56,7 @@ public class FileController {
                     return result;
                 }
             }
-            FileUploadService service = MultiTenantContext.getResourceMappingAlgorithm().getFileUploadService();
+            FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
             String url = service.upload(file);
             result=new Result(url,HttpResultEnum.SUCCESS);
         }
@@ -90,7 +90,7 @@ public class FileController {
                     return result;
                 }
             }
-            FileUploadService service = MultiTenantContext.getResourceMappingAlgorithm().getFileUploadService();
+            FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
             UploadedFile uploadedFile = service.upload2Bucket(file, buckets[0], fileType);
             UploadResult uploadResult = new UploadResult();
             uploadResult.setUrl(uploadedFile.getUrl());
@@ -118,7 +118,7 @@ public class FileController {
     @ApiOperation(value = "删除多个文件")
     @MultiWebLog
     public Result<Boolean> removeFiles(@RequestBody FileRemoveParameter parameter) throws IOException {
-        FileUploadService service = MultiTenantContext.getResourceMappingAlgorithm().getFileUploadService();
+        FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
         service.removeFiles(parameter);
         return new Result<>(true);
     }

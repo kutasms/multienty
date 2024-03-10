@@ -4,7 +4,7 @@ logging:
   config: classpath:logback-spring.xml
 spring:
   application:
-    name: multi-tenant-generator
+    name: multienty-generator
   cloud:
     nacos:
       discovery:
@@ -24,7 +24,7 @@ spring:
 #          group: shardingsphere
 #          refresh: true
         extension-configs[0]:
-          data-id: kuta-multi-tenant.yml
+          data-id: multienty.yml
           group: DEFAULT_GROUP
           refresh: true
         extension-configs[1]:

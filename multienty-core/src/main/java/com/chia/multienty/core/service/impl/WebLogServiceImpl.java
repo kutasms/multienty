@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.WebLogDTO;
 import com.chia.multienty.core.mapper.WebLogMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WebLog;
 import com.chia.multienty.core.service.WebLogService;
@@ -43,7 +43,7 @@ public class WebLogServiceImpl extends KutaBaseServiceImpl<WebLogMapper, WebLog>
     @Override
     public IPage<WebLogDTO> getPage(WebLogPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WebLogDTO.class,
-                new KutaLambdaWrapper<WebLog>()
+                new MTLambdaWrapper<WebLog>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getLogIds()), WebLog::getLogId, parameter.getLogIds())
                         .eq(parameter.getMetaId() != null, WebLog::getMetaId, parameter.getMetaId())

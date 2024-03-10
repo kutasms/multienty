@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/permission")
 @RequiredArgsConstructor
 @Api(tags = "权限前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class PermissionController {
     private final PermissionService permissionService;
 

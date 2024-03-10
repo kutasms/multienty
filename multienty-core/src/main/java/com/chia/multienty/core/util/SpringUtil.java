@@ -1,22 +1,20 @@
 package com.chia.multienty.core.util;
 
 import lombok.SneakyThrows;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 public class SpringUtil {
 
-    private static ApplicationContext context;
+    private static volatile ApplicationContext context;
 
     public static ApplicationContext getApplicationContext() {
         return context;
     }
 
     public static void setContext(ApplicationContext applicationContext) {
-        context = applicationContext;
+        if (context == null) {
+            context = applicationContext;
+        }
     }
 
     public static Object getBean(String name){

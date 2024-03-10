@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dict")
 @RequiredArgsConstructor
 @Api(tags = "数据字典前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class DictController {
     
     @Autowired

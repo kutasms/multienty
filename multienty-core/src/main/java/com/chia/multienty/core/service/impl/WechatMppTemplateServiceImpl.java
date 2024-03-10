@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chia.multienty.core.domain.dto.WechatMppTemplateDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatMppTemplateMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatMppTemplate;
 import com.chia.multienty.core.service.WechatMppTemplateService;
@@ -65,7 +65,7 @@ public class WechatMppTemplateServiceImpl extends KutaBaseServiceImpl<WechatMppT
     @Override
     public IPage<WechatMppTemplateDTO> getPage(WechatMppTemplatePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatMppTemplateDTO.class,
-                new KutaLambdaWrapper<WechatMppTemplate>()
+                new MTLambdaWrapper<WechatMppTemplate>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getMppTemplateIds()), WechatMppTemplate::getMppTemplateId, parameter.getMppTemplateIds())
         );

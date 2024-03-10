@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("component")
 @Slf4j(topic = "ComponentController")
 @Api(tags = "组件前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class ComponentController {
 
     @Autowired

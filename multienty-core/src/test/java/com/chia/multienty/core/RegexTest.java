@@ -1,7 +1,7 @@
 package com.chia.multienty.core;
 
-import com.chia.multienty.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
@@ -24,8 +24,11 @@ public class RegexTest {
     }
     @Test
     public void testStringUtil() throws Exception {
-        String jsonConfig = StringUtil.camelCase("JsonConfig");
-        log.info(jsonConfig);
+
+        String pattern = String.format("^%s_\\d{6}$", "saas_order");
+        Pattern compile = Pattern.compile(pattern);
+        Matcher matcher = compile.matcher("saas_order_202502");
+        Assert.assertTrue(matcher.find());
 //        String datetime = "2021-04-30T18:58:48+08:00";
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 //        LocalDateTime formatted = LocalDateTime.parse(datetime, formatter);

@@ -5,7 +5,7 @@ import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatAppMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatApp;
 import com.chia.multienty.core.pojo.WechatMppTemplate;
@@ -15,7 +15,7 @@ import com.chia.multienty.core.service.WechatMppTemplateService;
 import com.chia.multienty.core.service.WechatPayService;
 import com.chia.multienty.core.util.ListUtil;
 import com.chia.multienty.core.exception.KutaRuntimeException;
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -50,7 +50,7 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     private final WechatMppTemplateService wechatMppTemplateService;
     private final WechatPayService wechatPayService;
 
-    private final YamlMultiTenantProperties yamlMultiTenantProperties;
+    private final YamlMultientyProperties yamlMultientyProperties;
 
     @Override
     public WechatAppDTO getDetail(WechatAppDetailGetParameter parameter) {
@@ -104,7 +104,7 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     @Override
     public IPage<WechatAppDTO> getPage(WechatAppPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatAppDTO.class,
-                new KutaLambdaWrapper<WechatApp>()
+                new MTLambdaWrapper<WechatApp>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getProgramIds()), WechatApp::getProgramId, parameter.getProgramIds())
         );

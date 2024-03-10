@@ -14,7 +14,6 @@ public class AliyunSMSProperties {
     private String signName;
     private String readTimeout;
     private String connectTimeout;
-    private String runningMode;
     private Map<String, String> templates;
 
 }

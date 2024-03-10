@@ -8,13 +8,14 @@ import java.io.IOException;
 
 public interface StringRedisService {
 
-    public boolean set(String key, Object value);
+
+    boolean set(String key, String value);
 
     boolean setJson(String key, Object value);
 
     boolean setJson(String key, Object value, long time);
 
-    public boolean set(String key, Object value, long time);
+    public boolean set(String key, String value, long time);
 
     public long incr(String key, long delta);
 

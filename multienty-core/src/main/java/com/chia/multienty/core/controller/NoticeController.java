@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/notice")
 @RequiredArgsConstructor
 @Api(tags = "通知前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class NoticeController {
     private final NoticeService noticeService;
 

@@ -32,7 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/chinese-city")
 @Api(tags = "城市前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class ChineseCityController {
     @Autowired
     private ChineseCityService chineseCityService;

@@ -1,6 +1,6 @@
 package com.chia.multienty.core.domain.spi.typed;
 
-import com.chia.multienty.core.tools.MultiTenantServiceLoader;
+import com.chia.multienty.core.tools.MultientyServiceLoader;
 import com.chia.multienty.core.domain.enums.InternalExceptionEnum;
 import com.chia.multienty.core.domain.spi.lifecycle.InitializationProcessor;
 import com.chia.multienty.core.exception.KutaRuntimeException;
@@ -14,7 +14,7 @@ import java.util.Properties;
 public class TypedSPIRegistry {
 
     public static  <T extends TypedSPI> Optional<T> findRegisteredService(final Class<T> clazz, final String type){
-        for(T item : MultiTenantServiceLoader.getInstances(clazz)) {
+        for(T item : MultientyServiceLoader.getInstances(clazz)) {
             if(isTypeMatched(type, item)) {
                 return Optional.of(item);
             }
@@ -24,7 +24,7 @@ public class TypedSPIRegistry {
 
     public static <T extends TypedSPI> Optional<T> findRegisteredService(final Class<T> clazz,
                                                                          final String type, final Properties props) {
-        for(T item : MultiTenantServiceLoader.getInstances(clazz)) {
+        for(T item : MultientyServiceLoader.getInstances(clazz)) {
             if(isTypeMatched(type, item)) {
                 Properties stringizingProps = convertPropertiesItemToString(props);
                 if(item instanceof InitializationProcessor) {

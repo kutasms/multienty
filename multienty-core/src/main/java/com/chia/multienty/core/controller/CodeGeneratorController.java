@@ -1,9 +1,9 @@
 package com.chia.multienty.core.controller;
 
-import com.chia.multienty.core.registercenter.nacos.KutaNacosProperties;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.mybatis.generator.CodeAutoGenerator;
 import com.chia.multienty.core.mybatis.generator.vue.VueCodeAutoGenerator;
+import com.chia.multienty.core.properties.KutaNacosProperties;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,8 +40,7 @@ public class CodeGeneratorController {
         return new Result<>(true);
     }
 
-    @GetMapping("/vue/generate")
-    public Result<Boolean> generateVueCode() {
+    @GetMapping("/vue/generate")    public Result<Boolean> generateVueCode() {
         vueCodeAutoGenerator.generate();
         return new Result<>(true);
     }

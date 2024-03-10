@@ -1,6 +1,6 @@
 package com.chia.multienty.core.annotation;
 
-import com.chia.multienty.core.domain.constants.MultiTenantConstants;
+import com.chia.multienty.core.domain.constants.MultientyConstants;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,7 +23,7 @@ public @interface CachedMethod {
      * */
     long timeout() default 1000 * 60 * 10;
 
-    String cacheKeyPrefix() default MultiTenantConstants.DEFAULT_CACHE_METHOD_KEY_PREFIX;
+    String cacheKeyPrefix() default MultientyConstants.DEFAULT_CACHE_METHOD_KEY_PREFIX;
     /**
      * 缓存类型，默认使用字符串类型
      * STRING模式已测试

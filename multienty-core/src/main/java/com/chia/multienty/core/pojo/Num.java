@@ -2,7 +2,10 @@ package com.chia.multienty.core.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chia.multienty.core.pojo.KutaBaseEntity;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -13,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-02-16
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

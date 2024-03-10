@@ -59,7 +59,7 @@ spring-boot-admin can provide service monitoring function and can send emails in
 ## Basic Data Table
 multienty-core-mysql-resource project provides some basic data tables that you can refer to in the Maven pom file, and then configure them in the Nacos configuration as follows:
 ```
-spring.multi-tenant.base-module-enabled = true
+spring.multienty.base-module-enabled = true
 ```
 ## Strategies
 - file upload

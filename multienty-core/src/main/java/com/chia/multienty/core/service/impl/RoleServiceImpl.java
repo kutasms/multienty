@@ -6,7 +6,7 @@ import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.RoleMapper;
 import com.chia.multienty.core.mybatis.KutaFuncEnum;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Role;
 import com.chia.multienty.core.pojo.RolePermission;
@@ -53,7 +53,7 @@ public class RoleServiceImpl extends KutaBaseServiceImpl<RoleMapper, Role> imple
     public IPage<RoleDTO> getList(RoleListGetParameter parameter) {
         IPage<RoleDTO> page = baseMapper.selectJoinPage(parameter.getPageObj(),
                 RoleDTO.class,
-                new KutaLambdaWrapper<Role>()
+                new MTLambdaWrapper<Role>()
                         .selectAll(Role.class)
                         .selectFunc(KutaFuncEnum.GROUP_CONCAT, RolePermission::getPermissionId, RoleDTO::getPermissionJoinedStr)
                         .leftJoin(RolePermission.class,RolePermission::getRoleId, Role::getRoleId)

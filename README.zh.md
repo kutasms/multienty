@@ -85,7 +85,7 @@ spring-boot-admin可以提供服务监控功能，并可以在服务异常时发
 ## 基础数据表
 multienty-core-mysql-resource 模块提供了一些基础数据库表配置，您可以在自己的项目Maven pom文件中引用, 然后在nacos配置中开启如下设置，flyway将自动完成基础数据表的生成。基础数据表的pojo,mapper,service, serviceImpl, controller已在multienty-core模块中加入，您不用再次生成。
 ```
-spring.multi-tenant.base-module-enabled = true
+spring.multienty.base-module-enabled = true
 ```
 ## 策略实现
 - 文件上传

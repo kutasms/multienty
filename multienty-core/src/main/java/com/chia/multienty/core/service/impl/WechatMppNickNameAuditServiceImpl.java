@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chia.multienty.core.domain.dto.WechatMppNickNameAuditDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatMppNickNameAuditMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatMppNickNameAudit;
 import com.chia.multienty.core.service.WechatMppNickNameAuditService;
@@ -47,7 +47,7 @@ public class WechatMppNickNameAuditServiceImpl extends KutaBaseServiceImpl<Wecha
     @Override
     public IPage<WechatMppNickNameAuditDTO> getPage(WechatMppNickNameAuditPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatMppNickNameAuditDTO.class,
-                new KutaLambdaWrapper<WechatMppNickNameAudit>()
+                new MTLambdaWrapper<WechatMppNickNameAudit>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getAuditIds()), WechatMppNickNameAudit::getAuditId, parameter.getAuditIds())
         );

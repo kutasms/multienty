@@ -8,7 +8,7 @@ import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.mapper.LabelMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.parameter.base.*;
 import com.chia.multienty.core.pojo.Label;
@@ -46,7 +46,7 @@ public class LabelServiceImpl extends KutaBaseServiceImpl<LabelMapper, Label> im
     @Override
     public IPage<LabelDTO> getPage(LabelPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), LabelDTO.class,
-                new KutaLambdaWrapper<Label>()
+                new MTLambdaWrapper<Label>()
                         .solveGenericParameters(parameter)
 
                         .in(!ListUtil.isEmpty(parameter.getLabelIds()), Label::getLabelId, parameter.getLabelIds())
@@ -83,7 +83,7 @@ public class LabelServiceImpl extends KutaBaseServiceImpl<LabelMapper, Label> im
             throw new KutaRuntimeException(HttpResultEnum.PAGE_SIZE_EXCEEDED_50);
         }
         return selectJoinListPage(parameter.getPageObj(), Label.class,
-                new KutaLambdaWrapper<Label>()
+                new MTLambdaWrapper<Label>()
                         .likeRight(Label::getLabel, parameter.getInputKeywords())
         );
     }

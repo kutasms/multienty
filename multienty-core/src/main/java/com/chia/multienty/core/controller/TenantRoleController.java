@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/tenant-role")
 @RequiredArgsConstructor
 @Api(tags = "租户角色关联")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class TenantRoleController {
     private final TenantRoleService tenantRoleService;
 

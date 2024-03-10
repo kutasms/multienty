@@ -6,7 +6,7 @@ import com.chia.multienty.core.domain.dto.DictDTO;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.DictMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Dict;
 import com.chia.multienty.core.service.DictService;
@@ -15,7 +15,7 @@ import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.base.DictListGetParameter;
 import com.chia.multienty.core.parameter.base.DictSaveParameter;
 import com.chia.multienty.core.parameter.base.DictUpdateParameter;
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.crypto.CryptoException;
@@ -37,7 +37,7 @@ import java.util.List;
 @Service
 public class DictServiceImpl extends KutaBaseServiceImpl<DictMapper, Dict> implements DictService {
     @Autowired
-    private YamlMultiTenantProperties properties;
+    private YamlMultientyProperties properties;
 
     @Autowired
     private CommonRedisService commonRedisService;
@@ -101,7 +101,7 @@ public class DictServiceImpl extends KutaBaseServiceImpl<DictMapper, Dict> imple
     public IPage<DictDTO> getList(DictListGetParameter parameter) {
         IPage<DictDTO> page = baseMapper.selectJoinPage(parameter.getPageObj(),
                 DictDTO.class,
-                new KutaLambdaWrapper<Dict>()
+                new MTLambdaWrapper<Dict>()
                         .eq(parameter.getPid() != null, Dict::getPid, parameter.getPid())
                         .and(!StringUtils.isBlank(parameter.getKeywords()), ew -> {
                             ew.like(Dict::getLabel, parameter.getKeywords());

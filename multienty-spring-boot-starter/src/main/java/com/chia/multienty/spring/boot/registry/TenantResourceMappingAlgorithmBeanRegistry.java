@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 
 public class TenantResourceMappingAlgorithmBeanRegistry extends AbstractAlgorithmBeanRegistry<TenantResourceMappingAlgorithm> {
 
-    private static final String PREFIX = "spring.kuta.multi-tenant.algorithms.resource-mapping.";
+    private static final String PREFIX = "spring.multienty.algorithms.resource-mapping.";
 
     public TenantResourceMappingAlgorithmBeanRegistry(final Environment environment) {
         super(environment);

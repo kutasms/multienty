@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.CalendarDTO;
 import com.chia.multienty.core.mapper.CalendarMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Calendar;
 import com.chia.multienty.core.service.CalendarService;
@@ -43,7 +43,7 @@ public class CalendarServiceImpl extends KutaBaseServiceImpl<CalendarMapper, Cal
     @Override
     public IPage<CalendarDTO> getPage(CalendarPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), CalendarDTO.class,
-                new KutaLambdaWrapper<Calendar>()
+                new MTLambdaWrapper<Calendar>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getDays()), Calendar::getDay, parameter.getDays())
         );

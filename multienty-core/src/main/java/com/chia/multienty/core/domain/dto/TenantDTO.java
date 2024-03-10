@@ -30,6 +30,8 @@ public class TenantDTO extends Tenant implements IWebLogUser {
     private String roleIdStrings;
     @ApiModelProperty("角色别名")
     private String roleAlias;
+    @ApiModelProperty("权限集合")
+    private List<PermissionDTO> permissions;
 
     /**
      * 是否已禁用

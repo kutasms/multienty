@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.WordDTO;
 import com.chia.multienty.core.mapper.WordMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Word;
 import com.chia.multienty.core.service.WordService;
@@ -43,7 +43,7 @@ public class WordServiceImpl extends KutaBaseServiceImpl<WordMapper, Word> imple
     @Override
     public IPage<WordDTO> getPage(WordPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WordDTO.class,
-                new KutaLambdaWrapper<Word>()
+                new MTLambdaWrapper<Word>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getIds()), Word::getId, parameter.getIds())
         );

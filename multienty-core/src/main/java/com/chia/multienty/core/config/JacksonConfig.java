@@ -1,6 +1,6 @@
 package com.chia.multienty.core.config;
 
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
@@ -25,6 +26,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -37,7 +40,7 @@ public class JacksonConfig {
 
 
 
-    private final YamlMultiTenantProperties properties;
+    private final YamlMultientyProperties properties;
 
 
     @Bean
@@ -94,7 +97,13 @@ public class JacksonConfig {
 //        registerDateSerializer(objectMapper);
         // 忽略 transient 关键词属性
         objectMapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
-        return new MappingJackson2HttpMessageConverter(objectMapper);
+
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(objectMapper);
+        List<MediaType> supportedMediaTypes = converter.getSupportedMediaTypes();
+        supportedMediaTypes = new ArrayList<>(supportedMediaTypes);
+        supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+        converter.setSupportedMediaTypes(supportedMediaTypes);
+        return converter;
     }
 
     private void registerDateSerializer(ObjectMapper mapper) {

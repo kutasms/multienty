@@ -5,7 +5,7 @@ import com.chia.multienty.core.domain.dto.TenantRoleDTO;
 import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.TenantRoleMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Role;
 import com.chia.multienty.core.pojo.TenantRole;
@@ -52,7 +52,7 @@ public class TenantRoleServiceImpl extends KutaBaseServiceImpl<TenantRoleMapper,
     @Override
     public IPage<TenantRoleDTO> getPage(TenantRolePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), TenantRoleDTO.class,
-                new KutaLambdaWrapper<TenantRole>()
+                new MTLambdaWrapper<TenantRole>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getTrIds()), TenantRole::getTrId, parameter.getTrIds())
         );
@@ -105,7 +105,7 @@ public class TenantRoleServiceImpl extends KutaBaseServiceImpl<TenantRoleMapper,
         return baseMapper.selectJoinList(Role.class,
                 new MPJLambdaWrapper<TenantRole>()
                         .selectAll(Role.class)
-                        .leftJoin(Role.class,
+                        .innerJoin(Role.class,
                                 on-> on.eq(Role::getRoleId, TenantRole::getRoleId)
                                         .eq(Role::getOwner, ApplicationType.TENANT.getValue())
                                         .eq(Role::getStatus, StatusEnum.NORMAL.getCode())

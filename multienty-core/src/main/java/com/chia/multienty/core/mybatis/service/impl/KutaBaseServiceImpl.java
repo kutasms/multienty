@@ -2,18 +2,24 @@ package com.chia.multienty.core.mybatis.service.impl;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
-import com.chia.multienty.core.mybatis.KutaBaseMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
-import com.chia.multienty.core.mybatis.MTLambdaWrapper;
-import com.chia.multienty.core.pojo.SearchEntity;
-import com.chia.multienty.core.util.KutaBeanUtil;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.exception.OptimisticLockUpdateFailureException;
+import com.chia.multienty.core.mybatis.KutaBaseMapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
+import com.chia.multienty.core.pojo.SearchEntity;
+import com.chia.multienty.core.util.KutaBeanUtil;
+import com.chia.multienty.core.util.SpringUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -30,6 +36,9 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
 
     private final String OPTIMISTIC_LOCK_FIELD = "version";
 
+    @Autowired
+    protected ObjectMapper objectMapper;
+
     @Override
     public Class<T> currentModelClass() {
         return super.currentModelClass();
@@ -39,6 +48,25 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
     public <D> T getBy(Serializable id,
                    SFunction<D, ?>... columns) {
         return baseMapper.getByPrimaryKey(id, Arrays.asList(columns));
+    }
+
+    @Override
+    public String getCacheKey(Long id) {
+        return String.format("%s-%s", currentModelClass().getSimpleName().toUpperCase(), id);
+    }
+
+    @Override
+    public void cacheObj(T obj, long expire) throws IllegalAccessException, JsonProcessingException {
+        Long primaryKeyVal = getPrimaryKeyVal(obj);
+        StringRedisService stringRedisService = SpringUtil.getBean(StringRedisService.class);
+        stringRedisService.set(getCacheKey(primaryKeyVal), objectMapper.writeValueAsString(obj), expire);
+    }
+
+    @Override
+    public T getCachedObj(Long id) throws JsonProcessingException {
+        StringRedisService stringRedisService = SpringUtil.getBean(StringRedisService.class);
+        return stringRedisService.get(getCacheKey(id), new TypeReference<T>() {
+        });
     }
 
     /**
@@ -52,6 +80,10 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
 
     protected MTLambdaWrapper<T> mtLambdaWrapper() {
         return new MTLambdaWrapper<>();
+    }
+
+    protected LambdaQueryWrapper<T> lambdaQueryWrapper() {
+        return new LambdaQueryWrapper<>();
     }
 
     @Override
@@ -145,19 +177,19 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
 
     @Override
     public <DTO extends T> List<DTO> dtoListByColumnIds(Class<DTO> clazz, SFunction<T, ?> column, Collection<?> ids) {
-        return selectJoinList(clazz, new KutaLambdaWrapper<T>().in(column, ids));
+        return selectJoinList(clazz, new MTLambdaWrapper<T>().in(column, ids));
     }
 
     @Override
-    public <DTO extends T> List<DTO> dtoListBy(Class<DTO> clazz, Consumer<KutaLambdaWrapper<T>> consumer) {
-        KutaLambdaWrapper<T> wrapper = new KutaLambdaWrapper<T>();
+    public <DTO extends T> List<DTO> dtoListBy(Class<DTO> clazz, Consumer<MTLambdaWrapper<T>> consumer) {
+        MTLambdaWrapper<T> wrapper = new MTLambdaWrapper<T>();
         consumer.accept(wrapper);
         return selectJoinList(clazz, wrapper);
     }
 
     @Override
-    public <DTO extends T> DTO dtoBy(Class<DTO> clazz, Consumer<KutaLambdaWrapper<T>> consumer) {
-        KutaLambdaWrapper<T> wrapper = wrapper();
+    public <DTO extends T> DTO dtoBy(Class<DTO> clazz, Consumer<MTLambdaWrapper<T>> consumer) {
+        MTLambdaWrapper<T> wrapper = wrapper();
         consumer.accept(wrapper);
         return selectJoinOne(clazz, wrapper);
     }
@@ -178,8 +210,8 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
     }
 
     @Override
-    public KutaLambdaWrapper<T> wrapper() {
-        return new KutaLambdaWrapper<T>();
+    public MTLambdaWrapper<T> wrapper() {
+        return new MTLambdaWrapper<T>();
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chia.multienty.core.domain.dto.WechatPayDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatPayMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatPay;
 import com.chia.multienty.core.service.WechatPayService;
@@ -47,7 +47,7 @@ public class WechatPayServiceImpl extends KutaBaseServiceImpl<WechatPayMapper, W
     @Override
     public IPage<WechatPayDTO> getPage(WechatPayPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatPayDTO.class,
-                new KutaLambdaWrapper<WechatPay>()
+                new MTLambdaWrapper<WechatPay>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getWxPayIds()), WechatPay::getWxPayId, parameter.getWxPayIds())
         );

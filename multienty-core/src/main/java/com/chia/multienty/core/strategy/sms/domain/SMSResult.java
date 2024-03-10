@@ -13,4 +13,6 @@ public class SMSResult {
     private String origResult;
     @ApiModelProperty("数据")
     private Object data;
+    @ApiModelProperty("是否成功")
+    private Boolean succeeded;
 }

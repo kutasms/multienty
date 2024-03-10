@@ -3,7 +3,7 @@ package com.chia.multienty.core.interceptor;
 
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.exception.KutaRuntimeException;
-import com.chia.multienty.core.tools.MultiTenantContext;
+import com.chia.multienty.core.tools.MultientyContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -29,7 +29,7 @@ public class ExecutorInterceptor implements Interceptor {
             BoundSql boundSql = statementHandler.getBoundSql();
 
             String trimSql = boundSql.getSql().trim().toLowerCase();
-            if(MultiTenantContext.isTestAcc()) {
+            if(MultientyContext.isTestAcc()) {
                 if(trimSql.startsWith("update")
                         || trimSql.startsWith("insert")
                         || trimSql.startsWith("delete")

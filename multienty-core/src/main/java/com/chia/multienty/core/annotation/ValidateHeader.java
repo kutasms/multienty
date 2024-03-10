@@ -1,7 +1,7 @@
 package com.chia.multienty.core.annotation;
 
 
-import com.chia.multienty.core.domain.constants.MultiTenantHeaderConstants;
+import com.chia.multienty.core.domain.constants.MultientyHeaderConstants;
 
 import java.lang.annotation.*;
 
@@ -12,5 +12,5 @@ public @interface ValidateHeader {
      * 逗号分隔的header名称列表
      * @return
      */
-    String headNames() default MultiTenantHeaderConstants.APP_ID_KEY;
+    String headNames() default MultientyHeaderConstants.APP_ID_KEY;
 }

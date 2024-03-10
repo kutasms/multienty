@@ -13,6 +13,8 @@
         <module name="multienty-spring-boot-starter" />
         <module name="multienty-gateway" />
         <module name="multienty-generator" />
+        <module name="multienty-oauth" />
+        <module name="multienty-core-fusion" />
         <module name="multienty-core" />
       </profile>
     </annotationProcessing>
@@ -22,9 +24,11 @@
       <module name="multienty" options="" />
       <module name="multienty-admin" options="-parameters" />
       <module name="multienty-core" options="-parameters" />
+      <module name="multienty-core-fusion" options="-parameters" />
       <module name="multienty-core-mysql-resource" options="-parameters" />
       <module name="multienty-gateway" options="-parameters" />
       <module name="multienty-generator" options="-parameters" />
+      <module name="multienty-oauth" options="-parameters" />
       <module name="multienty-spring-boot-starter" options="-parameters" />
       <module name="multienty-wechat-third-party" options="-parameters" />
     </option>

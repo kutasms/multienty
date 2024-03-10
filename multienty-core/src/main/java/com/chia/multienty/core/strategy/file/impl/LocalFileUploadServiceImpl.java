@@ -8,7 +8,7 @@ import com.chia.multienty.core.pojo.UploadedFile;
 import com.chia.multienty.core.service.UploadedFileService;
 import com.chia.multienty.core.strategy.file.FileUploadService;
 import com.chia.multienty.core.parameter.base.FileRemoveParameter;
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -40,7 +40,7 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
     private final static String YEAR_MONTH_SPLIT_BY_SLASH = "yyyy/MM";
 
     @Autowired
-    private YamlMultiTenantProperties properties;
+    private YamlMultientyProperties properties;
     @Autowired
     private UploadedFileService uploadedFileService;
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "spring.kuta.code-generator")
+@ConfigurationProperties(prefix = "spring.code-generator")
 @Data
 @Component
 public class GeneratorProperties {

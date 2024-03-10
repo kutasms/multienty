@@ -3,7 +3,7 @@ package com.chia.multienty.core.service.impl;
 import com.chia.multienty.core.domain.dto.WechatOfficialAccountDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatOfficialAccountMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatOfficialAccount;
 import com.chia.multienty.core.service.WechatOfficialAccountService;
@@ -46,7 +46,7 @@ public class WechatOfficialAccountServiceImpl extends KutaBaseServiceImpl<Wechat
     @Override
     public IPage<WechatOfficialAccountDTO> getPage(WechatOfficialAccountPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatOfficialAccountDTO.class,
-                new KutaLambdaWrapper<WechatOfficialAccount>()
+                new MTLambdaWrapper<WechatOfficialAccount>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getWoaIds()), WechatOfficialAccount::getWoaId, parameter.getWoaIds())
         );

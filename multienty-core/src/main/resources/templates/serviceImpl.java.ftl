@@ -21,13 +21,13 @@ import ${cfg.package_parameter}.${entity}DisableParameter;
 import com.github.yulichang.toolkit.MPJWrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import com.chia.multienty.core.domain.constants.MultiTenantConstants;
+import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.util.ListUtil;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 <#if cfg.sharding??>
-import com.chia.multienty.core.tools.MultiTenantContext;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.baomidou.dynamic.datasource.annotation.DS;
 </#if>
 <#if idType ??>
@@ -44,7 +44,7 @@ import com.chia.multienty.core.tools.IdWorkerProvider;
 @Service
 @RequiredArgsConstructor
 <#if cfg.sharding??>
-@DS(MultiTenantConstants.DS_SHARDING)
+@DS(MultientyConstants.DS_SHARDING)
 </#if>
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
@@ -153,7 +153,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         saveTE(${entity?uncap_first});
     <#if cfg.sharding??>
         <#if cfg.sharding.shardingDatabase && cfg.sharding.databaseShardingColumnName == "tenantId">
-        ${entity?uncap_first}.set${cfg.sharding.databaseShardingColumnName?cap_first}(MultiTenantContext.getTenant().getTenantId());
+        ${entity?uncap_first}.set${cfg.sharding.databaseShardingColumnName?cap_first}(MultientyContext.getTenant().getTenantId());
         </#if>
     </#if>
         <#list table.fields as field>

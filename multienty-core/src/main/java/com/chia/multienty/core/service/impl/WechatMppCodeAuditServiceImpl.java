@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chia.multienty.core.domain.dto.WechatMppCodeAuditDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatMppCodeAuditMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WechatMppCodeAudit;
 import com.chia.multienty.core.service.WechatMppCodeAuditService;
-import com.chia.multienty.core.tools.MultiTenantContext;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.chia.multienty.core.util.ListUtil;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -46,7 +46,7 @@ public class WechatMppCodeAuditServiceImpl extends KutaBaseServiceImpl<WechatMpp
     public WechatMppCodeAudit getByAppId(String appId) {
         Page<WechatMppCodeAudit> page = page(new Page<WechatMppCodeAudit>(1, 1),
                 Wrappers.<WechatMppCodeAudit>lambdaQuery()
-                        .eq(WechatMppCodeAudit::getTenantId, MultiTenantContext.getTenant().getTenantId())
+                        .eq(WechatMppCodeAudit::getTenantId, MultientyContext.getTenant().getTenantId())
                         .eq(WechatMppCodeAudit::getAppId, appId)
                         .orderByDesc(WechatMppCodeAudit::getCreateTime)
         );
@@ -64,7 +64,7 @@ public class WechatMppCodeAuditServiceImpl extends KutaBaseServiceImpl<WechatMpp
     @Override
     public IPage<WechatMppCodeAuditDTO> getPage(WechatMppCodeAuditPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), WechatMppCodeAuditDTO.class,
-                new KutaLambdaWrapper<WechatMppCodeAudit>()
+                new MTLambdaWrapper<WechatMppCodeAudit>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getAuditIds()), WechatMppCodeAudit::getAuditId, parameter.getAuditIds())
         );

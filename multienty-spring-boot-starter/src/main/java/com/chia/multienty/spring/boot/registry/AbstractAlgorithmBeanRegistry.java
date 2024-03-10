@@ -1,9 +1,9 @@
 package com.chia.multienty.spring.boot.registry;
 
-import com.chia.multienty.core.algorithm.MultiTenantAlgorithmFactory;
-import com.chia.multienty.core.domain.spi.MultiTenantAlgorithm;
+import com.chia.multienty.core.algorithm.MultientyAlgorithmFactory;
+import com.chia.multienty.core.domain.spi.MultientyAlgorithm;
 import com.chia.multienty.core.properties.AlgorithmProperties;
-import com.chia.multienty.core.tools.MultiTenantServiceLoader;
+import com.chia.multienty.core.tools.MultientyServiceLoader;
 import com.chia.multienty.core.util.PropertyUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractAlgorithmBeanRegistry<T extends MultiTenantAlgorithm>
+public abstract class AbstractAlgorithmBeanRegistry<T extends MultientyAlgorithm>
         implements BeanDefinitionRegistryPostProcessor, BeanPostProcessor {
     private static final String POINT = ".";
 
@@ -40,11 +40,11 @@ public abstract class AbstractAlgorithmBeanRegistry<T extends MultiTenantAlgorit
         Collection<String> algorithmNames = parameterMap.keySet().stream().map(key -> key.contains(POINT) ? key.substring(0, key.indexOf(POINT)) : key).collect(Collectors.toSet());
 
         Map<String, AlgorithmProperties> algorithmConfigs = createAlgorithmPropsMap(prefix, algorithmNames);
-        MultiTenantServiceLoader.register(algorithmClass);
+        MultientyServiceLoader.register(algorithmClass);
 
         for (Map.Entry<String, AlgorithmProperties> entry : algorithmConfigs.entrySet()) {
             AlgorithmProperties algorithmConfig = entry.getValue();
-            BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MultiTenantAlgorithmFactory.createAlgorithm(algorithmConfig, algorithmClass).getClass());
+            BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MultientyAlgorithmFactory.createAlgorithm(algorithmConfig, algorithmClass).getClass());
             registry.registerBeanDefinition(entry.getKey(), builder.getBeanDefinition());
             propMap.put(entry.getKey(), algorithmConfig.getProps());
         }
@@ -93,8 +93,8 @@ public abstract class AbstractAlgorithmBeanRegistry<T extends MultiTenantAlgorit
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if(bean instanceof MultiTenantAlgorithm && propMap.containsKey(beanName)) {
-            ((MultiTenantAlgorithm)bean).init(propMap.get(beanName));
+        if(bean instanceof MultientyAlgorithm && propMap.containsKey(beanName)) {
+            ((MultientyAlgorithm)bean).init(propMap.get(beanName));
         }
         return bean;
     }

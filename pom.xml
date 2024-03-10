@@ -19,12 +19,16 @@
         <module>multienty-core</module>
         <module>multienty-core-mysql-resource</module>
         <module>multienty-spring-boot-starter</module>
-        <module>multienty-generator</module><module>multienty-wechat-third-party</module><module>multienty-gateway</module><module>multienty-admin</module>
+        <module>multienty-generator</module>
+        <module>multienty-wechat-third-party</module>
+        <module>multienty-gateway</module>
+        <module>multienty-admin</module>
+        <module>multienty-oauth</module><module>multienty-core-fusion</module>
     </modules>
 
      <properties>
          <java.version>1.8</java.version>
-         <chia.kuta.multi-tenant.verion>2024.1.1</chia.kuta.multi-tenant.verion>
+         <chia.kuta.multienty.verion>2024.1.1</chia.kuta.multienty.verion>
          <springboot.version>2.6.13</springboot.version>
          <spring.cloud.version>2021.0.5</spring.cloud.version>
          <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
@@ -364,11 +368,5 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.verion}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
 </project>

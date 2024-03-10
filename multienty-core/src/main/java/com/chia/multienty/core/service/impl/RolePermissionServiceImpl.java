@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.RolePermissionDTO;
 import com.chia.multienty.core.mapper.RolePermissionMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.parameter.user.*;
 import com.chia.multienty.core.pojo.RolePermission;
@@ -46,7 +46,7 @@ public class RolePermissionServiceImpl extends KutaBaseServiceImpl<RolePermissio
     @Override
     public IPage<RolePermissionDTO> getPage(RolePermissionPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), RolePermissionDTO.class,
-                new KutaLambdaWrapper<RolePermission>()
+                new MTLambdaWrapper<RolePermission>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getRpIds()), RolePermission::getRpId, parameter.getRpIds())
         );

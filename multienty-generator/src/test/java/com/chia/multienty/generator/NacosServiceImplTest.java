@@ -2,8 +2,8 @@ package com.chia.multienty.generator;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chia.multienty.core.domain.basic.CityVO;
-import com.chia.multienty.core.registercenter.nacos.NacosConfig;
-import com.chia.multienty.core.registercenter.nacos.NacosService;
+import com.chia.multienty.core.fusion.registercenter.nacos.NacosConfig;
+import com.chia.multienty.core.fusion.registercenter.nacos.NacosService;
 import com.chia.multienty.core.util.KutaBeanUtil;
 import com.chia.multienty.core.util.MapUtil;
 import lombok.Data;

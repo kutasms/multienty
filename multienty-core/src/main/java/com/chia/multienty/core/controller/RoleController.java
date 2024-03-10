@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/role")
 @Api(tags = "角色前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class RoleController {
     @Autowired
     private RoleService roleService;

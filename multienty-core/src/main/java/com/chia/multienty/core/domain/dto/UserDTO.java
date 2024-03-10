@@ -1,8 +1,8 @@
 package com.chia.multienty.core.domain.dto;
 
-import com.chia.multienty.core.pojo.User;
 import com.chia.multienty.core.domain.basic.IWebLogUser;
 import com.chia.multienty.core.domain.enums.StatusEnum;
+import com.chia.multienty.core.pojo.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,17 +31,15 @@ public class UserDTO extends User implements IWebLogUser {
     @ApiModelProperty("角色别名")
     private String roleAlias;
 
+    @ApiModelProperty("权限列表")
+    private List<PermissionDTO> permissions;
+
     /**
      * 是否已禁用
      * */
     @ApiModelProperty("是否已禁用")
     public boolean disabled() {
         return this.getStatus().equals(StatusEnum.DISABLED.getCode());
-    }
-
-    @Override
-    public Long getUserId() {
-        return getUserId();
     }
 
     @Override
@@ -62,4 +60,6 @@ public class UserDTO extends User implements IWebLogUser {
      */
     @ApiModelProperty(value = "是否超级管理员")
     private Boolean superAdmin;
+
+
 }

@@ -3,7 +3,7 @@ package com.chia.multienty.core.service.impl;
 import com.chia.multienty.core.domain.dto.TenantSubAccountDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.TenantSubAccountMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.TenantSubAccount;
 import com.chia.multienty.core.service.TenantSubAccountService;
@@ -46,7 +46,7 @@ public class TenantSubAccountServiceImpl extends KutaBaseServiceImpl<TenantSubAc
     @Override
     public IPage<TenantSubAccountDTO> getPage(TenantSubAccountPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), TenantSubAccountDTO.class,
-                new KutaLambdaWrapper<TenantSubAccount>()
+                new MTLambdaWrapper<TenantSubAccount>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getSubAccountIds()), TenantSubAccount::getSubAccountId, parameter.getSubAccountIds())
         );

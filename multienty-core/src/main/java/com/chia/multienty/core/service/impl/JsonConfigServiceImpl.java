@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.JsonConfigDTO;
 import com.chia.multienty.core.mapper.JsonConfigMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.JsonConfig;
 import com.chia.multienty.core.service.JsonConfigService;
@@ -43,7 +43,7 @@ public class JsonConfigServiceImpl extends KutaBaseServiceImpl<JsonConfigMapper,
     @Override
     public IPage<JsonConfigDTO> getPage(JsonConfigPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), JsonConfigDTO.class,
-                new KutaLambdaWrapper<JsonConfig>()
+                new MTLambdaWrapper<JsonConfig>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getConfigIds()), JsonConfig::getConfigId, parameter.getConfigIds())
         );

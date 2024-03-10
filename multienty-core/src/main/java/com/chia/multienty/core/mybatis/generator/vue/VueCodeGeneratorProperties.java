@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "spring.kuta.vue-code-generator")
+@ConfigurationProperties(prefix = "spring.vue-code-generator")
 @Data
 @Component
 public class VueCodeGeneratorProperties {

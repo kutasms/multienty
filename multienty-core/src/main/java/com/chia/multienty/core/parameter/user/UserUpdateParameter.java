@@ -1,12 +1,12 @@
 package com.chia.multienty.core.parameter.user;
 
 import com.chia.multienty.core.pojo.Role;
-import lombok.Data;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.List;
 /**
  * <p>
  * 管理账户信息更新请求
@@ -90,6 +90,18 @@ public class UserUpdateParameter {
          */
         @ApiModelProperty(value = "是否已删除")
         private Boolean deleted;
+
+        /**
+         * 是否已过期
+         */
+        @ApiModelProperty(value = "是否已过期")
+        private Boolean expired;
+
+        /**
+         * 是否已锁定
+         */
+        @ApiModelProperty(value = "是否已锁定")
+        private Boolean locked;
 
         private Role role;
         private List<Long> roleIds;

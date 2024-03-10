@@ -18,5 +18,5 @@
 
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.chia.multienty.spring.boot.MultiTenantSpringBootConfiguration
+com.chia.multienty.spring.boot.MultientySpringBootConfiguration
 

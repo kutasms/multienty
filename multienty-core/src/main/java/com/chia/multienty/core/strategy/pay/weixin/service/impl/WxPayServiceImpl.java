@@ -3,9 +3,9 @@ package com.chia.multienty.core.strategy.pay.weixin.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.domain.enums.TerminalType;
-import com.chia.multienty.core.dubbo.service.DubboMultiTenantService;
+import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.strategy.pay.domain.*;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPayOrderCloseRequest;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPrepayRequest;
@@ -34,15 +34,15 @@ import java.util.Map;
 @Service
 @Slf4j(topic = "WxPayServiceImpl")
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant.wechat.pay", name = "active", havingValue = "wechat-v2")
+@ConditionalOnProperty(prefix = "spring.multienty.wechat.pay", name = "active", havingValue = "wechat-v2")
 public class WxPayServiceImpl implements WxPayService {
 
 
-    private final YamlMultiTenantProperties properties;
+    private final YamlMultientyProperties properties;
 
     private final ObjectMapper objectMapper;
 
-    private final DubboMultiTenantService dubboMultiTenantService;
+    private final DubboMultientyService dubboMultientyService;
     /**
      * 微信退款
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4">微信支付v2退款接口</a>
@@ -51,7 +51,7 @@ public class WxPayServiceImpl implements WxPayService {
     @SneakyThrows
     public MTPayRefund refund(MTRefundRequest req) {
 
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -94,7 +94,7 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Override
     public MTPrepayResponse prepay(MTPrepayRequest req) throws Exception {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -181,7 +181,7 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Override
     public MTPayTransaction queryOrder(Long programId, String outTradeNo) throws Exception {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
                 .setContainsTemplates(false));
@@ -197,7 +197,7 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     @SneakyThrows
     public MTPayOrderCloseResult closeOrder(MTPayOrderCloseRequest req) {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -214,7 +214,7 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     @SneakyThrows
     public MTPayRefund queryRefund(Long programId, String outRefundNo) {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
                 .setContainsTemplates(false));

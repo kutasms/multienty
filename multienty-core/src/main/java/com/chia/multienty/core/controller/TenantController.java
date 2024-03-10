@@ -1,7 +1,7 @@
 package com.chia.multienty.core.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.PublicKeyDTO;
@@ -11,23 +11,17 @@ import com.chia.multienty.core.domain.vo.LoggedUserVO;
 import com.chia.multienty.core.domain.vo.LoginResult;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.BlankParameter;
+import com.chia.multienty.core.parameter.tenant.*;
 import com.chia.multienty.core.parameter.user.LoginParameter;
 import com.chia.multienty.core.parameter.user.LogoutParameter;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.service.TenantService;
-import com.chia.multienty.core.properties.yaml.YamlMultiTenantProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.chia.multienty.core.parameter.tenant.TenantDetailGetParameter;
-import com.chia.multienty.core.parameter.tenant.TenantPageGetParameter;
-import com.chia.multienty.core.parameter.tenant.TenantDeleteParameter;
-import com.chia.multienty.core.parameter.tenant.TenantSaveParameter;
-import com.chia.multienty.core.parameter.tenant.TenantUpdateParameter;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,10 +37,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/tenant")
 @RequiredArgsConstructor
 @Api(tags = "租户前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class TenantController {
     private final TenantService tenantService;
-    private final YamlMultiTenantProperties multiTenantProperties;
+    private final YamlMultientyProperties multientyProperties;
     @PostMapping("publicKey")
     @ApiOperation(value = "获取公钥")
     public Result<PublicKeyDTO> getPublicKey(@RequestBody BlankParameter parameter, HttpServletRequest request) {
@@ -57,11 +51,8 @@ public class TenantController {
     @PostMapping("login")
     @ApiOperation(value = "登录")
     @WebLog
-    public Result<JSONObject> login(@RequestBody LoginParameter parameter, HttpServletRequest request) throws java.lang.Exception {
-        LoginResult rsp = tenantService.login(parameter);
-        JSONObject object = new JSONObject();
-        object.put(multiTenantProperties.getSecurity().getAuth().getHeader(), rsp.getAccessToken());
-        return new Result<>(object, HttpResultEnum.SUCCESS);
+    public Mono<Result<LoginResult>> login(@RequestBody LoginParameter parameter, HttpServletRequest request) throws java.lang.Exception {
+        return tenantService.login(parameter);
     }
 
     @PostMapping("getInfo")

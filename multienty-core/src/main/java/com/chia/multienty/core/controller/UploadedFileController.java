@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/uploaded-file")
 @RequiredArgsConstructor
 @Api(tags = "已上传文件前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "base-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "base-module-enabled", havingValue = "true")
 public class UploadedFileController {
     private final UploadedFileService uploadedFileService;
 

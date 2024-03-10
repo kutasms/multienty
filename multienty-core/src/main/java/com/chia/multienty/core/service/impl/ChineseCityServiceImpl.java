@@ -7,7 +7,7 @@ import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.vo.LabelValuePair;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.mapper.ChineseCityMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.parameter.base.*;
 import com.chia.multienty.core.pojo.ChineseCity;
@@ -47,7 +47,7 @@ public class ChineseCityServiceImpl extends KutaBaseServiceImpl<ChineseCityMappe
     @Override
     public IPage<ChineseCityDTO> getPage(ChineseCityPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), ChineseCityDTO.class,
-                new KutaLambdaWrapper<ChineseCity>()
+                new MTLambdaWrapper<ChineseCity>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getCityIds()), ChineseCity::getCityId, parameter.getCityIds())
         );

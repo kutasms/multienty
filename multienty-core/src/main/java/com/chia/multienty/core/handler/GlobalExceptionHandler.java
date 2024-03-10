@@ -6,6 +6,7 @@ import com.chia.multienty.core.exception.HttpException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Slf4j
 @ControllerAdvice
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class GlobalExceptionHandler {
 
     @Autowired
@@ -95,5 +97,15 @@ public class GlobalExceptionHandler {
     public Result<String> handleBindException(BindException ex) {
         log.warn("[全局异常处理] [提交参数校不符合规则]{}", ex.getMessage(), ex);
         return new Result<>(HttpResultEnum.BIND_EXCEPTION);
+    }
+    /**
+     * 未处理异常异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    public Result<String> handleUnhandledException(Exception ex) {
+        log.warn("[全局异常处理] [未处理异常]{}", ex.getMessage(), ex);
+        return new Result<>(HttpResultEnum.UNHANDLED_EXCEPTION);
     }
 }

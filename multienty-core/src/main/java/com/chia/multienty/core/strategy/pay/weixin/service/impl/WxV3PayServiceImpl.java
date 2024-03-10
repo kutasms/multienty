@@ -5,7 +5,7 @@ import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.domain.enums.TerminalType;
-import com.chia.multienty.core.dubbo.service.DubboMultiTenantService;
+import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
 import com.chia.multienty.core.strategy.pay.domain.MTPayOrderCloseResult;
@@ -41,18 +41,18 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant.wechat.pay", name = "active", havingValue = "wechat-v3")
+@ConditionalOnProperty(prefix = "spring.multienty.wechat.pay", name = "active", havingValue = "wechat-v3")
 public class WxV3PayServiceImpl implements WxV3PayService {
 
     private Map<Long, JsapiServiceExtension> extensionMap = new HashMap<>();
 
     private Map<Long, RefundService> refundServiceMap = new HashMap<>();
 
-    private final DubboMultiTenantService dubboMultiTenantService;
+    private final DubboMultientyService dubboMultientyService;
 
     @Override
     public MTPayRefund refund(MTRefundRequest req)  {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -75,7 +75,7 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPrepayResponse prepay(MTPrepayRequest req) throws Exception {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -131,7 +131,7 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayTransaction queryOrder(Long programId, String outTradeNo) throws Exception {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
                 .setContainsTemplates(false));
@@ -147,7 +147,7 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayOrderCloseResult closeOrder(MTPayOrderCloseRequest req) {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
                 .setContainsTemplates(false));
@@ -163,7 +163,7 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayRefund queryRefund(Long programId, String outRefundNo) {
-        WechatAppDTO app = dubboMultiTenantService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
                 .setContainsTemplates(false));

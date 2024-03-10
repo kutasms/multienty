@@ -2,6 +2,7 @@ package com.chia.multienty.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.PublicKeyDTO;
 import com.chia.multienty.core.domain.dto.TenantDTO;
 import com.chia.multienty.core.domain.vo.LoggedUserVO;
@@ -15,6 +16,7 @@ import com.chia.multienty.core.parameter.user.LogoutParameter;
 import com.chia.multienty.core.pojo.Tenant;
 import com.chia.multienty.core.strategy.sms.domain.SMSResult;
 import lombok.SneakyThrows;
+import reactor.core.publisher.Mono;
 
 /**
  * <p>
@@ -24,7 +26,7 @@ import lombok.SneakyThrows;
  * @author Multi Tenant Auto Generator
  * @since 2024-01-03
  */
-public interface TenantService extends KutaBaseService<Tenant> {
+public interface TenantService extends KutaBaseService<Tenant>, MultientyUserService {
 
     TenantDTO getByToken(String token);
 
@@ -37,7 +39,7 @@ public interface TenantService extends KutaBaseService<Tenant> {
 
     String createToken(TenantDTO tenant);
 
-    LoginResult login(LoginParameter parameter) throws Exception;
+    Mono<Result<LoginResult>> login(LoginParameter parameter) throws Exception;
 
     TenantDTO getByPhone(String phone, SFunction<Tenant, ?>... columns);
 

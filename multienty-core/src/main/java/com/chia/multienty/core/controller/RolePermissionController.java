@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/role-permission")
 @RequiredArgsConstructor
 @Api(tags = "账户角色关联前端控制器")
-@ConditionalOnProperty(prefix = "spring.kuta.multi-tenant", name = "user-module-enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class RolePermissionController {
     private final RolePermissionService rolePermissionService;
 

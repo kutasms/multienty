@@ -5,7 +5,7 @@ import com.chia.multienty.core.domain.dto.UserRoleDTO;
 import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.UserRoleMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Role;
 import com.chia.multienty.core.pojo.UserRole;
@@ -52,7 +52,7 @@ public class UserRoleServiceImpl extends KutaBaseServiceImpl<UserRoleMapper, Use
     @Override
     public IPage<UserRoleDTO> getPage(UserRolePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), UserRoleDTO.class,
-                new KutaLambdaWrapper<UserRole>()
+                new MTLambdaWrapper<UserRole>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getUrIds()), UserRole::getUrId, parameter.getUrIds())
         );

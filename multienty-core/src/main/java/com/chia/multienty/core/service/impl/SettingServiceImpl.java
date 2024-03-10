@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.SettingDTO;
 import com.chia.multienty.core.mapper.SettingMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.Setting;
 import com.chia.multienty.core.service.SettingService;
@@ -55,7 +55,7 @@ public class SettingServiceImpl extends KutaBaseServiceImpl<SettingMapper, Setti
     @Override
     public IPage<SettingDTO> getPage(SettingPageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), SettingDTO.class,
-                new KutaLambdaWrapper<Setting>()
+                new MTLambdaWrapper<Setting>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getSettingIds()), Setting::getSettingId, parameter.getSettingIds())
         );

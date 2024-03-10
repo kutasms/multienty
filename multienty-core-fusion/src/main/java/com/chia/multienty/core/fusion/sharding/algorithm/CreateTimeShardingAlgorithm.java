@@ -41,12 +41,20 @@ public class CreateTimeShardingAlgorithm implements StandardShardingAlgorithm<Lo
 
         Set<String> calcNames = calcTableNames(shardingValue.getDataNodeInfo().getPrefix(), start, end);
 
-        ArrayList<String> tables = new ArrayList<>(calcNames);
+        List<String> tables = new ArrayList<>(calcNames);
+
+//        Set<String> newActualTables = new HashSet<>();
+
         for (String table : tables) {
             if(!availableTargetNames.contains(table)) {
+//                newActualTables.add(table);
                 availableTargetNames.add(table);
             }
         }
+//        String logicTableName = shardingValue.getDataNodeInfo().getPrefix().substring(0, shardingValue.getDataNodeInfo().getPrefix().length() - 1);
+//        if(newActualTables.size()>0) {
+//            ShardingAlgorithmTool.addBindingRuleConfig(logicTableName, newActualTables);
+//        }
         return tables;
     }
 

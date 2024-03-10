@@ -51,7 +51,7 @@ public class MultientyFlywayConfiguration implements ApplicationContextAware {
         log.info(">>>>>>>>> Use flyway to migrate each data source in the dynamic data source ");
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         FlywayUtil.migrateDynamicDataSource(ds);
-        ShardingAlgorithmTool.copyTablesAfterStarted();
+        ShardingAlgorithmTool.postAfterStarted();
     }
 
     @Override

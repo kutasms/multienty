@@ -31,6 +31,8 @@ public interface PermissionService extends KutaBaseService<Permission> {
 
     List<PermissionVO> getFormattedVO(List<PermissionDTO> permissions);
 
+    List<PermissionDTO> getPermissions(PermissionListGetParameter parameter);
+
     PermissionDTO getDetail(PermissionDetailGetParameter parameter);
 
     void delete(PermissionDeleteParameter parameter);

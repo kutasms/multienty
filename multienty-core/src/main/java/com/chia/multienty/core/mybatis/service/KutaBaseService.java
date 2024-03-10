@@ -2,7 +2,8 @@ package com.chia.multienty.core.mybatis.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.yulichang.base.MPJBaseService;
 
 import java.io.Serializable;
@@ -14,6 +15,12 @@ import java.util.function.Consumer;
 public interface KutaBaseService<T> extends MPJBaseService<T> {
     <D> T getBy(Serializable id,
             SFunction<D, ?>... columns);
+
+    String getCacheKey(Long id);
+
+    void cacheObj(T obj, long expire) throws IllegalAccessException, JsonProcessingException;
+
+    T getCachedObj(Long id) throws JsonProcessingException;
 
     Long getPrimaryKeyVal(Object entity) throws IllegalAccessException;
 
@@ -38,15 +45,15 @@ public interface KutaBaseService<T> extends MPJBaseService<T> {
 
     <DTO extends T> List<DTO> dtoListByColumnIds(Class<DTO> clazz, SFunction<T, ?> column, Collection<?> ids);
 
-    <DTO extends T> List<DTO> dtoListBy(Class<DTO> clazz, Consumer<KutaLambdaWrapper<T>> consumer);
+    <DTO extends T> List<DTO> dtoListBy(Class<DTO> clazz, Consumer<MTLambdaWrapper<T>> consumer);
 
-    <DTO extends T> DTO dtoBy(Class<DTO> clazz, Consumer<KutaLambdaWrapper<T>> consumer);
+    <DTO extends T> DTO dtoBy(Class<DTO> clazz, Consumer<MTLambdaWrapper<T>> consumer);
 
     <DTO extends T> void batchSaveDTOTE(List<DTO> list);
 
     boolean updateByIdTE(T entity);
 
-    KutaLambdaWrapper<T> wrapper();
+    MTLambdaWrapper<T> wrapper();
 
     boolean batchUpdateByIdTE(Collection<T> entityList, int batchSize);
 

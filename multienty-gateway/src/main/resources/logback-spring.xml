@@ -77,6 +77,7 @@
     <logger name="org.springframework" level="warn" />
     <!-- mybatis-plus控制日志级别 -->
     <logger name="com.baomidou.mybatisplus" level="error" />
+    <logger name="de.codecentric.boot.admin" level="info" />
 
     <root level="info">
         <appender-ref ref="console"/>

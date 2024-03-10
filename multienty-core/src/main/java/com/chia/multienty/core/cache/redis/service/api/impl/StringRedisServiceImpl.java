@@ -39,7 +39,7 @@ public class StringRedisServiceImpl implements StringRedisService {
     private static final long TIMEOUT = 1000L;
 
     @Override
-    public boolean set(String key, Object value) {
+    public boolean set(String key, String value) {
         try {
             redisTemplate.opsForValue().set(key, value);
             return true;
@@ -72,7 +72,7 @@ public class StringRedisServiceImpl implements StringRedisService {
     }
 
     @Override
-    public boolean set(String key, Object value, long time) {
+    public boolean set(String key, String value, long time) {
         try {
             if(time>0){
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.MILLISECONDS);
@@ -114,14 +114,26 @@ public class StringRedisServiceImpl implements StringRedisService {
     }
     @Override
     public <T> T get(String key, Class<T> clazz) throws IOException {
+        if(key == null) {
+            return null;
+        }
         Object result = redisTemplate.opsForValue().get(key);
-        return key==null || result == null ? null : objectMapper.readValue(result.toString(), clazz);
+        if(result instanceof String && result != null) {
+            return objectMapper.readValue(result.toString(), clazz);
+        }
+        return result == null ? null : objectMapper.convertValue(result, clazz);
     }
 
     @Override
     public <T> T get(String key, TypeReference<T> reference) throws JsonProcessingException {
+        if(key == null) {
+            return null;
+        }
         Object result = redisTemplate.opsForValue().get(key);
-        return key == null || result == null ? null : objectMapper.readValue(result.toString(), reference);
+        if(result instanceof String && result != null) {
+            return objectMapper.readValue(result.toString(), reference);
+        }
+        return result == null ? null : objectMapper.convertValue(result, reference);
     }
 
     @Override
@@ -142,9 +154,9 @@ public class StringRedisServiceImpl implements StringRedisService {
         RedisCallback<Boolean> redisCallback = connection -> {
             RedisStringCommands.SetOption setOption = RedisStringCommands.SetOption.ifAbsent();
             Expiration expiration = Expiration.milliseconds(expire);
-            byte[] keyByte = redisTemplate.getKeySerializer().serialize(key);
-            byte[] valueByte = redisTemplate.getValueSerializer().serialize(value);
-            Boolean result = connection.set(keyByte, valueByte, expiration, setOption);
+//            byte[] keyByte = redisTemplate.getKeySerializer().serialize(key);
+//            byte[] valueByte = redisTemplate.getValueSerializer().serialize(value);
+            Boolean result = connection.set(key.getBytes(), value.getBytes(), expiration, setOption);
             return result;
         };
         return (Boolean) redisTemplate.execute(redisCallback);

@@ -2,7 +2,7 @@ package com.chia.multienty.core.service.impl;
 
 import com.chia.multienty.core.domain.dto.UploadedFileDTO;
 import com.chia.multienty.core.mapper.UploadedFileMapper;
-import com.chia.multienty.core.mybatis.KutaLambdaWrapper;
+import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.UploadedFile;
 import com.chia.multienty.core.service.UploadedFileService;
@@ -43,7 +43,7 @@ public class UploadedFileServiceImpl extends KutaBaseServiceImpl<UploadedFileMap
     @Override
     public IPage<UploadedFileDTO> getPage(UploadedFilePageGetParameter parameter) {
         return selectJoinListPage(parameter.getPageObj(), UploadedFileDTO.class,
-                new KutaLambdaWrapper<UploadedFile>()
+                new MTLambdaWrapper<UploadedFile>()
                         .solveGenericParameters(parameter)
                         .in(!ListUtil.isEmpty(parameter.getFileIds()), UploadedFile::getFileId, parameter.getFileIds())
         );

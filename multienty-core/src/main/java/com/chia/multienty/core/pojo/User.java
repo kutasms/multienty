@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-
+import com.chia.multienty.core.pojo.KutaBaseEntity;
 import java.time.LocalDateTime;
-
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-02-16
+ * @since 2024-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -136,6 +136,20 @@ public class User extends KutaBaseEntity {
     @TableField(value = "`deleted`", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
+
+    /**
+     * 是否已过期
+     */
+    @ApiModelProperty(value = "是否已过期")
+    @TableField("`expired`")
+    private Boolean expired;
+
+    /**
+     * 是否已锁定
+     */
+    @ApiModelProperty(value = "是否已锁定")
+    @TableField("`locked`")
+    private Boolean locked;
 
 
 }

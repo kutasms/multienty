@@ -11,8 +11,9 @@ public class EnvironmentController {
     @Value("${server.port}")
     private String serverPort;
 
-    @GetMapping(value = "/getServerPort")
+    @GetMapping(value = "/port")
     public String getServerPort() {
-        return "Gateway-1:" + serverPort;
+        return "Gateway port:" + serverPort;
     }
 }
+

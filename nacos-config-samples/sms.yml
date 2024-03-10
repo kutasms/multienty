@@ -1,7 +1,9 @@
 spring:
     sms:
         enabled: true
-        active: aliyun
+        current-provider: ALIYUN
+        #运行模式 debug:调试模式（返回9999）,release:发布模式，将实际发送短信
+        running-mode: release
         #阿里云短信
         aliyun:
             #区域id，参考 https://help.aliyun.com/document_detail/40654.html?spm=a2c6h.13066369.0.0.c85c7eecnh6fH6
@@ -20,8 +22,6 @@ spring:
             read-timeout: 10000
             #连接超时时间
             connect-timeout: 10000
-            #运行模式 debug:调试模式（返回9999）,release:发布模式，将实际发送短信
-            running-mode: release
             #短信模板编号
             templates:
                 #登陆验证码
