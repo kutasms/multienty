@@ -6,6 +6,7 @@
  [English](./README.md) | 简体中文
 
 ![Static Badge](https://img.shields.io/badge/springboot-2.6.13-blue)
+![Static Badge](https://img.shields.io/badge/webflux-2.6.13-orange)
 ![Static Badge](https://img.shields.io/badge/dubbo-3.0.8-red)
 ![Static Badge](https://img.shields.io/badge/nacos-2.2.0-brightgreen)
 ![Static Badge](https://img.shields.io/badge/seata-1.6.1-fedcba)
