@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.flyway.proerties;
+package com.chia.multienty.core.infra.flyway.proerties;
 
 import lombok.Getter;
 import lombok.Setter;

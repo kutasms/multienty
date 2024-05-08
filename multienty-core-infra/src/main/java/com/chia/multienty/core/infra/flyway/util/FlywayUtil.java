@@ -1,11 +1,11 @@
-package com.chia.multienty.core.fusion.flyway.util;
+package com.chia.multienty.core.infra.flyway.util;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.chia.multienty.core.fusion.flyway.proerties.FlywayExtensionProperties;
+import com.chia.multienty.core.infra.flyway.proerties.FlywayExtensionProperties;
 import com.chia.multienty.core.util.SpringUtil;
 import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
-import com.chia.multienty.core.fusion.sharding.domain.ShardingSphereConstants;
+import com.chia.multienty.core.infra.sharding.domain.ShardingSphereConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataSource;
 import org.apache.shardingsphere.mode.manager.ContextManager;

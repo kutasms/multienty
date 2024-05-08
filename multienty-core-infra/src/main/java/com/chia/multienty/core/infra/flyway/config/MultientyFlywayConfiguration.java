@@ -1,10 +1,10 @@
-package com.chia.multienty.core.fusion.flyway.config;
+package com.chia.multienty.core.infra.flyway.config;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.chia.multienty.core.fusion.flyway.condition.FlywayExtensionCondition;
-import com.chia.multienty.core.fusion.flyway.proerties.FlywayExtensionProperties;
-import com.chia.multienty.core.fusion.flyway.util.FlywayUtil;
-import com.chia.multienty.core.fusion.sharding.tools.ShardingAlgorithmTool;
+import com.chia.multienty.core.infra.flyway.condition.FlywayExtensionCondition;
+import com.chia.multienty.core.infra.flyway.proerties.FlywayExtensionProperties;
+import com.chia.multienty.core.infra.flyway.util.FlywayUtil;
+import com.chia.multienty.core.infra.sharding.tools.ShardingAlgorithmTool;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.util.SpringUtil;
 import lombok.SneakyThrows;
