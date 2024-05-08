@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.registercenter.nacos;
+package com.chia.multienty.core.infra.registercenter.nacos;
 
 import com.chia.multienty.core.properties.NacosExtensionConfig;
 import lombok.Data;

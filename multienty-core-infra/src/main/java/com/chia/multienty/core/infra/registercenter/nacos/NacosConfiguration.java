@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.registercenter.nacos;
+package com.chia.multienty.core.infra.registercenter.nacos;
 
 import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.nacos.api.NacosFactory;
