@@ -1,0 +1,1 @@
+DROP TABLE `saas_master`.`mt_wechat_app`, `saas_master`.`mt_wechat_app_func_scope`, `saas_master`.`mt_wechat_mpp_code_audit`, `saas_master`.`mt_wechat_mpp_nick_name_audit`, `saas_master`.`mt_wechat_mpp_register_audit`, `saas_master`.`mt_wechat_mpp_template`, `saas_master`.`mt_wechat_official_account`, `saas_master`.`mt_wechat_pay`;
