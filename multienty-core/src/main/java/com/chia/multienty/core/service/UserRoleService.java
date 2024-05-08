@@ -2,6 +2,7 @@ package com.chia.multienty.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.UserRoleDTO;
+import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.parameter.user.*;
 import com.chia.multienty.core.pojo.Role;
@@ -35,6 +36,8 @@ public interface UserRoleService extends KutaBaseService<UserRole> {
     String getRoleAlias(Long userId);
 
     List<Role> getRoles(Long userId);
+
+    List<Role> getRoles(Long userId, ApplicationType applicationType);
 
     boolean change(Long userId, Long roleId);
 

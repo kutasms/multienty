@@ -1,5 +1,6 @@
 package com.chia.multienty.core.parameter.user;
 
+import com.chia.multienty.core.annotation.LogMetaId;
 import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,5 +20,6 @@ public class UserDisableParameter {
      * 用户编号
      */
      @ApiModelProperty(value = "用户编号")
+     @LogMetaId
      private Long userId;
 }

@@ -41,6 +41,8 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
     private static boolean ipLocal = false;
     private static File file = null;
     private static final char SEPARATOR = '_';
+
+    private static final char HYPHEN = '-';
     private static final String UNKNOWN = "unknown";
 
     public static String camelCase(String s) {
@@ -99,6 +101,41 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
         }
         s = toCamelCase(s);
         return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+
+    /**
+     * 转换为带横杠的小写名称<br/>
+     * toHyphenCase("helloWorld") = "hello-world"
+     * @param s
+     * @return
+     */
+    public static String toHyphenCase(String s) {
+        if (s == null) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean upperCase = false;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            boolean nextUpperCase = true;
+
+            if (i < (s.length() - 1)) {
+                nextUpperCase = Character.isUpperCase(s.charAt(i + 1));
+            }
+
+            if ((i > 0) && Character.isUpperCase(c)) {
+                if (!upperCase || !nextUpperCase) {
+                    sb.append(HYPHEN);
+                }
+                upperCase = true;
+            } else {
+                upperCase = false;
+            }
+            sb.append(Character.toLowerCase(c));
+        }
+        return sb.toString();
     }
 
     /**

@@ -2,6 +2,7 @@ package com.chia.multienty.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.PermissionDTO;
+import com.chia.multienty.core.domain.vo.LoggedUserVO;
 import com.chia.multienty.core.domain.vo.permission.PermissionVO;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.parameter.user.*;
@@ -19,7 +20,8 @@ import java.util.List;
  */
 public interface PermissionService extends KutaBaseService<Permission> {
 
-    List<PermissionDTO> getUserPermissions(Long userId, Long owner);
+
+    List<PermissionDTO> getUserPermissions(LoggedUserVO user);
 
     IPage<PermissionDTO> getPlatformTopPermissions(TopPermissionListGetParameter parameter);
 
@@ -30,6 +32,10 @@ public interface PermissionService extends KutaBaseService<Permission> {
     List<PermissionDTO> getFormattedDTO(Long pid, List<PermissionDTO> permissions);
 
     List<PermissionVO> getFormattedVO(List<PermissionDTO> permissions);
+
+    List<PermissionDTO> findPermissions(PermissionListGetParameter parameter);
+
+    List<PermissionDTO> getAllPermissions(PermissionListGetParameter parameter);
 
     List<PermissionDTO> getPermissions(PermissionListGetParameter parameter);
 

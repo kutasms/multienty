@@ -50,7 +50,7 @@ public class NoticeController {
 
     @PostMapping("/update")
     @ApiOperation("更新通知")
-    @WebLog
+    @WebLog(target = "Notice")
     public Result<Boolean> update(@RequestBody NoticeUpdateParameter parameter) {
         noticeService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class NoticeController {
 
     @PostMapping("/save")
     @ApiOperation("保存通知")
-    @WebLog
+    @WebLog(target = "Notice")
     public Result<Boolean> save(@RequestBody NoticeSaveParameter parameter) {
         noticeService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class NoticeController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除通知")
-    @WebLog
+    @WebLog(target = "Notice")
     public Result<Boolean> delete(@RequestBody NoticeDeleteParameter parameter) {
         noticeService.delete(parameter);
         return new Result<>(true);

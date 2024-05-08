@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @since 2024-04-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -57,6 +57,13 @@ public class WebLog extends KutaBaseEntity {
     @ApiModelProperty(value = "请求接口地址")
     @TableField("`url`")
     private String url;
+
+    /**
+     * 目标对象
+     */
+    @ApiModelProperty(value = "目标对象")
+    @TableField("`target`")
+    private String target;
 
     /**
      * 接口名称

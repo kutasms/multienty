@@ -17,5 +17,6 @@ class RandomStringUtilsTest {
 
     @Test
     void getRandom() {
+        log.info("随机字符串:{}",RandomStringUtils.getRandomCode(32, 3));
     }
 }

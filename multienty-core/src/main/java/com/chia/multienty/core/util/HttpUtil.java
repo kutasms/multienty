@@ -1,6 +1,7 @@
 package com.chia.multienty.core.util;
 
 import com.chia.multienty.core.domain.basic.HttpResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -9,6 +10,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -86,6 +88,44 @@ public class HttpUtil {
             }
         }
         return ip;
+    }
+
+    /**
+     * post请求  编码格式默认UTF-8
+     *
+     * @param url     请求url
+     * @return
+     */
+    public static HttpResult doPostJson(String url, Object obj) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpResponse resp = null;
+
+        HttpResult result = new HttpResult();
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+            String json = objectMapper.writeValueAsString(obj);
+            log.info("请求微信参数:{}", json);
+            HttpEntity entity = new StringEntity( json,
+                    ContentType.APPLICATION_JSON);
+            httpPost.setEntity(entity);
+            resp = httpClient.execute(httpPost);
+            String body = EntityUtils.toString(resp.getEntity(), CHARSET_DEFAULT);
+            int statusCode = resp.getStatusLine().getStatusCode();
+            result.setStatus(statusCode);
+            result.setBody(body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != resp) {
+                try {
+                    resp.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
     /**

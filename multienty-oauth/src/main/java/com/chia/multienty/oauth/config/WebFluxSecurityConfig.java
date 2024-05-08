@@ -4,6 +4,7 @@ import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.service.UserService;
 import com.chia.multienty.core.tools.MultientyPasswordEncoder;
 import com.chia.multienty.core.tools.PhoneCodeAuthenticationManager;
+import com.chia.multienty.core.tools.WechatAuthenticationManager;
 import com.chia.multienty.core.util.SpringUtil;
 import com.chia.multienty.oauth.filter.OAuthFilter;
 import com.chia.multienty.oauth.handler.*;
@@ -106,6 +107,7 @@ public class WebFluxSecurityConfig implements ApplicationContextAware {
         });
         // 手机号验证码登录
         managers.add(new PhoneCodeAuthenticationManager(delegatingUserDetailsService));
+        managers.add(new WechatAuthenticationManager(delegatingUserDetailsService));
         // 必须放最后不然会优先使用用户名密码校验但是用户名密码不对时此 AuthenticationManager 会调用 Mono.error 造成后面的 AuthenticationManager 不生效
         UserDetailsRepositoryReactiveAuthenticationManager userDetailsManager =
                 new UserDetailsRepositoryReactiveAuthenticationManager(delegatingUserDetailsService);

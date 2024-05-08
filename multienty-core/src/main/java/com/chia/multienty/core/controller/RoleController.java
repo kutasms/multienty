@@ -46,7 +46,7 @@ public class RoleController {
 
     @PostMapping("save")
     @ApiOperation(value = "保存角色信息")
-    @WebLog
+    @WebLog(target = "Role")
     public Result<Boolean> save(@RequestBody RoleSaveParameter parameter) {
         Boolean result = roleService.save(parameter) == 1;
         return new Result<>(result, HttpResultEnum.SUCCESS);
@@ -54,35 +54,35 @@ public class RoleController {
 
     @PostMapping("update")
     @ApiOperation(value = "更新角色信息")
-    @WebLog
+    @WebLog(target = "Role")
     public Result<Boolean> update(@RequestBody RoleUpdateParameter parameter) throws KutaRuntimeException {
         Boolean result = roleService.update(parameter) == 1;
         return new Result<>(result, HttpResultEnum.SUCCESS);
     }
     @PostMapping("delete")
     @ApiOperation(value = "删除角色信息")
-    @WebLog
+    @WebLog(target = "Role")
     public Result<Boolean> delete(@RequestBody RoleDeleteParameter parameter) throws KutaRuntimeException {
         Boolean result = roleService.deleteSafely(parameter.getRoleId());
         return new Result<>(result, HttpResultEnum.SUCCESS);
     }
     @PostMapping("enable")
     @ApiOperation(value = "启用角色")
-    @WebLog
+    @WebLog(target = "Role")
     public Result<Boolean> enable(@RequestBody RoleEnableParameter parameter) {
         Boolean result = roleService.enable(parameter.getRoleId());
         return new Result<>(result, HttpResultEnum.SUCCESS);
     }
     @PostMapping("disable")
     @ApiOperation(value = "禁用角色")
-    @WebLog
+    @WebLog(target = "Role")
     public Result<Boolean> disable(@RequestBody RoleDisableParameter parameter) {
         Boolean result = roleService.disable(parameter.getRoleId());
         return new Result<>(result, HttpResultEnum.SUCCESS);
     }
     @PostMapping("changePermissions")
     @ApiOperation(value = "分配权限")
-    @WebLog
+    @WebLog(target = "RolePermission")
     public Result<Boolean> changePermissions(@RequestBody RolePermissionChangeParameter parameter) {
         boolean result = rolePermissionService.changePermissions(parameter);
         return new Result<>(result, HttpResultEnum.SUCCESS);

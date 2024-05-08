@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class YamlMultientyWechatProperties {
-    private YamlMultientyWechatProgramProperties miniProgram;
+    private YamlMultientyWechatOfficialAccountProperties oa;
     private YamlMultientyWechatPayProperties pay;
     private YamlMultientyWechatThirdPartyProperties thirdParty;
+    private YamlMultientyWechatPcProperties pc;
+    private YamlMultientyWechatMppProperties mpp;
 }

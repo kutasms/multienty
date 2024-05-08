@@ -16,4 +16,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value="UploadFileDTO", description="存储文件DTO对象")
 public class UploadedFileDTO extends UploadedFile {
+    /**
+     * 排序索引
+     */
+    private Integer sortIndex;
 }

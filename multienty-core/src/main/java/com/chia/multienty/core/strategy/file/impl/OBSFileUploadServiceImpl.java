@@ -5,12 +5,14 @@ import com.chia.multienty.core.domain.enums.UploadFileType;
 import com.chia.multienty.core.pojo.UploadedFile;
 import com.chia.multienty.core.parameter.base.FileRemoveParameter;
 import com.chia.multienty.core.strategy.file.FileUploadService;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 @Slf4j
+@NoArgsConstructor
 public class OBSFileUploadServiceImpl implements FileUploadService {
     @Override
     public FileStorageMode getMode() {

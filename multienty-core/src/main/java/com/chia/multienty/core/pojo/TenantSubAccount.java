@@ -16,17 +16,17 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 余额账单
+ * 租户子账号
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @since 2024-04-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("mt_tenant_sub_account")
-@ApiModel(value="TenantSubAccount对象", description="余额账单")
+@ApiModel(value="TenantSubAccount对象", description="租户子账号")
 public class TenantSubAccount extends KutaBaseEntity {
 
 
@@ -43,6 +43,20 @@ public class TenantSubAccount extends KutaBaseEntity {
     @ApiModelProperty(value = "租户编号")
     @TableField("`tenant_id`")
     private Long tenantId;
+
+    /**
+     * 账户
+     */
+    @ApiModelProperty(value = "账户")
+    @TableField("`username`")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @ApiModelProperty(value = "密码")
+    @TableField("`password`")
+    private String password;
 
     /**
      * 手机号码

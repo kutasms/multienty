@@ -50,7 +50,7 @@ public class PermissionController {
 
     @PostMapping("/update")
     @ApiOperation("更新权限菜单信息")
-    @WebLog
+    @WebLog(target = "Permission")
     public Result<Boolean> update(@RequestBody PermissionUpdateParameter parameter) {
         permissionService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class PermissionController {
 
     @PostMapping("/save")
     @ApiOperation("保存权限菜单信息")
-    @WebLog
+    @WebLog(target = "Permission")
     public Result<Boolean> save(@RequestBody PermissionSaveParameter parameter) {
         permissionService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class PermissionController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除权限菜单信息")
-    @WebLog
+    @WebLog(target = "Permission")
     public Result<Boolean> delete(@RequestBody PermissionDeleteParameter parameter) {
         permissionService.delete(parameter);
         return new Result<>(true);

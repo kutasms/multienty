@@ -30,7 +30,7 @@
         </dependency>
          <dependency>
             <groupId>com.chia</groupId>
-            <artifactId>multienty-core-fusion</artifactId>
+            <artifactId>multienty-core-infra</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -103,4 +103,25 @@
              <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- 其他插件配置 -->
+
+            <!-- 配置maven-source-plugin插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version> <!-- 使用当前最新版本 -->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 其他插件配置 -->
+        </plugins>
+    </build>
 </project>

@@ -50,7 +50,7 @@ public class WordController {
 
     @PostMapping("/update")
     @ApiOperation("更新关键词信息")
-    @WebLog
+    @WebLog(target = "Word")
     public Result<Boolean> update(@RequestBody WordUpdateParameter parameter) {
         wordService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class WordController {
 
     @PostMapping("/save")
     @ApiOperation("保存关键词信息")
-    @WebLog
+    @WebLog(target = "Word")
     public Result<Boolean> save(@RequestBody WordSaveParameter parameter) {
         wordService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class WordController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除关键词信息")
-    @WebLog
+    @WebLog(target = "Word")
     public Result<Boolean> delete(@RequestBody WordDeleteParameter parameter) {
         wordService.delete(parameter);
         return new Result<>(true);

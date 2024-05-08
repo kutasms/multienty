@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
  * 微信小程序昵称审核单
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -77,6 +77,13 @@ public class WechatMppNickNameAudit extends KutaBaseEntity {
     @ApiModelProperty(value = "驳回原因")
     @TableField("`reason`")
     private String reason;
+
+    /**
+     * 微信返回审核编号
+     */
+    @ApiModelProperty(value = "微信返回审核编号")
+    @TableField("`open_audit_id`")
+    private String openAuditId;
 
 
 }

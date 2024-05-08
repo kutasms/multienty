@@ -3,10 +3,10 @@ package com.chia.multienty.gateway;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
@@ -18,6 +18,8 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @MapperScan(value={"com.chia.multienty.core.mapper"})
 public class MultientyGatewayApplication {
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(MultientyGatewayApplication.class, args);
+        SpringApplication application = new SpringApplication(MultientyGatewayApplication.class);
+        application.setWebApplicationType(WebApplicationType.REACTIVE);
+        application.run(args);
     }
 }

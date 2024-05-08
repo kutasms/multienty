@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 import javax.validation.constraints.NotNull;
 import lombok.experimental.Accessors;
+import com.chia.multienty.core.annotation.LogMetaId;
 /**
  * <p>
  * ${table.comment!}禁用请求
@@ -41,6 +42,7 @@ public class ${entity}DisableParameter {
      */
                 </#if>
             </#if>
+     @LogMetaId
      private ${field.propertyType} ${field.propertyName};
         </#if>
         <#if cfg.sharding??>

@@ -6,9 +6,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel(value = "LoginParameter",description = "登录请求")
-public class LoginParameter {
+public class LoginParameter implements Serializable {
     /**
      * 经过加密的参数
      * */

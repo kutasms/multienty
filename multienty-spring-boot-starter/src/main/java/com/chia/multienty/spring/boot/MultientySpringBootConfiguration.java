@@ -2,11 +2,14 @@ package com.chia.multienty.spring.boot;
 
 import com.chia.multienty.core.domain.config.DefaultMultientyConfiguration;
 import com.chia.multienty.core.domain.spi.TenantResourceMappingAlgorithm;
-import com.chia.multienty.core.fusion.filter.MultientyFilter;
+import com.chia.multienty.core.infra.filter.MultientyFilter;
+import com.chia.multienty.core.infra.filter.MultientyWebFluxFilter;
+import com.chia.multienty.core.infra.sharding.config.YamlMultientyShardingRuleConfiguration;
 import com.chia.multienty.core.properties.yaml.YamlMultientyAlgorithmProperties;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.util.SpringUtil;
 import com.chia.multienty.spring.boot.condition.MultientySpringBootCondition;
+import com.chia.multienty.spring.boot.registry.PaymentServiceBeanRegistry;
 import com.chia.multienty.spring.boot.registry.SMSServiceBeanRegistry;
 import com.chia.multienty.spring.boot.registry.TenantResourceMappingAlgorithmBeanRegistry;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties({YamlMultientyProperties.class})
+@EnableConfigurationProperties({YamlMultientyProperties.class, YamlMultientyShardingRuleConfiguration.class})
 @ConditionalOnClass(YamlMultientyAlgorithmProperties.class)
 @Conditional(MultientySpringBootCondition.class)
 @RequiredArgsConstructor
@@ -55,6 +58,11 @@ public class MultientySpringBootConfiguration implements ApplicationContextAware
     }
 
     @Bean
+    public MultientyWebFluxFilter multientyWebFluxFilter() {
+        return new MultientyWebFluxFilter();
+    }
+
+    @Bean
     public FilterRegistrationBean<MultientyFilter> multientyFilterRegistrationBean() {
         FilterRegistrationBean<MultientyFilter> tenantFilterRegisterBean = new FilterRegistrationBean<>();
         Builder<MultientyFilter> tenantFilterBuilder = new Builder<>(tenantFilterRegisterBean);
@@ -72,6 +80,10 @@ public class MultientySpringBootConfiguration implements ApplicationContextAware
         return new SMSServiceBeanRegistry();
     }
 
+    @Bean
+    public static PaymentServiceBeanRegistry paymentServiceBeanRegistry() {
+        return new PaymentServiceBeanRegistry();
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

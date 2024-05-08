@@ -4,7 +4,462 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="" />
+    <list default="true" id="412a76be-392f-4976-b5b9-c44d83f0b1bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/FileUploadConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/TomcatConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/controller/NacosController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/filter/MultientyDubboConsumerFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/filter/MultientyDubboProviderFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/filter/MultientyWebFluxFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/mybatis/method/DeleteByIdAndShardingMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/mybatis/method/GetByIdAndShardingMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/mybatis/method/GetListBySharding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/mybatis/method/UpdateByIdAndShardingMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/registercenter/nacos/NacosService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/resources/META-INF/dubbo/org.apache.dubbo.rpc.Filter" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.0.9__plugin_init_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.0__tenant_index_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.1__add_app_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.2__update_sub_acc_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.3__drop_sub_acc_primary_key_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.4__web_log_add_target_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.5__add_scheduling_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.6__alter_scheduling_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.7__add_once_job_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.8__alter_sub_account_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.1.9__alter_role_perm_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.2.0__remove_wechat_ddl.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/ConfigController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/bo/WechatAuthentication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/LoginAccountType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/OrderByVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/wechat/WxMppTemplateType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/wechat/WxSubscribeMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/DubboWxOAuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/YamlGetParameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/YamlUpdateParameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppSubMchIdSetParameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientySchedulingProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatMppProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatPcProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/OnceTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/ScheduledTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/SchedulingConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/SchedulingJobRunningState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/SchedulingJobType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/SchedulingRunnable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/SysJobRunner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/scheduling/TaskRegistrar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/config/WxV3PayConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/PaymentMode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/WxPayType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/partner/MTPartnerPayTransaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/sdk/WxPayMerchantProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/WxV3PartnerPayService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/impl/WxV3PartnerPayServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/WechatAuthenticationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/QRCodeUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/RsaUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/META-INF/services/com.chia.multienty.core.strategy.pay.PayService" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/util/TimeUtilTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/config/DubboReferenceConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-core/src/main/java/com/chia/multienty/plugin/ai/core/metadata/AbstractMultientyAIPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-core/src/main/java/com/chia/multienty/plugin/ai/core/metadata/IMultientyAIPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-ocr/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-ocr/src/main/java/com/chia/multienty/plugin/ai/ocr/metadata/DefaultMultientyOcrPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/MultientyPluginAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/config/MultientyPluginConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/constants/PluginConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/request/PluginClassPathUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/request/PluginInstallRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/request/PluginUninstallRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/request/PluginUpgradeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/response/PluginInstallResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/response/PluginUninstallResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/maintain/response/PluginUpgradeResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/metadata/AbstractMultientyPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/metadata/IMultientyPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/metadata/PluginRunningMode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/metadata/PluginRunningState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/metadata/PluginSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/properties/YamlMultientyPluginProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/register/MultientyImportBeanDefinitionRegister.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/service/PluginMaintainService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/service/impl/PluginMaintainServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/tools/PluginScopeResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/util/PluginUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java/com/chia/multienty/plugin/core/util/ZipUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/resources/META-INF/spring.factories" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-core/src/main/java/com/chia/multienty/mail/core/AbstractMultientySMSPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-core/src/main/java/com/chia/multienty/mail/core/IMultientyMailPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-tencent/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-tencent/src/main/java/com/chia/multienty/plugin/sms/tencent/metadata/TencentSMSPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/multienty-plugin-web/src/main/java/com/chia/multienty/plugin/web/controller/PluginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-plugin/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java/com/chia/multienty/spring/boot/registry/PaymentServiceBeanRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-workflow/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-workflow/src/main/java/com/chia/multienty/workflow/MultientyWorkflowApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-workflow/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multienty-workflow/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/CachedAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/CachedAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/CachedMethodAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/CachedMethodAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/HeaderValidationAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/HeaderValidationAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/MultiWebLogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/MultiWebLogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/RabbitTemplateTransactionAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/RabbitTemplateTransactionAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/RetryOnDistributedLockGetFailureAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/RetryOnDistributedLockGetFailureAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/RetryOnOptimisticLockingFailureAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/RetryOnOptimisticLockingFailureAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/aspect/WebLogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/aspect/WebLogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/config/FileUploadConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/config/KutaDynamicDataSourceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/KutaDynamicDataSourceConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/config/KutaDynamicPropertiesConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/KutaDynamicPropertiesConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/config/MTReferenceConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/MTReferenceConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/config/MybatisPlusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/config/MybatisPlusConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/controller/NacosController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/filter/MultientyFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/filter/MultientyFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/flyway/condition/FlywayExtensionCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/flyway/condition/FlywayExtensionCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/flyway/config/MultientyFlywayConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/flyway/config/MultientyFlywayConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/flyway/domain/constants/FlywayConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/flyway/domain/constants/FlywayConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/flyway/proerties/FlywayExtensionProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/flyway/proerties/FlywayExtensionProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/flyway/util/FlywayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/flyway/util/FlywayUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/registercenter/nacos/NacosConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/registercenter/nacos/NacosConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/registercenter/nacos/NacosConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/registercenter/nacos/NacosConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/registercenter/nacos/NacosService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/registercenter/nacos/impl/NacosServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/registercenter/nacos/impl/NacosServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/algorithm/CreateTimeShardingAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/algorithm/CreateTimeShardingAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/algorithm/MTDatabaseShardingAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/algorithm/MTDatabaseShardingAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/config/KutaYamlShardingRuleSpringBootConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/config/YamlMultientyShardingRuleConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/domain/ShardingSphereConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/domain/ShardingSphereConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/listener/NacosShardingConfigListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/listener/NacosShardingConfigListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/registry/AbstractMTAlgorithmProvidedBeanRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/registry/AbstractMTAlgorithmProvidedBeanRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/registry/MTShardingAlgorithmProvidedBeanRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/registry/MTShardingAlgorithmProvidedBeanRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/tools/DataSourceContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/tools/DataSourceContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/tools/ShardingAlgorithmTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/tools/ShardingAlgorithmTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/util/KutaDataSourceMapSetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/util/KutaDataSourceMapSetter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.0.0__init_ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-mysql-resource/src/main/resources/db/migration/master/V1.0.0__init_ddl.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/annotation/MultiWebLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/annotation/MultiWebLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/annotation/WebLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/annotation/WebLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/cache/redis/service/api/HashRedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/cache/redis/service/api/HashRedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/cache/redis/service/api/impl/HashRedisServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/cache/redis/service/api/impl/HashRedisServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/ChineseCityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/ChineseCityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/CodeGeneratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/CodeGenerateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/DictController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/DictController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/JsonConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/JsonConfigController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/LabelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/LabelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/NoticeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/NoticeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/PermissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/PermissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RabbitLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RabbitLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RolePermissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/RolePermissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/SettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/SettingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantRoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantSubAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantSubAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantSubAccountRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/TenantSubAccountRoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UploadedFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UploadedFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UserRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/UserRoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatAppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatAppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatAppFuncScopeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatAppFuncScopeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppCodeAuditController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppCodeAuditController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppNickNameAuditController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppNickNameAuditController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppRegisterAuditController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatMppTemplateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatOfficialAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatOfficialAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WechatPayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/controller/WordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/IWebLogUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/IWebLogUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/WebLogUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/basic/WebLogUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/bo/WxLoginResponseBO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/bo/WxLoginResponseBO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyCacheKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyCacheKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyHeaderConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/constants/MultientyHeaderConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantSubAccountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantSubAccountDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantSubAccountRoleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/TenantSubAccountRoleDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/UploadedFileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/UploadedFileDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/ApplicationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/ApplicationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/HttpResultEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/HttpResultEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/StatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/StatusEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/UploadFileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/enums/UploadFileType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/DecryptedLoginInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/DecryptedLoginInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/LoggedUserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/LoggedUserVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/LoginResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/domain/vo/LoginResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/DubboMultientyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/DubboMultientyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/DubboWechatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/DubboWechatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/impl/DubboMultientyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/dubbo/service/impl/DubboMultientyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/handler/ReactiveGlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/handler/ReactiveGlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/DefaultListGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/DefaultListGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/KutaBaseMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/KutaBaseMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/KutaSqlInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/mybatis/KutaSqlInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/KutaSqlMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/KutaSqlMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/MTLambdaWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/MTLambdaWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/CodeAutoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/CodeAutoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/GeneratorProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/GeneratorProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/ShardingInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/ShardingInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueCodeAutoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueCodeAutoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueCodeGeneratorProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueCodeGeneratorProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorComponentProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorComponentProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorFormItemProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorFormItemProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorSizeProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorEditorSizeProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorViewsProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/generator/vue/VueGeneratorViewsProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/method/CountByMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/method/CountByMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/method/GetByPrimaryKeyMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/method/GetByPrimaryKeyMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/service/KutaBaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/service/KutaBaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/service/impl/KutaBaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/mybatis/service/impl/KutaBaseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/ChineseCityPageGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/ChineseCityPageGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/JsonConfigDetailGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/JsonConfigDetailGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/JsonConfigUpdateParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/JsonConfigUpdateParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/NoticeUpdateParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/base/NoticeUpdateParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/log/WebLogPageGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/log/WebLogPageGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/FuncPermissionListGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/FuncPermissionListGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/LoginParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/LoginParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/LogoutParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/LogoutParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionDisableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionDisableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionEnableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionEnableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionListGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/PermissionListGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/RoleDisableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/RoleDisableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/RoleEnableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/RoleEnableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountRoleDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountRoleDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountRolePageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountRoleSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountRoleUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/TenantSubAccountUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserDisableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserDisableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserEnableParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserEnableParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserListGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserListGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserPageGetParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserPageGetParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserSaveParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/user/UserSaveParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppFuncScopeDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppFuncScopeDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppFuncScopePageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppFuncScopeSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppFuncScopeUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatAppUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppCodeAuditUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppNickNameAuditUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppRegisterAuditUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplatePageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatMppTemplateUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountSaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatOfficialAccountUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayDeleteParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayDetailGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayDisableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayEnableParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayPageGetParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPaySaveParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/parameter/wechat/WechatPayUpdateParameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Calendar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/ChineseCity.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/ChineseCity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Dict.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Dict.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/JsonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/JsonConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Label.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Label.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Notice.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Notice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Num.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Num.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthAccessToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthAccessToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthClientDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthClientDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthRefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/OauthRefreshToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Permission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/RabbitLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/RabbitLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/RolePermission.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/RolePermission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Setting.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Setting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Tenant.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Tenant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantSubAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantSubAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantSubAccountRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/TenantSubAccountRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/UploadedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/UploadedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/UserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WebLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WebLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatAppFuncScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatAppFuncScope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppCodeAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppCodeAudit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppNickNameAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppNickNameAudit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppRegisterAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppRegisterAudit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatMppTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatOfficialAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatOfficialAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatPay.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/WechatPay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/pojo/Word.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/ShardingSphereExtendProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/ShardingSphereExtendProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyFileProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyFileProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientySecurityProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientySecurityProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatPayProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatPayProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatProgramProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatOfficialAccountProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatThirdPartyProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/properties/yaml/YamlMultientyWechatThirdPartyProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/DelayedMessageConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/DelayedMessageConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/DelayedMessageProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/DelayedMessageProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/ImmediateMessageConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/ImmediateMessageConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/ImmediateMessageProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/ImmediateMessageProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/KutaRabbitHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/KutaRabbitHeader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitCallbackProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitCallbackProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitInitializingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitInitializingBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitPushResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RabbitPushResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RetryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RetryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RetryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/rabbitmq/RetryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/MultientyUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/MultientyUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/PermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/PermissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/RabbitLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/RabbitLogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantSubAccountRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantSubAccountRoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantSubAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/TenantSubAccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/UserRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/UserRoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatAppFuncScopeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatAppFuncScopeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatAppService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatAppService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatMppNickNameAuditService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatMppNickNameAuditService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatMppRegisterAuditService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatMppTemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatMppTemplateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatPayService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/WechatPayService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/ChineseCityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/ChineseCityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/DelegatingUserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/DelegatingUserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/PermissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/PermissionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/RabbitLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/RabbitLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/SettingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/SettingServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantSubAccountRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantSubAccountRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantSubAccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/TenantSubAccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/UserRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/UserRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WebLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WebLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatAppFuncScopeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatAppFuncScopeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatAppServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatAppServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatMppCodeAuditServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatMppCodeAuditServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatMppNickNameAuditServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatMppRegisterAuditServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatMppTemplateServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatOfficialAccountServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/service/impl/WechatPayServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/COSFileUploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/COSFileUploadServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/LocalFileUploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/LocalFileUploadServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/OBSFileUploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/OBSFileUploadServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/OSSFileUploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/file/impl/OSSFileUploadServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/PayFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/PayFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/PayService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/PayService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/PayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/PayType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/bo/WxPayResultAttachBO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/bo/WxPayResultAttachBO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/bo/WxPayResultBO.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/bo/WxPayResultBO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/request/MTPrepayRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/request/MTPrepayRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/request/MTRefundRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/request/MTRefundRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/response/MTPrepayResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/domain/response/MTPrepayResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/impl/WxPayServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/impl/WxPayServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/impl/WxV3PayServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/pay/weixin/service/impl/WxV3PayServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/SMSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/SMSService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/SMSServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/SMSServiceFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/aliyun/impl/AliyunServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/strategy/sms/aliyun/impl/AliyunServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/MultientyContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/MultientyContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/MultientyServiceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/MultientyServiceLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/PhoneCodeAuthenticationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/PhoneCodeAuthenticationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/TokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/TokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/HttpUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/HttpUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/JavaObjectUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/JavaObjectUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/ReactiveAuthenticationManagerUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/ReactiveAuthenticationManagerUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/SecurityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/SecurityUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/SpringUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/SpringUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/StringUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/StringUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/TimeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/util/TimeUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/controller.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/controller.java.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_disable_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_disable_parameter.java.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_enable_parameter.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/parameter/entity_enable_parameter.java.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/serviceImpl.java.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/serviceImpl.java.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/apis.js.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/apis.js.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/editor.vue.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/editor.vue.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/index.vue.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/main/resources/templates/vue/index.vue.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/RegexTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/RegexTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/util/RandomStringUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/util/RandomStringUtilsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/util/RsaUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-core/src/test/java/com/chia/multienty/core/util/RsaUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/MultientyGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/MultientyGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/config/GatewayConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/config/GatewayConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/filter/AuthorizeFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/filter/AuthorizeFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/filter/JwtTokenAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/filter/JwtTokenAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/main/java/com/chia/multienty/generator/MultientyGeneratorApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/main/java/com/chia/multienty/master/MultientyMasterApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/main/java/com/chia/multienty/generator/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/main/java/com/chia/multienty/master/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/main/resources/bootstrap.yml.sample" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/main/resources/bootstrap.yml.sample" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-generator/src/test/java/com/chia/multienty/generator/NacosServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-master/src/test/java/com/chia/multienty/master/NacosServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-oauth/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/config/WebFluxSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/config/WebFluxSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/controller/OAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/controller/OAuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/handler/DefaultAuthenticationFailureHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/handler/DefaultAuthenticationSuccessHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/handler/DefaultAuthorizationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-oauth/src/main/java/com/chia/multienty/oauth/handler/DefaultAuthorizationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-oauth/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-oauth/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-spring-boot-starter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-spring-boot-starter/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java/com/chia/multienty/spring/boot/MultientySpringBootConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java/com/chia/multienty/spring/boot/MultientySpringBootConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java/com/chia/multienty/spring/boot/registry/SMSServiceBeanRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java/com/chia/multienty/spring/boot/registry/SMSServiceBeanRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +471,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -32,7 +487,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../tools/apache-maven-3.6.3" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../tools/apache-maven-3.6.3" />
         <option name="useMavenConfig" value="true" />
         <option name="userSettingsFile" value="C:\tools\.m2\settings.xml" />
       </MavenGeneralSettings>
@@ -55,25 +510,29 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/projects/multienty/multienty-oauth/src/main/resources&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/projects/multienty/multienty-wechat-third-party/src/main/resources/db/migration/sharding/wechat&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.5103448&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\projects\multienty\multienty-oauth\src\main\resources" />
-      <recent name="C:\projects\multienty\multienty-boot-admin\src\main\resources" />
-      <recent name="C:\projects\multienty\multienty-gateway\src\main\resources" />
-      <recent name="C:\projects\multi-tenant\multi-tenant-generator\src\test\java" />
-      <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\resources\mapper" />
+      <recent name="C:\projects\multienty\multienty-wechat-third-party\src\main\resources\db\migration\sharding\wechat" />
+      <recent name="C:\projects\multienty\multienty-core\src\main\java\com\chia\multienty\core\util" />
+      <recent name="C:\projects\multienty\multienty-wechat-third-party\src\main\resources" />
+      <recent name="C:\projects\multienty\multienty-core-mysql-resource\src\main\resources\db\migration\master" />
+      <recent name="C:\projects\multienty\multienty-workflow\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projects\multienty\multienty-backend\multienty-core-mysql-resource\src\main\resources\db\migration\master" />
+      <recent name="C:\projects\multienty\multienty-backend\multienty-plugin\multienty-plugin-testapp\src\main\resources" />
       <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\java\com\chia\multitenant\core\wechat\thirdplatform\sdk\tools" />
       <recent name="C:\projects\multi-tenant\multi-tenant-core\src\main\resources" />
     </key>
@@ -86,23 +545,38 @@
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.chia.multienty.core.util" />
+      <recent name="com.chia.multienty.wechat.thirdparty.sdk.tools" />
       <recent name="com.chia.multitenant.core.registercenter.nacos.impl" />
       <recent name="com.chia.multitenant.core.pojo" />
       <recent name="com.chia.multitenant.core.util" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.chia.multienty.core.domain.enums" />
-      <recent name="com.chia.multienty.core.parameter.user" />
-      <recent name="com.chia.multienty.core.handler" />
-      <recent name="com.chia.multienty.core.tools" />
-      <recent name="com.chia.multienty.gateway.domain.enums" />
+      <recent name="com.chia.multienty.core.properties.yaml" />
+      <recent name="com.chia.multienty.core.domain.wechat" />
+      <recent name="com.chia.multienty.core.strategy.pay.domain.partner" />
+      <recent name="com.chia.multienty.core.strategy.pay.weixin.service.impl" />
+      <recent name="com.chia.multienty.core.strategy.pay.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MultientyGatewayApplication">
+  <component name="RunManager" selected="Application.MultientyOAuthApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="multienty-backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="multienty-backend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MultientyGatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.chia.multienty.gateway.MultientyGatewayApplication" />
       <module name="multienty-gateway" />
       <shortenClasspath name="MANIFEST" />
+      <option name="VM_PARAMETERS" value="-Xms256m -Xmx512m" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.chia.multienty.gateway.properties.*" />
@@ -117,6 +591,7 @@
       <option name="MAIN_CLASS_NAME" value="com.chia.multienty.oauth.MultientyOAuthApplication" />
       <module name="multienty-oauth" />
       <shortenClasspath name="MANIFEST" />
+      <option name="VM_PARAMETERS" value="-Xms256m -Xmx512m" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.chia.multienty.oauth.*" />
@@ -133,52 +608,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegexTest.testStringUtil" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RandomStringUtilsTest.getRandom" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="multienty-core" />
       <shortenClasspath name="MANIFEST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.chia.multienty.core.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.chia.multienty.core" />
-      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.core.RegexTest" />
-      <option name="METHOD_NAME" value="testStringUtil" />
+      <option name="PACKAGE_NAME" value="com.chia.multienty.core.util" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.core.util.RandomStringUtilsTest" />
+      <option name="METHOD_NAME" value="getRandom" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RsaUtilTest.encryptByPublicKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TimeUtilTest.parseISOTime" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="multienty-core" />
       <shortenClasspath name="MANIFEST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.chia.multienty.core.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <option name="PACKAGE_NAME" value="com.chia.multienty.core.util" />
-      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.core.util.RsaUtilTest" />
-      <option name="METHOD_NAME" value="encryptByPublicKey" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.core.util.TimeUtilTest" />
+      <option name="METHOD_NAME" value="parseISOTime" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RsaUtilTest.generateKeyPair" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="multienty-core" />
+    <configuration name="XmlKitTest.toXml" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="multienty-wechat-third-party" />
       <shortenClasspath name="MANIFEST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.chia.multienty.core.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.chia.multienty.core.util" />
-      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.core.util.RsaUtilTest" />
-      <option name="METHOD_NAME" value="generateKeyPair" />
+      <option name="PACKAGE_NAME" value="com.chia.multienty.wechat.thirdparty.sdk.tools" />
+      <option name="MAIN_CLASS_NAME" value="com.chia.multienty.wechat.thirdparty.sdk.tools.XmlKitTest" />
+      <option name="METHOD_NAME" value="toXml" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -191,13 +648,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.MultientyGatewayApplication" />
+      <item itemvalue="Application.MultientyOAuthApplication" />
+      <item itemvalue="JUnit.RandomStringUtilsTest.getRandom" />
+      <item itemvalue="JUnit.TimeUtilTest.parseISOTime" />
+      <item itemvalue="JUnit.XmlKitTest.toXml" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MultientyGatewayApplication" />
         <item itemvalue="Application.MultientyOAuthApplication" />
-        <item itemvalue="JUnit.RegexTest.testStringUtil" />
-        <item itemvalue="JUnit.RsaUtilTest.encryptByPublicKey" />
-        <item itemvalue="JUnit.RsaUtilTest.generateKeyPair" />
+        <item itemvalue="Application.MultientyGatewayApplication" />
+        <item itemvalue="JUnit.RandomStringUtilsTest.getRandom" />
+        <item itemvalue="JUnit.TimeUtilTest.parseISOTime" />
+        <item itemvalue="JUnit.XmlKitTest.toXml" />
       </list>
     </recent_temporary>
   </component>
@@ -219,7 +683,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/multienty-core-fusion/src/main/java/com/chia/multienty/core/fusion/sharding/listener/NacosShardingConfigListener.java</url>
+          <url>file://$PROJECT_DIR$/multienty-core-infra/src/main/java/com/chia/multienty/core/infra/sharding/listener/NacosShardingConfigListener.java</url>
           <line>56</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
@@ -229,21 +693,67 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/tools/PhoneCodeAuthenticationManager.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="88" />
+          <url>file://$PROJECT_DIR$/multienty-plugin/src/main/java/com/chia/multienty/plugin/register/MultientyImportBeanDefinitionRegister.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../../Program Files/Java/jdk1.8.0_311/src.zip!/java/lang/ClassLoader.java</url>
+          <line>522</line>
+          <option name="timeStamp" value="161" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/tools/DefaultAuthorizationManager.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../tools/.m2/repository/org/springframework/security/spring-security-config/5.6.8/spring-security-config-5.6.8-sources.jar!/org/springframework/security/config/web/server/ServerHttpSecurity.java</url>
+          <line>1798</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/tools/DefaultAuthorizationManager.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="187" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-core/src/main/java/com/chia/multienty/core/handler/impl/AccessDeniedHandlerImpl.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="194" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/multienty-gateway/src/main/java/com/chia/multienty/gateway/tools/DefaultAuthorizationManager.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../tools/.m2/repository/com/alibaba/druid/1.2.9/druid-1.2.9-sources.jar!/com/alibaba/druid/pool/ha/selector/RandomDataSourceSelector.java</url>
+          <line>181</line>
+          <option name="timeStamp" value="198" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../tools/.m2/repository/com/alibaba/druid/1.2.9/druid-1.2.9-sources.jar!/com/alibaba/druid/pool/ha/selector/RandomDataSourceValidateThread.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../tools/.m2/repository/com/alibaba/druid/1.2.9/druid-1.2.9-sources.jar!/com/alibaba/druid/pool/ha/selector/RandomDataSourceValidateThread.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="200" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../Program Files/Java/jdk1.8.0_311/jre/lib/rt.jar!/com/sun/xml/internal/bind/v2/runtime/MarshallerImpl.class</url>
+          <line>396</line>
+          <option name="timeStamp" value="203" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />
         <PinnedItemInfo parentTag="com.chia.multitenant.core.registercenter.nacos.NacosConfiguration$$EnhancerBySpringCGLIB$$2e009466" memberName="kutaNacosProperties" />
       </pinned-members>
     </pin-to-top-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/multienty$MultientyAdminApplication.ic" NAME="MultientyAdminApplication Coverage Results" MODIFIED="1709349213696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.chia.multienty.boot.admin.*</FILTER>
-    </SUITE>
   </component>
 </project>

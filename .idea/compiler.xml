@@ -9,28 +9,53 @@
         <outputRelativeToContentRoot value="true" />
         <module name="multienty-core-mysql-resource" />
         <module name="multienty-admin" />
-        <module name="multienty-wechat-third-party" />
-        <module name="multienty-spring-boot-starter" />
+        <module name="multienty-plugin-web" />
+        <module name="multienty-plugin-core" />
+        <module name="multienty-plugin-sms-core" />
+        <module name="multienty-master" />
+        <module name="multienty-plugin-sms-tencent" />
         <module name="multienty-gateway" />
-        <module name="multienty-generator" />
+        <module name="multienty-workflow" />
+        <module name="multienty-core-infra" />
+        <module name="multienty-wechat-third-party" />
+        <module name="multienty-plugin-ai-core" />
+        <module name="multienty-spring-boot-starter" />
+        <module name="multienty-plugin-ai-ocr" />
         <module name="multienty-oauth" />
-        <module name="multienty-core-fusion" />
         <module name="multienty-core" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="multienty-core-fusion" target="1.8" />
+      <module name="multienty-generator" target="1.8" />
+      <module name="multienty-plugin-mall" target="1.8" />
+      <module name="multienty-plugin-orm" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="multienty" options="" />
       <module name="multienty-admin" options="-parameters" />
       <module name="multienty-core" options="-parameters" />
-      <module name="multienty-core-fusion" options="-parameters" />
+      <module name="multienty-core-infra" options="-parameters" />
       <module name="multienty-core-mysql-resource" options="-parameters" />
       <module name="multienty-gateway" options="-parameters" />
-      <module name="multienty-generator" options="-parameters" />
+      <module name="multienty-master" options="-parameters" />
       <module name="multienty-oauth" options="-parameters" />
+      <module name="multienty-plugin" options="" />
+      <module name="multienty-plugin-ai" options="" />
+      <module name="multienty-plugin-ai-core" options="-parameters" />
+      <module name="multienty-plugin-ai-ocr" options="-parameters" />
+      <module name="multienty-plugin-core" options="-parameters" />
+      <module name="multienty-plugin-mall" options="-parameters" />
+      <module name="multienty-plugin-orm" options="-parameters" />
+      <module name="multienty-plugin-sms" options="" />
+      <module name="multienty-plugin-sms-core" options="-parameters" />
+      <module name="multienty-plugin-sms-tencent" options="-parameters" />
+      <module name="multienty-plugin-web" options="-parameters" />
       <module name="multienty-spring-boot-starter" options="-parameters" />
-      <module name="multienty-wechat-third-party" options="-parameters" />
+      <module name="multienty-wechat-third-party" options="-parameters -XDignore.symbol.file" />
+      <module name="multienty-workflow" options="-parameters" />
     </option>
   </component>
 </project>

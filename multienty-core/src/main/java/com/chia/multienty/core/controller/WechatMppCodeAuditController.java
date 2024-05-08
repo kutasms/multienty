@@ -5,6 +5,7 @@ import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.WechatMppCodeAuditDTO;
 import com.chia.multienty.core.service.WechatMppCodeAuditService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditDetailGetParameter;
 import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditPageGetParameter;
@@ -31,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/wechat-mpp-code-audit")
 @RequiredArgsConstructor
 @Api(tags = "微信小程序代码审核单")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "wechat-module-enabled", havingValue = "true")
 public class WechatMppCodeAuditController {
     private final WechatMppCodeAuditService wechatMppCodeAuditService;
 
@@ -50,7 +52,7 @@ public class WechatMppCodeAuditController {
 
     @PostMapping("/update")
     @ApiOperation("更新微信小程序代码审核单")
-    @WebLog
+    @WebLog(target = "WechatMppCodeAudit")
     public Result<Boolean> update(@RequestBody WechatMppCodeAuditUpdateParameter parameter) {
         wechatMppCodeAuditService.update(parameter);
         return new Result<>(true);
@@ -58,7 +60,7 @@ public class WechatMppCodeAuditController {
 
     @PostMapping("/save")
     @ApiOperation("保存微信小程序代码审核单")
-    @WebLog
+    @WebLog(target = "WechatMppCodeAudit")
     public Result<Boolean> save(@RequestBody WechatMppCodeAuditSaveParameter parameter) {
         wechatMppCodeAuditService.save(parameter);
         return new Result<>(true);
@@ -66,7 +68,7 @@ public class WechatMppCodeAuditController {
 
     @PostMapping("/enable")
     @ApiOperation("启用微信小程序代码审核单")
-    @WebLog
+    @WebLog(target = "WechatMppCodeAudit")
     public Result<Boolean> enable(@RequestBody WechatMppCodeAuditEnableParameter parameter) {
         wechatMppCodeAuditService.enable(parameter);
         return new Result<>(true);
@@ -74,15 +76,15 @@ public class WechatMppCodeAuditController {
 
     @PostMapping("/disable")
     @ApiOperation("禁用微信小程序代码审核单")
-    @WebLog
-    public Result<Boolean> save(@RequestBody WechatMppCodeAuditDisableParameter parameter) {
+    @WebLog(target = "WechatMppCodeAudit")
+    public Result<Boolean> disable(@RequestBody WechatMppCodeAuditDisableParameter parameter) {
         wechatMppCodeAuditService.disable(parameter);
         return new Result<>(true);
     }
 
     @DeleteMapping("/delete")
     @ApiOperation("删除微信小程序代码审核单")
-    @WebLog
+    @WebLog(target = "WechatMppCodeAudit")
     public Result<Boolean> delete(@RequestBody WechatMppCodeAuditDeleteParameter parameter) {
         wechatMppCodeAuditService.delete(parameter);
         return new Result<>(true);

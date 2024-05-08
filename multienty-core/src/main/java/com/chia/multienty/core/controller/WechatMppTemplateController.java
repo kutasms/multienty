@@ -5,6 +5,7 @@ import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.WechatMppTemplateDTO;
 import com.chia.multienty.core.service.WechatMppTemplateService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.chia.multienty.core.parameter.wechat.WechatMppTemplateDetailGetParameter;
 import com.chia.multienty.core.parameter.wechat.WechatMppTemplatePageGetParameter;
@@ -31,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/wechat-mpp-template")
 @RequiredArgsConstructor
 @Api(tags = "微信小程序模版")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "wechat-module-enabled", havingValue = "true")
 public class WechatMppTemplateController {
     private final WechatMppTemplateService wechatMppTemplateService;
 
@@ -50,7 +52,7 @@ public class WechatMppTemplateController {
 
     @PostMapping("/update")
     @ApiOperation("更新微信小程序模版")
-    @WebLog
+    @WebLog(target = "WechatMppTemplate")
     public Result<Boolean> update(@RequestBody WechatMppTemplateUpdateParameter parameter) {
         wechatMppTemplateService.update(parameter);
         return new Result<>(true);
@@ -58,7 +60,7 @@ public class WechatMppTemplateController {
 
     @PostMapping("/save")
     @ApiOperation("保存微信小程序模版")
-    @WebLog
+    @WebLog(target = "WechatMppTemplate")
     public Result<Boolean> save(@RequestBody WechatMppTemplateSaveParameter parameter) {
         wechatMppTemplateService.save(parameter);
         return new Result<>(true);
@@ -66,7 +68,7 @@ public class WechatMppTemplateController {
 
     @PostMapping("/enable")
     @ApiOperation("启用微信小程序模版")
-    @WebLog
+    @WebLog(target = "WechatMppTemplate")
     public Result<Boolean> enable(@RequestBody WechatMppTemplateEnableParameter parameter) {
         wechatMppTemplateService.enable(parameter);
         return new Result<>(true);
@@ -74,7 +76,7 @@ public class WechatMppTemplateController {
 
     @PostMapping("/disable")
     @ApiOperation("禁用微信小程序模版")
-    @WebLog
+    @WebLog(target = "WechatMppTemplate")
     public Result<Boolean> save(@RequestBody WechatMppTemplateDisableParameter parameter) {
         wechatMppTemplateService.disable(parameter);
         return new Result<>(true);
@@ -82,7 +84,7 @@ public class WechatMppTemplateController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除微信小程序模版")
-    @WebLog
+    @WebLog(target = "WechatMppTemplate")
     public Result<Boolean> delete(@RequestBody WechatMppTemplateDeleteParameter parameter) {
         wechatMppTemplateService.delete(parameter);
         return new Result<>(true);

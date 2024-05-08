@@ -2,9 +2,12 @@ package com.chia.multienty.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.RabbitLogDTO;
+import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.parameter.log.*;
 import com.chia.multienty.core.pojo.RabbitLog;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,6 +20,8 @@ import com.chia.multienty.core.pojo.RabbitLog;
 public interface RabbitLogService extends KutaBaseService<RabbitLog> {
 
     RabbitLog getByKey(String key);
+
+    RabbitLog getBy(Long metaId, String boType);
 
     boolean remove(String routingKey, Long metaId, String boType);
 
@@ -31,4 +36,6 @@ public interface RabbitLogService extends KutaBaseService<RabbitLog> {
     void save(RabbitLogSaveParameter parameter);
 
     void update(RabbitLogUpdateParameter parameter);
+
+    void batchUpdateStatus(StatusEnum status, List<Long> rids);
 }

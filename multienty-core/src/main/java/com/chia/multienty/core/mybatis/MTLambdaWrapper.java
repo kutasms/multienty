@@ -90,13 +90,14 @@ public class MTLambdaWrapper<T> extends JoinAbstractLambdaWrapper<T, MTLambdaWra
     /**
      * 应用默认列表请求参数
      * <p>
-     *     包括创建时间范围、是否已删除、城市筛选、状态
+     * 包括创建时间范围、是否已删除、城市筛选、状态
      * </p>
+     *
      * @param parameter
      * @return
      */
     public MTLambdaWrapper<T> solveGenericParameters(DefaultListGetParameter<?> parameter) {
-        Class<?> clazz = (Class<?>) ((ParameterizedType)parameter.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Class<?> clazz = (Class<?>) ((ParameterizedType) parameter.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         Field[] fields = KutaBeanUtil.getAllDeclaredFields(clazz);
 
         boolean hasCreateTimeCol = KutaBeanUtil.hasField(fields, createTimeColName);
@@ -104,73 +105,71 @@ public class MTLambdaWrapper<T> extends JoinAbstractLambdaWrapper<T, MTLambdaWra
         boolean hasStatusCol = KutaBeanUtil.hasField(fields, statusColName);
         boolean hasMockDataCol = KutaBeanUtil.hasField(fields, mockDataColName);
 
-
-        return  this.createTimeDuration(hasCreateTimeCol, parameter.getCreateTimeDuration(), SearchEntity::getCreateTime)
+        return this.createTimeDuration(hasCreateTimeCol, parameter.getCreateTimeDuration(), SearchEntity::getCreateTime)
                 .likeCity(parameter.getCity() != null && hasCityIdCol, parameter.getCity(), SearchEntity::getCityId)
-                .eq(parameter.getStatus()!=null && hasStatusCol, SearchEntity::getStatus, parameter.getStatus())
-                .eq(parameter.getMockData()!=null && hasMockDataCol, SearchEntity::getMockData, parameter.getMockData())
-                .orderByDesc(parameter.getOrderByDescColumns()!=null, parameter.getOrderByDescColumns())
-                .orderByAsc(parameter.getOrderByAscColumns()!=null, parameter.getOrderByAscColumns())
-                .in(!KutaCollectionUtil.isEmpty(parameter.getStatusList()), SearchEntity::getStatus, parameter.getStatusList());
+                .eq(parameter.getStatus() != null && hasStatusCol, SearchEntity::getStatus, parameter.getStatus())
+                .eq(parameter.getMockData() != null && hasMockDataCol, SearchEntity::getMockData, parameter.getMockData())
+                .orderByDesc(parameter.getOrderByDescColumns() != null, parameter.getOrderByDescColumns())
+                .orderByAsc(parameter.getOrderByAscColumns() != null, parameter.getOrderByAscColumns())
+                .in(!KutaCollectionUtil.isEmpty(parameter.getStatusList()), SearchEntity::getStatus, parameter.getStatusList())
+                .orderBy(parameter.getOrderBy() != null && parameter.getOrderBy().getOrder() != null,
+                        parameter.getOrderBy() != null && parameter.getOrderBy().getOrder() != null && parameter.getOrderBy().getOrder().equals("ascending"),
+                        parameter.getOrderBy() != null ? StringUtils.camelToUnderline(parameter.getOrderBy().getProp()) : null);
     }
 
     public <X> MTLambdaWrapper<T> tryLeftJoin(boolean condition, Class<X> clazz, SFunction<X, ?> left, SFunction<T, ?> right) {
-        if(condition) {
+        if (condition) {
             this.leftJoin(clazz, left, right);
         }
         return this;
     }
 
     public <S, C, F> MTLambdaWrapper<T> trySelectAssociation(boolean condition, Class<C> child, SFunction<S, F> dtoField) {
-        if(condition) {
+        if (condition) {
             selectAssociation(child, dtoField);
         }
         return this;
     }
 
-    public <X> MTLambdaWrapper<T> createTimeDuration(boolean hasCreateTimeCol, LocalDateTime[] duration, SFunction<X,?> column) {
-        this.and(duration != null && hasCreateTimeCol && duration.length == 2, on ->
-                on.ge(duration[0] != null, column, duration[0])
-                        .le(duration[1] != null, column, duration[1])
-        );
+    public <X> MTLambdaWrapper<T> createTimeDuration(boolean hasCreateTimeCol, LocalDateTime[] duration, SFunction<X, ?> column) {
+        if (duration != null && hasCreateTimeCol && duration.length == 2 && (duration[0] != null || duration[1] != null)) {
+            this.and(on ->
+                    on.ge(duration[0] != null, column, duration[0])
+                            .le(duration[1] != null, column, duration[1])
+            );
+        }
         return this;
     }
 
-    public <X> MTLambdaWrapper<T> createTimeDuration(LocalDateTime[] duration, SFunction<X,?> column) {
-        this.and(duration != null, on ->
-                on.ge(duration[0] != null, column, duration[0])
-                        .le(duration[1] != null, column, duration[1])
-        );
-        return this;
-    }
 
-    public <X> MTLambdaWrapper<T> likeCity(CityVO city, SFunction<X,?> column) {
-        if(city != null) {
-            this.eq(city !=null && city.getIds().length == 3, column, city.getCityId())
-                    .likeRight(city !=null && city.getIds().length == 2,
-                            column, city.getCityId().toString().substring(0,4))
-                    .likeRight(city !=null && city.getIds().length == 1,
-                            column, city.getCityId().toString().substring(0,2));
+    public <X> MTLambdaWrapper<T> likeCity(CityVO city, SFunction<X, ?> column) {
+        if (city != null) {
+            this.eq(city != null && city.getIds().length == 3, column, city.getCityId())
+                    .likeRight(city != null && city.getIds().length == 2,
+                            column, city.getCityId().toString().substring(0, 4))
+                    .likeRight(city != null && city.getIds().length == 1,
+                            column, city.getCityId().toString().substring(0, 2));
 
         }
         return this;
     }
-    public <X> MTLambdaWrapper<T> likeCity(boolean condition, CityVO city, SFunction<X,?> column) {
+
+    public <X> MTLambdaWrapper<T> likeCity(boolean condition, CityVO city, SFunction<X, ?> column) {
         return
                 condition ?
-                        this.eq(city !=null && city.getIds().length == 3, column, city.getCityId())
-                                .likeRight(city !=null && city.getIds().length == 2,
-                                        column, city.getCityId().toString().substring(0,4))
-                                .likeRight(column!=null && city.getIds().length == 1,
-                                        column, city.getCityId().toString().substring(0,2))
+                        this.eq(city != null && city.getIds().length == 3, column, city.getCityId())
+                                .likeRight(city != null && city.getIds().length == 2,
+                                        column, city.getCityId().toString().substring(0, 4))
+                                .likeRight(column != null && city.getIds().length == 1,
+                                        column, city.getCityId().toString().substring(0, 2))
                         : this;
     }
 
-    public <X> MTLambdaWrapper<T> likeList(List<String> likes,SFunction<X,?> column, LikeMode mode) {
-        if(likes!=null && likes.size() > 0) {
-            this.and(ew-> {
-                likes.forEach(like-> {
-                    if(!org.apache.commons.lang.StringUtils.isBlank(like)) {
+    public <X> MTLambdaWrapper<T> likeList(List<String> likes, SFunction<X, ?> column, LikeMode mode) {
+        if (likes != null && likes.size() > 0) {
+            this.and(ew -> {
+                likes.forEach(like -> {
+                    if (!org.apache.commons.lang.StringUtils.isBlank(like)) {
                         switch (mode) {
                             case LEFT:
                                 ew.or().likeLeft(column, like);
@@ -189,8 +188,9 @@ public class MTLambdaWrapper<T> extends JoinAbstractLambdaWrapper<T, MTLambdaWra
 
         return this;
     }
-    public <X> MTLambdaWrapper<T> applyFieldMode(Object parameter, SFunction<X,?> column, QueryMode mode) {
-        if(parameter!=null) {
+
+    public <X> MTLambdaWrapper<T> applyFieldMode(Object parameter, SFunction<X, ?> column, QueryMode mode) {
+        if (parameter != null) {
             MTLambdaWrapper<T> wrapper = this;
             switch (mode) {
                 case GT:
@@ -283,10 +283,10 @@ public class MTLambdaWrapper<T> extends JoinAbstractLambdaWrapper<T, MTLambdaWra
     }
 
     MTLambdaWrapper(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
-                     Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString paramAlias,
-                     SharedString lastSql, SharedString sqlComment, SharedString sqlFirst,
-                     TableList tableList, Integer index, String keyWord, Class<?> joinClass, String tableName,
-                     BiPredicate<Object, IfAbsentSqlKeyWordEnum> ifAbsent) {
+                    Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString paramAlias,
+                    SharedString lastSql, SharedString sqlComment, SharedString sqlFirst,
+                    TableList tableList, Integer index, String keyWord, Class<?> joinClass, String tableName,
+                    BiPredicate<Object, IfAbsentSqlKeyWordEnum> ifAbsent) {
         super.setEntity(entity);
         super.setEntityClass(entityClass);
         this.paramNameSeq = paramNameSeq;
@@ -322,7 +322,7 @@ public class MTLambdaWrapper<T> extends JoinAbstractLambdaWrapper<T, MTLambdaWra
     }
 
     @Override
-    public List<Select> getSelectColum()  {
+    public List<Select> getSelectColum() {
         return this.selectColumns;
     }
 

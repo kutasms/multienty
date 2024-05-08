@@ -9,4 +9,7 @@ public class VueGeneratorEditorProperties {
     private VueGeneratorEditorSizeProperties size = new VueGeneratorEditorSizeProperties();
     private String labelWidth = "100px";
     private Map<String, VueGeneratorEditorFormItemProperties> formItems;
+    private Map<String, String> dataValues;
+
+    private Map<String, String> watches;
 }

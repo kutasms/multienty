@@ -6,68 +6,77 @@ import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.domain.enums.TerminalType;
 import com.chia.multienty.core.dubbo.service.DubboMultientyService;
+import com.chia.multienty.core.dubbo.service.DubboWechatService;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.strategy.pay.domain.MTPayOrderCloseResult;
 import com.chia.multienty.core.strategy.pay.domain.MTPayRefund;
 import com.chia.multienty.core.strategy.pay.domain.MTPayTransaction;
+import com.chia.multienty.core.strategy.pay.domain.PayType;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPayOrderCloseRequest;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPrepayRequest;
 import com.chia.multienty.core.strategy.pay.domain.request.MTRefundRequest;
 import com.chia.multienty.core.strategy.pay.domain.response.MTPrepayResponse;
+import com.chia.multienty.core.strategy.pay.weixin.sdk.WxPayMerchantProvider;
 import com.chia.multienty.core.strategy.pay.weixin.service.WxV3PayService;
-import com.wechat.pay.java.core.RSAAutoCertificateConfig;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.wechat.pay.java.core.exception.HttpException;
 import com.wechat.pay.java.core.exception.MalformedMessageException;
 import com.wechat.pay.java.core.exception.ServiceException;
-import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
 import com.wechat.pay.java.service.payments.jsapi.model.*;
 import com.wechat.pay.java.service.payments.model.Transaction;
-import com.wechat.pay.java.service.refund.RefundService;
 import com.wechat.pay.java.service.refund.model.AmountReq;
 import com.wechat.pay.java.service.refund.model.CreateRequest;
 import com.wechat.pay.java.service.refund.model.QueryByOutRefundNoRequest;
 import com.wechat.pay.java.service.refund.model.Refund;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.multienty.wechat.pay", name = "active", havingValue = "wechat-v3")
 public class WxV3PayServiceImpl implements WxV3PayService {
 
-    private Map<Long, JsapiServiceExtension> extensionMap = new HashMap<>();
 
-    private Map<Long, RefundService> refundServiceMap = new HashMap<>();
 
-    private final DubboMultientyService dubboMultientyService;
+    @Autowired(required = false)
+    private DubboMultientyService dubboMultientyService;
+    @Autowired(required = false)
+    private DubboWechatService dubboWechatService;
+    @Autowired
+    private YamlMultientyProperties properties;
+
+    @Override
+    public String getType() {
+        return PayType.WECHAT_V3.name();
+    }
 
     @Override
     public MTPayRefund refund(MTRefundRequest req)  {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         CreateRequest request = new CreateRequest();
         request.setTransactionId(req.getTransactionId());
         request.setOutRefundNo(req.getOutRefundNo());
         request.setReason(req.getReason());
-        request.setNotifyUrl(req.getNotifyUrl());
+        request.setNotifyUrl(String.format(properties.getWechat().getPay().getV3NotifyUrls().get("order-refund-notify-url"),
+                app.getTenantId(),app.getProgramId())
+        );
         AmountReq amountReq = new AmountReq();
         amountReq.setCurrency("CNY");
         amountReq.setRefund(req.getRefund().multiply(BigDecimal.valueOf(100)).longValue());
         amountReq.setTotal(req.getTotal().multiply(BigDecimal.valueOf(100)).longValue());
         request.setAmount(amountReq);
         log.info("构建退款参数:{}", JSONObject.toJSONString(request));
-        Refund refund = getRefundService(app).create(request);
+
+        Refund refund = WxPayMerchantProvider.getRefundService(app).create(request);
         MTPayRefund mpr = new MTPayRefund();
         BeanUtils.copyProperties(refund, mpr);
         return mpr;
@@ -75,25 +84,25 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPrepayResponse prepay(MTPrepayRequest req) throws Exception {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         try{
-            String attachTemplate = "{\"source\":%s, \"purpose\":%s, \"tenant_id\": %s}";
+            String attachTemplate = "{\"source\":%s, \"purpose\":%s}";
             String attach = null;
             switch (req.getSource()) {
                 case MINI_PROGRAM:
-                    attach = String.format(attachTemplate, TerminalType.MP_WECHAT.getValue() , req.getPurpose().getValue(), req
-                            .getTenantId());
+                    attach = String.format(attachTemplate, TerminalType.MP_WECHAT.getValue() , req.getPurpose().getValue());
                     break;
                 case H5:
                     attach = String.format(attachTemplate, TerminalType.H5.getValue() ,
-                            req.getPurpose().getValue(), req.getTenantId());
+                            req.getPurpose().getValue());
                     break;
                 case NATIVE_APP:
                     attach = String.format(attachTemplate, TerminalType.NATIVE_APP.getValue() ,
-                            req.getPurpose().getValue(), req.getTenantId());
+                            req.getPurpose().getValue());
                     break;
             }
             Integer finalAmount = req.getMoney().multiply(BigDecimal.valueOf(100)).intValue();
@@ -105,14 +114,18 @@ public class WxV3PayServiceImpl implements WxV3PayService {
             request.setAttach(attach);
             request.setDescription(String.format("订单%s支付", req.getTradeNo()));
             request.setMchid(app.getPay().getMchId());
-            request.setNotifyUrl(req.getNotifyUrl());
+            request.setNotifyUrl(String.format(properties.getWechat().getPay().getV3NotifyUrls().get("trade-pay-notify-url"),
+                    app.getTenantId(),
+                    app.getProgramId()));
             request.setOutTradeNo(req.getTradeNo());
             Payer payer = new Payer();
             payer.setOpenid(req.getOpenid());
             request.setPayer(payer);
-            PrepayWithRequestPaymentResponse rsp = getJsApi(app).prepayWithRequestPayment(request);
+            PrepayWithRequestPaymentResponse rsp = WxPayMerchantProvider.getJsApi(app).prepayWithRequestPayment(request);
             MTPrepayResponse response = new MTPrepayResponse();
+            response.setTimestamp(rsp.getTimeStamp());
             BeanUtils.copyProperties(rsp, response);
+
             return response;
         } catch (HttpException e) { // 发送HTTP请求失败
             log.error("",e);
@@ -131,14 +144,15 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayTransaction queryOrder(Long programId, String outTradeNo) throws Exception {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         QueryOrderByOutTradeNoRequest request = new QueryOrderByOutTradeNoRequest();
         request.setMchid(app.getPay().getMchId());
         request.setOutTradeNo(outTradeNo);
-        Transaction transaction = getJsApi(app).queryOrderByOutTradeNo(request);
+        Transaction transaction = WxPayMerchantProvider.getJsApi(app).queryOrderByOutTradeNo(request);
         MTPayTransaction mpt = new MTPayTransaction();
         BeanUtils.copyProperties(transaction, mpt);
         mpt.setV3TradeType(transaction.getTradeType());
@@ -147,14 +161,15 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayOrderCloseResult closeOrder(MTPayOrderCloseRequest req) {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         CloseOrderRequest request = new CloseOrderRequest();
         request.setMchid(app.getPay().getMchId());
         request.setOutTradeNo(req.getOutTradeNo());
-        getJsApi(app).closeOrder(request);
+        WxPayMerchantProvider.getJsApi(app).closeOrder(request);
         MTPayOrderCloseResult result = new MTPayOrderCloseResult();
         result.setResultCode(StatusEnum.SUCCESS.getCode());
         result.setReturnCode(StatusEnum.SUCCESS.getCode());
@@ -163,48 +178,17 @@ public class WxV3PayServiceImpl implements WxV3PayService {
 
     @Override
     public MTPayRefund queryRefund(Long programId, String outRefundNo) {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         QueryByOutRefundNoRequest request = new QueryByOutRefundNoRequest();
         request.setOutRefundNo(outRefundNo);
         request.setSubMchid(app.getPay().getMchId());
-        Refund refund = getRefundService(app).queryByOutRefundNo(request);
+        Refund refund = WxPayMerchantProvider.getRefundService(app).queryByOutRefundNo(request);
         MTPayRefund mpr = new MTPayRefund();
         BeanUtils.copyProperties(refund, mpr);
         return mpr;
     }
-
-    private RSAAutoCertificateConfig getApiConfig(WechatAppDTO app) {
-        RSAAutoCertificateConfig config = new RSAAutoCertificateConfig.Builder()
-                .merchantId(app.getPay().getMchId())
-                .privateKeyFromPath(app.getPay().getPrivateKeyPath())
-                .merchantSerialNumber(app.getPay().getSerialNumber())
-                .apiV3Key(app.getPay().getApiV3Key())
-                .build();
-        return config;
-    }
-
-    private JsapiServiceExtension getJsApi(WechatAppDTO app) {
-        if(extensionMap.containsKey(app.getTenantId())) {
-            return extensionMap.get(app.getTenantId());
-        }
-
-        RSAAutoCertificateConfig config = getApiConfig(app);
-        JsapiServiceExtension extension = new JsapiServiceExtension.Builder().config(config).build();
-        extensionMap.put(app.getTenantId(), extension);
-        return extension;
-    }
-
-    private RefundService getRefundService(WechatAppDTO app) {
-        if(refundServiceMap.containsKey(app.getTenantId())) {
-            return refundServiceMap.get(app.getTenantId());
-        }
-        RSAAutoCertificateConfig config = getApiConfig(app);
-        RefundService service = new RefundService.Builder().config(config).build();
-        refundServiceMap.put(app.getTenantId(), service);
-        return service;
-    }
-
 }

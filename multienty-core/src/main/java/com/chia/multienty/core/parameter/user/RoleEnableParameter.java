@@ -1,5 +1,6 @@
 package com.chia.multienty.core.parameter.user;
 
+import com.chia.multienty.core.annotation.LogMetaId;
 import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,5 +20,6 @@ public class RoleEnableParameter {
      * 角色编号
      */
      @ApiModelProperty(value = "角色编号")
+     @LogMetaId
      private Long roleId;
 }

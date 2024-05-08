@@ -27,7 +27,12 @@ public enum UploadFileType {
     CASE_MAIN_IMAGE("案例主图", 10),
     CASE_SUB_IMAGE("案例子图", 11),
     PRODUCT_VIDEO("商品主视频", 12),
-    SKU_IMAGE("SKU图片", 13);
+    SKU_IMAGE("SKU图片", 13),
+    RICH_TXT("详情嵌套", 14),
+    PRODUCT_IMAGE("商品图片", 15),
+    CATEGORY_AVATAR("类目图片", 16),
+    PRIVATE_KEY("密钥文件", 17),
+    CERTIFICATE("加密证书", 18);
 
     /**
      * 描述

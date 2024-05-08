@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chia</groupId>
+        <artifactId>multienty-plugin-ai</artifactId>
+        <version>2024.1.1</version>
+    </parent>
+
+    <artifactId>multienty-plugin-ai-ocr</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties><dependencies><dependency><groupId>com.chia</groupId><artifactId>multienty-plugin-ai-core</artifactId><version>2024.1.1</version><scope>compile</scope></dependency></dependencies>
+    <build>
+        <plugins>
+<!--             <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+            <!--maven-jar-plugin的作用是配置mainClass和指定classpath。-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!--是否在manifest文件中添加classpath。默认为false。-->
+                            <addClasspath>true</addClasspath>
+                            <!--指定类路径前缀，也就是依赖的jar包所在的文件夹-->
+                            <classpathPrefix>../lib/</classpathPrefix>
+                            <!--指定启动类-->
+<!--                            <mainClass>com.chia.multienty.plugin.ai.ocr.OcrMainApp</mainClass>-->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-dependencies</id>-->
+<!--                        <phase>prepare-package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-dependencies</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>-->
+<!--                                ${project.build.directory}/lib-->
+<!--                            </outputDirectory>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
+</project>

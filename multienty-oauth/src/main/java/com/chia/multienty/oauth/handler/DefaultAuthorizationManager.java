@@ -48,7 +48,7 @@ public class DefaultAuthorizationManager implements ReactiveAuthorizationManager
             LoggedUserVO loggedUserVO = (LoggedUserVO) auth.getPrincipal();
             try {
                 loggedUserVO = stringRedisService.get(String.format(MultientyCacheKey.PATTERN_LOGGED_USER,
-                        loggedUserVO.getUserId()), LoggedUserVO.class);
+                        loggedUserVO.getLogUserId()), LoggedUserVO.class);
                 List<String> apis = loggedUserVO.getPermissions()
                         .stream()
                         .filter(p-> StringUtils.hasText(p.getApi()))

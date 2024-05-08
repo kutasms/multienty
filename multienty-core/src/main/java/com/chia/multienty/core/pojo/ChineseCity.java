@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @since 2024-04-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -34,7 +34,7 @@ public class ChineseCity extends KutaBaseEntity {
      * 城市编号
      */
     @ApiModelProperty(value = "城市编号")
-    @TableId(value = "city_id", type = IdType.AUTO)
+    @TableId(value = "city_id", type = IdType.INPUT)
     private Long cityId;
 
     /**

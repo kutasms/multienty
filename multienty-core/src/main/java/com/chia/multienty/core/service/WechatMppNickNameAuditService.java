@@ -30,9 +30,10 @@ public interface WechatMppNickNameAuditService extends KutaBaseService<WechatMpp
 
     void disable(WechatMppNickNameAuditDisableParameter parameter);
 
-    WechatMppNickNameAudit getByNickName(String nickName);
 
     void save(WechatMppNickNameAuditSaveParameter parameter);
+
+    WechatMppNickNameAuditDTO getDTOByOpenAuditId(String openAuditId);
 
     void update(WechatMppNickNameAuditUpdateParameter parameter);
 

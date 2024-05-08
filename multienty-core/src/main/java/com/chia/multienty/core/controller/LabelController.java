@@ -50,7 +50,7 @@ public class LabelController {
 
     @PostMapping("/update")
     @ApiOperation("更新标签")
-    @WebLog
+    @WebLog(target = "Label")
     public Result<Boolean> update(@RequestBody LabelUpdateParameter parameter) {
         labelService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class LabelController {
 
     @PostMapping("/save")
     @ApiOperation("保存标签")
-    @WebLog
+    @WebLog(target = "Label")
     public Result<Boolean> save(@RequestBody LabelSaveParameter parameter) {
         labelService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class LabelController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除标签")
-    @WebLog
+    @WebLog(target = "Label")
     public Result<Boolean> delete(@RequestBody LabelDeleteParameter parameter) {
         labelService.delete(parameter);
         return new Result<>(true);

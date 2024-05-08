@@ -51,7 +51,7 @@ public class DictController {
 
     @PostMapping("save")
     @ApiOperation(value = "保存字典")
-    @WebLog
+    @WebLog(target = "Dict")
     public Result<Boolean> save(@RequestBody DictSaveParameter parameter) throws CryptoException {
         Boolean result = dictService.save(parameter) == 1;
         return new Result<>(result, HttpResultEnum.SUCCESS);
@@ -59,7 +59,7 @@ public class DictController {
 
     @PostMapping("update")
     @ApiOperation(value = "更新字典")
-    @WebLog
+    @WebLog(target = "Dict")
     public Result<Boolean> update(@RequestBody DictUpdateParameter parameter) throws CryptoException {
         Boolean result = dictService.update(parameter) == 1;
         return new Result<>(result, HttpResultEnum.SUCCESS);
@@ -67,7 +67,7 @@ public class DictController {
 
     @PostMapping("delete")
     @ApiOperation(value = "删除字典")
-    @WebLog
+    @WebLog(target = "Dict")
     public Result<Boolean> delete(@RequestBody DictDeleteParameter parameter) throws KutaRuntimeException {
         Boolean result = dictService.deleteSafely(parameter.getDictId());
         return new Result<>(result, HttpResultEnum.SUCCESS);

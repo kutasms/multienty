@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class RabbitPushResult {
+public class RabbitPushResult implements Serializable {
     private Boolean success;
     private Throwable throwable;
     private String key;

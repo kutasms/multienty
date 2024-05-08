@@ -5,6 +5,7 @@ import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.WechatOfficialAccountDTO;
 import com.chia.multienty.core.service.WechatOfficialAccountService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.chia.multienty.core.parameter.wechat.WechatOfficialAccountDetailGetParameter;
 import com.chia.multienty.core.parameter.wechat.WechatOfficialAccountPageGetParameter;
@@ -31,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/wechat-official-account")
 @RequiredArgsConstructor
 @Api(tags = "微信公众号账户")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "user-module-enabled", havingValue = "true")
 public class WechatOfficialAccountController {
     private final WechatOfficialAccountService wechatOfficialAccountService;
 
@@ -50,7 +52,7 @@ public class WechatOfficialAccountController {
 
     @PostMapping("/update")
     @ApiOperation("更新微信公众号账户")
-    @WebLog
+    @WebLog(target = "WechatOfficialAccount")
     public Result<Boolean> update(@RequestBody WechatOfficialAccountUpdateParameter parameter) {
         wechatOfficialAccountService.update(parameter);
         return new Result<>(true);
@@ -58,7 +60,7 @@ public class WechatOfficialAccountController {
 
     @PostMapping("/save")
     @ApiOperation("保存微信公众号账户")
-    @WebLog
+    @WebLog(target = "WechatOfficialAccount")
     public Result<Boolean> save(@RequestBody WechatOfficialAccountSaveParameter parameter) {
         wechatOfficialAccountService.save(parameter);
         return new Result<>(true);
@@ -66,7 +68,7 @@ public class WechatOfficialAccountController {
 
     @PostMapping("/enable")
     @ApiOperation("启用微信公众号账户")
-    @WebLog
+    @WebLog(target = "WechatOfficialAccount")
     public Result<Boolean> enable(@RequestBody WechatOfficialAccountEnableParameter parameter) {
         wechatOfficialAccountService.enable(parameter);
         return new Result<>(true);
@@ -74,7 +76,7 @@ public class WechatOfficialAccountController {
 
     @PostMapping("/disable")
     @ApiOperation("禁用微信公众号账户")
-    @WebLog
+    @WebLog(target = "WechatOfficialAccount")
     public Result<Boolean> save(@RequestBody WechatOfficialAccountDisableParameter parameter) {
         wechatOfficialAccountService.disable(parameter);
         return new Result<>(true);
@@ -82,7 +84,7 @@ public class WechatOfficialAccountController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除微信公众号账户")
-    @WebLog
+    @WebLog(target = "WechatOfficialAccount")
     public Result<Boolean> delete(@RequestBody WechatOfficialAccountDeleteParameter parameter) {
         wechatOfficialAccountService.delete(parameter);
         return new Result<>(true);

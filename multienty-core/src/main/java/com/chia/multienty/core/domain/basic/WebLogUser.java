@@ -18,4 +18,14 @@ public class WebLogUser implements IWebLogUser{
         }
         return instance;
     }
+
+    @Override
+    public Long getLogUserId() {
+        return userId;
+    }
+
+    @Override
+    public String getLogUserName() {
+        return userName;
+    }
 }

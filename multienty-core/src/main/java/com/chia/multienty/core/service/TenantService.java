@@ -18,6 +18,8 @@ import com.chia.multienty.core.strategy.sms.domain.SMSResult;
 import lombok.SneakyThrows;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+
 /**
  * <p>
  * 租户信息 服务类
@@ -58,5 +60,5 @@ public interface TenantService extends KutaBaseService<Tenant>, MultientyUserSer
 
     void delete(TenantDeleteParameter parameter);
 
-    LoggedUserVO getLoggedInfo() throws KutaRuntimeException;
+    LoggedUserVO getLoggedInfo() throws KutaRuntimeException, IOException;
 }

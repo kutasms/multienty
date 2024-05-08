@@ -101,12 +101,17 @@ public class UserRoleServiceImpl extends KutaBaseServiceImpl<UserRoleMapper, Use
     }
     @Override
     public List<Role> getRoles(Long userId) {
+        return getRoles(userId, ApplicationType.PLATFORM);
+    }
+
+    @Override
+    public List<Role> getRoles(Long userId, ApplicationType applicationType) {
         return baseMapper.selectJoinList(Role.class,
                 new MPJLambdaWrapper<UserRole>()
                         .selectAll(Role.class)
                         .leftJoin(Role.class,
                                 on-> on.eq(Role::getRoleId, UserRole::getRoleId)
-                                        .eq(Role::getOwner, ApplicationType.PLATFORM.getValue())
+                                        .eq(Role::getOwner, applicationType.getValue())
                                         .eq(Role::getStatus, StatusEnum.NORMAL.getCode())
                         )
                         .eq(UserRole::getUserId, userId)

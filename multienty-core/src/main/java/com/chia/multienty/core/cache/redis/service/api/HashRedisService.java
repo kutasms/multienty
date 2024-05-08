@@ -1,12 +1,15 @@
 
 package com.chia.multienty.core.cache.redis.service.api;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 
 public interface HashRedisService {
 
-    public Object hget(String key, String item);
+
+    Object hget(Object key, String item);
+
+    <HK, HV> List<HV> getMulti(HK key, String... items);
 
     public Map<String, Object> hgetAll(String key);
 
@@ -27,6 +30,10 @@ public interface HashRedisService {
     public boolean hHasKey(String key, String item);
 
     public double hincr(String key, String item, double by);
+
+    long incr(String key, String item, long val);
+
+    long decr(String key, String item, long val);
 
     public double hdecr(String key, String item, double by);
 }

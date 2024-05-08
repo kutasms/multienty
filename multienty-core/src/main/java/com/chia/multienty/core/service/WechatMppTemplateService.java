@@ -1,6 +1,7 @@
 package com.chia.multienty.core.service;
 
 import com.chia.multienty.core.domain.dto.WechatMppTemplateDTO;
+import com.chia.multienty.core.domain.wechat.WxMppTemplateType;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.pojo.WechatMppTemplate;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -41,4 +42,5 @@ public interface WechatMppTemplateService extends KutaBaseService<WechatMppTempl
 
     void update(WechatMppTemplateUpdateParameter parameter);
 
+    WechatMppTemplate getOne(Long tenantId, Long programId, WxMppTemplateType templateType);
 }

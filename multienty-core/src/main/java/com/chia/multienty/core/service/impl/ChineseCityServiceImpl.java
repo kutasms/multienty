@@ -49,6 +49,7 @@ public class ChineseCityServiceImpl extends KutaBaseServiceImpl<ChineseCityMappe
         return selectJoinListPage(parameter.getPageObj(), ChineseCityDTO.class,
                 new MTLambdaWrapper<ChineseCity>()
                         .solveGenericParameters(parameter)
+                        .eq(parameter.getCityPid()!=null, ChineseCity::getCityPid, parameter.getCityPid())
                         .in(!ListUtil.isEmpty(parameter.getCityIds()), ChineseCity::getCityId, parameter.getCityIds())
         );
     }

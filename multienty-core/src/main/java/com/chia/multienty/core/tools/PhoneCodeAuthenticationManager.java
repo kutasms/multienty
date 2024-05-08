@@ -26,7 +26,7 @@ public class PhoneCodeAuthenticationManager implements ReactiveAuthenticationMan
         ApplicationType applicationType = delegatingUserDetailsService.getApplicationType();
         String cacheKeyPrefix = null;
         switch (applicationType) {
-            case TENANT:
+            case MERCHANT:
                 cacheKeyPrefix = MultientyConstants.TENANT_LOGIN_VERIFY_CODE_CACHE_KEY;
                 break;
             case PLATFORM:

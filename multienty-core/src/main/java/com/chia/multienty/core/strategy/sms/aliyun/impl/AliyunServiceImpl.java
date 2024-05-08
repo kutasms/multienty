@@ -32,8 +32,8 @@ public class AliyunServiceImpl implements AliyunService {
     private ObjectMapper objectMapper;
 
     @Override
-    public SMSProviderType getType() {
-        return SMSProviderType.ALIYUN;
+    public String getType() {
+        return SMSProviderType.ALIYUN.name();
     }
 
     @Override

@@ -50,7 +50,7 @@ public class UserRoleController {
 
     @PostMapping("/update")
     @ApiOperation("更新账户关联角色信息表")
-    @WebLog
+    @WebLog(target = "UserRole")
     public Result<Boolean> update(@RequestBody UserRoleUpdateParameter parameter) {
         userRoleService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class UserRoleController {
 
     @PostMapping("/save")
     @ApiOperation("保存账户关联角色信息表")
-    @WebLog
+    @WebLog(target = "UserRole")
     public Result<Boolean> save(@RequestBody UserRoleSaveParameter parameter) {
         userRoleService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class UserRoleController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除账户关联角色信息表")
-    @WebLog
+    @WebLog(target = "UserRole")
     public Result<Boolean> delete(@RequestBody UserRoleDeleteParameter parameter) {
         userRoleService.delete(parameter);
         return new Result<>(true);

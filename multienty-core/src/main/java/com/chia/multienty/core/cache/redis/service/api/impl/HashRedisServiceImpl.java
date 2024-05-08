@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,8 +26,13 @@ public class HashRedisServiceImpl implements HashRedisService {
     private CommonRedisService commonRedisService;
 
     @Override
-    public Object hget(String key, String item) {
+    public Object hget(Object key, String item) {
         return redisTemplate.opsForHash().get(key, item);
+    }
+
+    @Override
+    public <HK, HV> List<HV> getMulti(HK key, String... items) {
+        return redisTemplate.<String, HV>opsForHash().multiGet(key, Arrays.asList(items));
     }
 
     @Override
@@ -110,12 +117,23 @@ public class HashRedisServiceImpl implements HashRedisService {
     }
 
     @Override
-    public double hincr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item, by);
+    public double hincr(String key, String item, double val) {
+        return redisTemplate.opsForHash().increment(key, item, val);
     }
 
     @Override
-    public double hdecr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item,-by);
+    public long incr(String key, String item, long val) {
+        return redisTemplate.opsForHash().increment(key, item, val);
     }
+
+    @Override
+    public double hdecr(String key, String item, double val) {
+        return redisTemplate.opsForHash().increment(key, item,-val);
+    }
+
+    @Override
+    public long decr(String key, String item, long val) {
+        return redisTemplate.opsForHash().increment(key, item, -val);
+    }
+
 }

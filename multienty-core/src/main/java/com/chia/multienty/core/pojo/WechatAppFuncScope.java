@@ -17,8 +17,8 @@ import lombok.experimental.Accessors;
  * 权限集
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -41,6 +41,13 @@ public class WechatAppFuncScope extends KutaBaseEntity {
     @ApiModelProperty(value = "app编号")
     @TableField("`program_id`")
     private Long programId;
+
+    /**
+     * 租户编号
+     */
+    @ApiModelProperty(value = "租户编号")
+    @TableField("`tenant_id`")
+    private Long tenantId;
 
     /**
      * 权限集id

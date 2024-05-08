@@ -32,6 +32,10 @@ public class TenantDTO extends Tenant implements IWebLogUser {
     private String roleAlias;
     @ApiModelProperty("权限集合")
     private List<PermissionDTO> permissions;
+    /**
+     * 是否超级管理员
+     */
+    private Boolean superAdmin;
 
     /**
      * 是否已禁用
@@ -42,12 +46,12 @@ public class TenantDTO extends Tenant implements IWebLogUser {
     }
 
     @Override
-    public Long getUserId() {
+    public Long getLogUserId() {
         return getTenantId();
     }
 
     @Override
-    public String getUserName() {
+    public String getLogUserName() {
         return getCompanyName();
     }
 

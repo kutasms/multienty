@@ -18,9 +18,23 @@ public class MultientyServiceLoader {
         }
     }
 
+    public static void register(final Class<?> clazz, ClassLoader classLoader) {
+        if(!clazzMap.containsKey(clazz)) {
+            clazzMap.put(clazz, load(clazz, classLoader));
+        }
+    }
+
     private static <T> Collection<Object> load(final Class<T> clazz) {
         Collection<Object> result = new LinkedList<>();
         for(T item : ServiceLoader.load(clazz)) {
+            result.add(item);
+        }
+        return result;
+    }
+
+    private static <T> Collection<Object> load(final Class<T> clazz, ClassLoader classLoader) {
+        Collection<Object> result = new LinkedList<>();
+        for(T item : ServiceLoader.load(clazz, classLoader)) {
             result.add(item);
         }
         return result;

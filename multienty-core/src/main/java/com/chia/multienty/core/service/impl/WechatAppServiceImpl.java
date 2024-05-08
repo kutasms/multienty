@@ -1,33 +1,28 @@
 package com.chia.multienty.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.StatusEnum;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.mapper.WechatAppMapper;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
+import com.chia.multienty.core.parameter.wechat.*;
 import com.chia.multienty.core.pojo.WechatApp;
 import com.chia.multienty.core.pojo.WechatMppTemplate;
 import com.chia.multienty.core.pojo.WechatPay;
 import com.chia.multienty.core.service.WechatAppService;
 import com.chia.multienty.core.service.WechatMppTemplateService;
 import com.chia.multienty.core.service.WechatPayService;
+import com.chia.multienty.core.strategy.pay.domain.PayType;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.chia.multienty.core.util.ListUtil;
-import com.chia.multienty.core.exception.KutaRuntimeException;
-import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppPageGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppDeleteParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppSaveParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppUpdateParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppEnableParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppDisableParameter;
 import com.github.yulichang.toolkit.MPJWrappers;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +45,6 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     private final WechatMppTemplateService wechatMppTemplateService;
     private final WechatPayService wechatPayService;
 
-    private final YamlMultientyProperties yamlMultientyProperties;
 
     @Override
     public WechatAppDTO getDetail(WechatAppDetailGetParameter parameter) {
@@ -61,7 +55,7 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
             app.setTemplates(templates);
         }
         if(parameter.getContainsPay()) {
-            WechatPay pay = wechatPayService.getByTenantId(app.getTenantId());
+            WechatPay pay = wechatPayService.getBy(parameter.getTenantId(), app.getProgramId());
             app.setPay(pay);
         }
         
@@ -77,6 +71,26 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     }
 
     @Override
+    public boolean isWorking(Long tenantId, String appId) {
+        Long count = selectJoinCount(
+                mtLambdaWrapper()
+                        .eq(WechatApp::getTenantId, tenantId)
+                        .eq(WechatApp::getMiniAppId, appId)
+                        .eq(WechatApp::getStatus, StatusEnum.AUTHORIZED.getCode())
+        );
+        return count > 0;
+    }
+
+    @Override
+    public PayType getPayType(Long programId) {
+        boolean exists = exists(mtLambdaWrapper()
+                .eq(WechatApp::getTenantId, MultientyContext.getTenant().getTenantId())
+                .eq(WechatApp::getProgramId, programId)
+                .isNotNull(WechatApp::getSubMchId));
+        return exists ? PayType.WECHAT_V3_PARTNER : PayType.WECHAT_V3;
+    }
+
+    @Override
     public WechatApp getByAppId(String appId) {
         return getOne(new LambdaQueryWrapper<WechatApp>().eq(WechatApp::getMiniAppId, appId));
     }
@@ -84,6 +98,11 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     @Override
     public WechatApp getByPreAuthCode(String preAuthCode) {
         return getOne(new LambdaQueryWrapper<WechatApp>().eq(WechatApp::getPreAuthCode, preAuthCode));
+    }
+
+    @Override
+    public WechatApp getByUniqueId(String uniqueId) {
+        return getOne(mtLambdaWrapper().eq(WechatApp::getUniqueId, uniqueId));
     }
 
     @Override
@@ -106,8 +125,19 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
         return selectJoinListPage(parameter.getPageObj(), WechatAppDTO.class,
                 new MTLambdaWrapper<WechatApp>()
                         .solveGenericParameters(parameter)
+                        .eq(WechatApp::getTenantId, parameter.getTenantId())
+                        .likeRight(parameter.getKeywords()!=null, WechatApp::getAppNickName, parameter.getKeywords())
                         .in(!ListUtil.isEmpty(parameter.getProgramIds()), WechatApp::getProgramId, parameter.getProgramIds())
         );
+    }
+
+    @Override
+    public void setSubMchId(WechatAppSubMchIdSetParameter parameter) {
+        WechatApp app = new WechatApp();
+        app.setSubMchId(parameter.getSubMchId());
+        app.setProgramId(parameter.getProgramId());
+        app.setTenantId(MultientyContext.getTenant().getTenantId());
+        updateByIdAndSharding(app);
     }
 
     @Override
@@ -122,7 +152,10 @@ public class WechatAppServiceImpl extends KutaBaseServiceImpl<WechatAppMapper, W
     public void update(WechatAppUpdateParameter parameter) {
         WechatApp wechatApp = new WechatApp();
         BeanUtils.copyProperties(parameter, wechatApp);
-        updateByIdTE(wechatApp);
+        update(wechatApp, mtLambdaWrapper()
+                .eq(WechatApp::getTenantId, parameter.getTenantId())
+                .eq(WechatApp::getProgramId, parameter.getProgramId())
+        );
     }
     @Override
     public void enable(WechatAppEnableParameter parameter) {

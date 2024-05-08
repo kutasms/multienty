@@ -50,7 +50,7 @@ public class RolePermissionController {
 
     @PostMapping("/update")
     @ApiOperation("更新账户角色关联权限实体")
-    @WebLog
+    @WebLog(target = "RolePermission")
     public Result<Boolean> update(@RequestBody RolePermissionUpdateParameter parameter) {
         rolePermissionService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class RolePermissionController {
 
     @PostMapping("/save")
     @ApiOperation("保存账户角色关联权限实体")
-    @WebLog
+    @WebLog(target = "RolePermission")
     public Result<Boolean> save(@RequestBody RolePermissionSaveParameter parameter) {
         rolePermissionService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class RolePermissionController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除账户角色关联权限实体")
-    @WebLog
+    @WebLog(target = "RolePermission")
     public Result<Boolean> delete(@RequestBody RolePermissionDeleteParameter parameter) {
         rolePermissionService.delete(parameter);
         return new Result<>(true);

@@ -1,6 +1,7 @@
 package com.chia.multienty.core.domain.vo;
 
 import com.chia.multienty.core.domain.enums.ApplicationType;
+import com.chia.multienty.core.domain.enums.LoginAccountType;
 import com.chia.multienty.core.domain.enums.LoginMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -14,6 +15,8 @@ public class DecryptedLoginInfo {
     private String username;
     @ApiModelProperty("密码")
     private String password;
+    @ApiModelProperty("登录帐号类型")
+    private LoginAccountType accType;
     @ApiModelProperty("验证码")
     private String code;
 

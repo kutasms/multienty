@@ -50,7 +50,7 @@ public class SettingController {
 
     @PostMapping("/update")
     @ApiOperation("更新系统配置")
-    @WebLog
+    @WebLog(target = "Setting")
     public Result<Boolean> update(@RequestBody SettingUpdateParameter parameter) {
         settingService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class SettingController {
 
     @PostMapping("/save")
     @ApiOperation("保存系统配置")
-    @WebLog
+    @WebLog(target = "Setting")
     public Result<Boolean> save(@RequestBody SettingSaveParameter parameter) {
         settingService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class SettingController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除系统配置")
-    @WebLog
+    @WebLog(target = "Setting")
     public Result<Boolean> delete(@RequestBody SettingDeleteParameter parameter) {
         settingService.delete(parameter);
         return new Result<>(true);

@@ -17,9 +17,10 @@ import lombok.Getter;
 @ApiModel(value = "PayType",description = "支付类型枚举")
 public enum PayType {
     BALANCE(1, "余额支付"),
-    WECHAT(2,"微信支付"),
+    WECHAT_V3(2,"微信支付v3"),
     ALIPAY(3, "支付宝支付"),
-    LAKALA(4,"拉卡拉支付");
+    LAKALA(4,"拉卡拉支付"),
+    WECHAT_V3_PARTNER(5, "微信支付服务商");
 
 
     /**

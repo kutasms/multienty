@@ -1,9 +1,11 @@
 package com.chia.multienty.core.parameter.base;
 
-import lombok.Data;
-import java.time.LocalDateTime;
+import com.chia.multienty.core.annotation.LogMetaId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 /**
  * <p>
  * 系统通知信息更新请求
@@ -20,6 +22,7 @@ public class NoticeUpdateParameter {
         /**
          * 消息id
          */
+        @LogMetaId
         @ApiModelProperty(value = "消息id")
         private Long noticeId;
         /**

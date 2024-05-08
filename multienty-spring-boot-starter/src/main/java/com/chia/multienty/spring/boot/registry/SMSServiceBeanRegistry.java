@@ -19,7 +19,7 @@ public class SMSServiceBeanRegistry implements BeanDefinitionRegistryPostProcess
         Collection<SMSService> services = MultientyServiceLoader.getInstances(SMSService.class);
         for (SMSService service : services) {
             BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(service.getClass());
-            registry.registerBeanDefinition(MultientyConstants.SMS_SERVICE_BEAN_PREFIX + service.getType().name(), builder.getBeanDefinition());
+            registry.registerBeanDefinition(MultientyConstants.SMS_SERVICE_BEAN_PREFIX + service.getType(), builder.getBeanDefinition());
         }
     }
 

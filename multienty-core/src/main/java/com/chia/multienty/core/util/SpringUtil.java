@@ -1,6 +1,7 @@
 package com.chia.multienty.core.util;
 
 import lombok.SneakyThrows;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebApplicationContext;
 import org.springframework.context.ApplicationContext;
 
 public class SpringUtil {
@@ -9,6 +10,13 @@ public class SpringUtil {
 
     public static ApplicationContext getApplicationContext() {
         return context;
+    }
+
+    public static AnnotationConfigServletWebApplicationContext getAnnotationConfigServAppContext() {
+        if(context instanceof AnnotationConfigServletWebApplicationContext) {
+            return (AnnotationConfigServletWebApplicationContext) context;
+        }
+        throw new RuntimeException("The current application context is not AnnotationConfigServletWebApplicationContext.");
     }
 
     public static void setContext(ApplicationContext applicationContext) {
@@ -66,5 +74,10 @@ public class SpringUtil {
 
     public static <T> T getBeanOrCreate(String className) {
         return getBean(className, true);
+    }
+
+
+    public static boolean isLinux() {
+       return context.getEnvironment().getProperty("os.name").toLowerCase().contains("linux");
     }
 }

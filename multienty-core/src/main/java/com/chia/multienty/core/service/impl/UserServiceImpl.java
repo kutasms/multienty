@@ -57,11 +57,10 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -76,6 +75,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -109,6 +109,8 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
     private final ObjectProvider<Map<String,ReactiveAuthenticationManager>> authenticationManagerMap;
     private final PasswordEncoder passwordEncoder;
 
+    private final String DEFAULT_AVATAR = "https://kutashop.cn/img/chia.png";
+
     @Autowired(required = false)
     private DelegatingUserDetailsServiceImpl delegatingUserDetailsService;
 
@@ -125,7 +127,7 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
     @Override
     @SneakyThrows
     public SMSResult sendVerificationCode(LoginVerificationCodeSendParameter parameter) {
-        UserDTO user = getByPhone(parameter.getPhoneNumber(), User::getUserId);
+        LoggedUserVO user = getByPhone(parameter.getPhoneNumber(), User::getUserId);
         if(user == null || user.getUserId() == null) {
             throw new KutaRuntimeException(HttpResultEnum.UN_REGISTERED_PHONE_NUMBER);
         }
@@ -163,7 +165,11 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
         }
         stringRedisService.set(cacheKey, String.valueOf(count + 1), 30 * 60 * 1000);
     }
-
+    private void clearLoginFailureExceedingCache(LoginMode loginMode, String username) {
+        String cacheKey = String.format(MultientyConstants.LOGIN_FAILURE_COUNT_CACHE_KEY,
+                loginMode.getCode(), username);
+        stringRedisService.delete(cacheKey);
+    }
     /**
      * 登录的账户名和密码经过RAS公钥加密
      */
@@ -173,7 +179,7 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
                 multientyProperties.getSecurity().getRsa().getPrivateKey(), parameter.getParam());
         DecryptedLoginInfo info = objectMapper.readValue(origStr, DecryptedLoginInfo.class);
 
-//        checkLoginFailureExceedingThreshold(info);
+        checkLoginFailureExceedingThreshold(info);
         delegatingUserDetailsService.setApplicationType(ApplicationType.PLATFORM);
         Mono<Authentication> authentication = null;
         if(info.getLoginMode().equals(LoginMode.PHONE_CODE)) {
@@ -216,17 +222,18 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
                 throw new KutaRuntimeException(HttpResultEnum.SYSTEM_ERROR);
             }
             if (Objects.isNull(authentication)) {
-                throw new RuntimeException("用户名或密码错误");
+                throw new KutaRuntimeException(HttpResultEnum.TOKEN_APPROVE_ERROR);
             }
         }
 
         return authentication.flatMap(auth -> {
             String token = tokenProvider.createToken(auth);
-            LoggedUserVO user = (LoggedUserVO) auth.getPrincipal();
+            com.chia.multienty.core.domain.vo.LoggedUserVO user = (com.chia.multienty.core.domain.vo.LoggedUserVO) auth.getPrincipal();
             log.info("当前账号对应的token是: {}",token);
-            parameter.setUserId(user.getUserId());
-            WebLogUser.getInstance().setUserName(user.getName()).setUserId(user.getUserId());
-            String cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_USER, user.getUserId());
+            parameter.setUserId(user.getLogUserId());
+            WebLogUser.getInstance().setUserName(user.getName()).setUserId(user.getLogUserId());
+            String cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_USER, user.getLogUserId());
+            clearLoginFailureExceedingCache(info.getLoginMode(), info.getUsername());
             redisTemplate.get().opsForValue().set(cacheKey, user, multientyProperties
                     .getSecurity()
                     .getAuth()
@@ -237,10 +244,9 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
 
 
     @Override
-    public void logout() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        LoggedUserVO loggedUserVO = (LoggedUserVO) authentication.getPrincipal();
-        Long userId = loggedUserVO.getUserId();
+    public void logout(LogoutParameter parameter) {
+        Claims claims = tokenProvider.getClaims(parameter.getToken());
+        Long userId = tokenProvider.getUserId(claims);
         stringRedisService.delete(getCacheKey(userId));
     }
 
@@ -261,10 +267,13 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
 
     @Override
     public LoggedUserVO getUserInfo(Long userId, UserDTO userDTO) throws KutaRuntimeException, IOException {
-        LoggedUserVO loggedUserVO = stringRedisService.get(getCacheKey(userId), LoggedUserVO.class);
+        String cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_USER, userId);
+        LoggedUserVO loggedUserVO = stringRedisService.get(cacheKey, com.chia.multienty.core.domain.vo.LoggedUserVO.class);
+
         if(loggedUserVO != null) {
             return loggedUserVO;
         }
+
         if(userDTO == null) {
             userDTO = getDetail(userId);
         }
@@ -280,10 +289,10 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
                 .username(userDTO.getUsername())
                 .name(userDTO.getName())
                 .avatar(userDTO.getAvatar())
+                .roles(roles.stream().map(m->m.getName()).collect(Collectors.toList()))
                 .permissions(kutaPermissionService
-                        .getPermissions(
-                                new PermissionListGetParameter()
-                                        .setUserId(userDTO.getUserId())
+                        .getFuncPermissions(
+                                new FuncPermissionListGetParameter()
                                         .setOwner(ApplicationType.PLATFORM.getValue())
                                         .setRoles(roles)
                         )
@@ -293,13 +302,9 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
                 .build();
     }
 
-
-
-
-
     @Override
-    public UserDTO getByPhone(String phone, SFunction<User, ?>... columns) {
-        return baseMapper.selectJoinOne(UserDTO.class,
+    public LoggedUserVO getByPhone(String phone, SFunction<User, ?>... columns) {
+        return baseMapper.selectJoinOne(LoggedUserVO.class,
                 new MTLambdaWrapper<User>()
                         .select(columns)
                         .eq(User::getPhone, phone)
@@ -307,13 +312,13 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
     }
 
     @Override
-    public IPage<UserDTO> getList(UserListGetParameter parameter) {
+    public IPage<LoggedUserVO> getList(UserListGetParameter parameter) {
         return baseMapper.selectJoinPage(parameter.getPageObj(),
-                UserDTO.class,
+                LoggedUserVO.class,
                 new MPJLambdaWrapper<User>()
                         .selectAll(User.class)
-                        .selectFunc(KutaFuncEnum.GROUP_CONCAT, Role::getName, UserDTO::getRoleName)
-                        .selectFunc(KutaFuncEnum.GROUP_CONCAT, Role::getRoleId, UserDTO::getRoleIdStrings)
+                        .selectFunc(KutaFuncEnum.GROUP_CONCAT, Role::getName, LoggedUserVO::getJoiningRoles)
+                        .selectFunc(KutaFuncEnum.GROUP_CONCAT, Role::getRoleId, LoggedUserVO::getJoinedRoleIds)
                         .selectFunc(KutaFuncEnum.CASE_ADMIN, Role::getSuperAdmin)
                         .leftJoin(UserRole.class, UserRole::getUserId, User::getUserId)
                         .leftJoin(Role.class,Role::getRoleId, UserRole::getRoleId)
@@ -360,6 +365,9 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
         user.setStatus(StatusEnum.NORMAL.getCode());
         user.setCreateTime(LocalDateTime.now());
         user.setVersion(1L);
+        if(user.getAvatar() == null) {
+            user.setAvatar(DEFAULT_AVATAR);
+        }
         int result = baseMapper.insert(user);
         if(parameter.getRole() != null) {
             UserRole userRole = new UserRole().setUserId(user.getUserId()).setRoleId(parameter.getRole().getRoleId());
@@ -440,30 +448,9 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
     }
 
 
-//    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //取出身份，如果身份为空说明没有认证
-
-        UserDTO userDTO = selectJoinOne(UserDTO.class, mtLambdaWrapper()
-                .selectAll(User.class)
-        );
-
-        LoggedUserVO loggedUser = new LoggedUserVO(userDTO);
-
-        if(!loggedUser.isEnabled()) {
-            throw new DisabledException(HttpResultEnum.USER_DISABLED.getMessage());
-        }
-        if(userDTO.disabled()) {
-            throw new LockedException(HttpResultEnum.USER_ACCOUNT_LOCKED.getMessage());
-        }
-        if(!loggedUser.isAccountNonExpired()) {
-            throw new AccountExpiredException(HttpResultEnum.USER_ACCOUNT_EXPIRED.getMessage());
-        }
-        return loggedUser;
-    }
 
     @Override
-    public Mono<UserDetails> findByUsername(String username) {
+    public UserDetails findByUsername(String username) {
         UserDTO user = selectJoinOne(
                 UserDTO.class,
                 new MTLambdaWrapper<User>()
@@ -483,14 +470,17 @@ public class UserServiceImpl extends KutaBaseServiceImpl<UserMapper, User> imple
 
         List<Role> roles = userRoleService.getRoles(user.getUserId());
 
-        user.setPermissions(kutaPermissionService.getPermissions(
-                new PermissionListGetParameter()
+        user.setPermissions(kutaPermissionService.getFuncPermissions(
+                new FuncPermissionListGetParameter()
                         .setOwner(ApplicationType.PLATFORM.getValue())
-                        .setUserId(user.getUserId())
                         .setRoles(roles)
         ));
-        LoggedUserVO loggedUser = new LoggedUserVO(user);
+
+        user.setSuperAdmin(roles.stream().filter(p->p.getSuperAdmin() != null && p.getSuperAdmin())
+                .findAny().isPresent());
+
+        com.chia.multienty.core.domain.vo.LoggedUserVO loggedUser = new com.chia.multienty.core.domain.vo.LoggedUserVO(user);
         loggedUser.setApplicationType(ApplicationType.PLATFORM);
-        return Mono.just(loggedUser);
+        return loggedUser;
     }
 }

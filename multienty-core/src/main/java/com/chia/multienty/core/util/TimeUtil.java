@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -143,7 +141,15 @@ public class TimeUtil {
         return formatter.format(LocalDateTime.now());
     }
 
-
+    /**
+     * 将ISO格式的字符串转换为LocalDateTime
+     * @param dateTime
+     * @return
+     */
+    public static LocalDateTime parseISOOffsetTime(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        return LocalDateTime.parse(dateTime, formatter);
+    }
 
     /**
      * 获取当前时间的19位字符串(yyyy-MM-dd HH:mm:ss)

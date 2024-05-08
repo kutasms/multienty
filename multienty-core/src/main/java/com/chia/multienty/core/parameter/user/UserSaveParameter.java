@@ -94,12 +94,12 @@ public class UserSaveParameter implements IWebLogUser {
         private List<Long> roleIds;
 
         @Override
-        public Long getUserId() {
+        public Long getLogUserId() {
                 return userId;
         }
 
         @Override
-        public String getUserName() {
+        public String getLogUserName() {
                 return name;
         }
 }

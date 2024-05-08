@@ -1,5 +1,6 @@
 package com.chia.multienty.core.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
@@ -19,7 +20,12 @@ public class JavaObjectUtil {
                 if(sb.length() > 0) {
                     sb.append("&");
                 }
-                sb.append(URLEncoder.encode(StringUtil.toUnderScoreCase(name), StandardCharsets.UTF_8.name()));
+                JsonProperty annoJsonProperty = field.getAnnotation(JsonProperty.class);
+                if(annoJsonProperty != null) {
+                    sb.append(URLEncoder.encode(annoJsonProperty.value(), StandardCharsets.UTF_8.name()));
+                } else {
+                    sb.append(URLEncoder.encode(StringUtil.toUnderScoreCase(name), StandardCharsets.UTF_8.name()));
+                }
                 sb.append("=");
                 sb.append(URLEncoder.encode(value.toString(), StandardCharsets.UTF_8.name()));
             }

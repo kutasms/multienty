@@ -4,6 +4,7 @@ import com.alibaba.nacos.common.utils.StringUtils;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.tools.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -19,6 +20,9 @@ public class JwtTokenAuthenticationFilter implements WebFilter {
     private final YamlMultientyProperties properties;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        if(exchange.getRequest().getMethod().equals(HttpMethod.OPTIONS)) {
+            return chain.filter(exchange);
+        }
         String token = resolveToken(exchange.getRequest());
         if (StringUtils.hasText(token) && this.tokenProvider.validateToken(token)) {
             Authentication authentication = this.tokenProvider.getAuthentication(token);

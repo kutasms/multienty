@@ -50,7 +50,7 @@ public class WechatPayController {
 
     @PostMapping("/update")
     @ApiOperation("更新微信支付")
-    @WebLog
+    @WebLog(target = "WechatPay")
     public Result<Boolean> update(@RequestBody WechatPayUpdateParameter parameter) {
         wechatPayService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class WechatPayController {
 
     @PostMapping("/save")
     @ApiOperation("保存微信支付")
-    @WebLog
+    @WebLog(target = "WechatPay")
     public Result<Boolean> save(@RequestBody WechatPaySaveParameter parameter) {
         wechatPayService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class WechatPayController {
 
     @PostMapping("/enable")
     @ApiOperation("启用微信支付")
-    @WebLog
+    @WebLog(target = "WechatPay")
     public Result<Boolean> enable(@RequestBody WechatPayEnableParameter parameter) {
         wechatPayService.enable(parameter);
         return new Result<>(true);
@@ -74,15 +74,15 @@ public class WechatPayController {
 
     @PostMapping("/disable")
     @ApiOperation("禁用微信支付")
-    @WebLog
-    public Result<Boolean> save(@RequestBody WechatPayDisableParameter parameter) {
+    @WebLog(target = "WechatPay")
+    public Result<Boolean> disable(@RequestBody WechatPayDisableParameter parameter) {
         wechatPayService.disable(parameter);
         return new Result<>(true);
     }
 
     @DeleteMapping("/delete")
     @ApiOperation("删除微信支付")
-    @WebLog
+    @WebLog(target = "WechatPay")
     public Result<Boolean> delete(@RequestBody WechatPayDeleteParameter parameter) {
         wechatPayService.delete(parameter);
         return new Result<>(true);

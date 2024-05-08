@@ -50,7 +50,7 @@ public class UploadedFileController {
 
     @PostMapping("/update")
     @ApiOperation("更新已上传文件")
-    @WebLog
+    @WebLog(target = "UploadedFile")
     public Result<Boolean> update(@RequestBody UploadedFileUpdateParameter parameter) {
         uploadedFileService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class UploadedFileController {
 
     @PostMapping("/save")
     @ApiOperation("保存已上传文件")
-    @WebLog
+    @WebLog(target = "UploadedFile")
     public Result<Boolean> save(@RequestBody UploadedFileSaveParameter parameter) {
         uploadedFileService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class UploadedFileController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除已上传文件")
-    @WebLog
+    @WebLog(target = "UploadedFile")
     public Result<Boolean> delete(@RequestBody UploadedFileDeleteParameter parameter) {
         uploadedFileService.delete(parameter);
         return new Result<>(true);

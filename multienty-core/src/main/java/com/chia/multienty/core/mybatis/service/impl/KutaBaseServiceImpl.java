@@ -3,12 +3,16 @@ package com.chia.multienty.core.mybatis.service.impl;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.exception.OptimisticLockUpdateFailureException;
 import com.chia.multienty.core.mybatis.KutaBaseMapper;
+import com.chia.multienty.core.mybatis.KutaSqlMethod;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
 import com.chia.multienty.core.pojo.SearchEntity;
@@ -19,7 +23,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -47,7 +53,68 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
     @Override
     public <D> T getBy(Serializable id,
                    SFunction<D, ?>... columns) {
+
         return baseMapper.getByPrimaryKey(id, Arrays.asList(columns));
+    }
+
+    @Override
+    public T getByIdAndSharding(T entity) {
+        return baseMapper.getByIdAndSharding(entity);
+    }
+
+
+    @Override
+    public <DTO extends T> boolean updateByIdAndSharding(DTO entity) {
+        if(null == entity) {
+            return false;
+        }
+        return SqlHelper.retBool(baseMapper.updateByIdAndSharding(entity));
+    }
+
+    @Override
+    public <DTO extends T> boolean updateBatchByIdAndSharding(Collection<DTO> entityList, int batchSize) {
+        String sqlStatement = getSqlStatement(KutaSqlMethod.UPDATE_BY_ID_AND_SHARDING);
+        return executeBatch(entityList, batchSize, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.update(sqlStatement, param);
+        });
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public <DTO extends T> boolean updateBatchByIdAndSharding(Collection<DTO> entityList) {
+        return updateBatchByIdAndSharding(entityList, DEFAULT_BATCH_SIZE);
+    }
+
+    @Override
+    public boolean removeByIdAndSharding(T entity) {
+        if(null == entity) {
+            return false;
+        }
+        return SqlHelper.retBool(getBaseMapper().deleteByIdAndSharding(entity));
+    }
+
+    @Override
+    public boolean removeBatchByIdAndSharding(Collection<T> entityList, int batchSize) {
+        String sqlStatement = getSqlStatement(KutaSqlMethod.DELETE_BY_ID_AND_SHARDING);
+        return executeBatch(entityList, batchSize, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.delete(sqlStatement, param);
+        });
+    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeBatchByIdAndSharding(Collection<T> entityList){
+        return removeBatchByIdAndSharding(entityList, DEFAULT_BATCH_SIZE);
+    }
+
+    protected String getSqlStatement(KutaSqlMethod sqlMethod) {
+        return getSqlStatement(mapperClass, sqlMethod);
+    }
+    public static String getSqlStatement(Class<?> mapper, KutaSqlMethod sqlMethod) {
+        return mapper.getName() + StringPool.DOT + sqlMethod.getName();
     }
 
     @Override
@@ -138,6 +205,7 @@ public class KutaBaseServiceImpl<M extends KutaBaseMapper<T>, T> extends MPJBase
         if(!save(entity)) {
             throw new KutaRuntimeException(HttpResultEnum.SYSTEM_DATABASE_ERROR);
         }
+
     }
 
     @Override

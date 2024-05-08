@@ -44,12 +44,12 @@ public class SettingServiceImpl extends KutaBaseServiceImpl<SettingMapper, Setti
 
     @Override
     public List<Setting> getSettings(Integer appId, Long owner) {
-        return list(lambdaQuery().eq(Setting::getAppId, appId).eq(Setting::getOwner, owner));
+        return list(mtLambdaWrapper().eq(Setting::getAppId, appId).eq(Setting::getOwner, owner));
     }
 
     @Override
     public Setting getSetting(Integer appId, Long owner, String name) {
-        return getOne(lambdaQuery().eq(Setting::getAppId, appId).eq(Setting::getOwner, owner).eq(Setting::getName, name));
+        return getOne(mtLambdaWrapper().eq(Setting::getAppId, appId).eq(Setting::getOwner, owner).eq(Setting::getName, name));
     }
 
     @Override

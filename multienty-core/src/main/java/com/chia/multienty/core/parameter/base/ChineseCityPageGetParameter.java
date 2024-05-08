@@ -24,4 +24,9 @@ public class ChineseCityPageGetParameter extends DefaultListGetParameter<Chinese
      */
      @ApiModelProperty(value = "城市id列表")
      private List<Long> cityIds;
+    /**
+     * 父级城市id
+     */
+    @ApiModelProperty(value = "父级城市id")
+     private Long cityPid;
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GetByPrimaryKeyMethod extends AbstractMethod {
     public GetByPrimaryKeyMethod() {
-        super("getByPrimaryKey");
+        super(KutaSqlMethod.GET_BY_PRIMARY_KEY.getName());
     }
 
     @Override

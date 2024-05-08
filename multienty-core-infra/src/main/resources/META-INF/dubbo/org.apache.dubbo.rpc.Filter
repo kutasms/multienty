@@ -1,0 +1,2 @@
+multientyDubboConsumerFilter = com.chia.multienty.core.infra.filter.MultientyDubboConsumerFilter
+multientyDubboProviderFilter = com.chia.multienty.core.infra.filter.MultientyDubboProviderFilter

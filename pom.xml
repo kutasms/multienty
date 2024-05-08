@@ -19,11 +19,14 @@
         <module>multienty-core</module>
         <module>multienty-core-mysql-resource</module>
         <module>multienty-spring-boot-starter</module>
-        <module>multienty-generator</module>
+        <module>multienty-master</module>
         <module>multienty-wechat-third-party</module>
         <module>multienty-gateway</module>
         <module>multienty-admin</module>
-        <module>multienty-oauth</module><module>multienty-core-fusion</module>
+        <module>multienty-oauth</module>
+        <module>multienty-core-infra</module>
+        <module>multienty-plugin</module>
+        <module>multienty-workflow</module>
     </modules>
 
      <properties>
@@ -69,6 +72,10 @@
          <httpcomponent.version>4.5.13</httpcomponent.version>
          <commons-codec.version>1.9</commons-codec.version>
          <boot-admin.version>2.6.11</boot-admin.version>
+         <flowable.version>6.4.0</flowable.version>
+         <kryo.version>1.0.1</kryo.version>
+         <zxing.version>3.3.3</zxing.version>
+         <mp.weixin.version>4.6.0</mp.weixin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -84,10 +91,25 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-serialization-kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -124,6 +146,11 @@
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
                 <version>${seata.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
             </dependency>
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -318,6 +345,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <!--微信依赖-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java-mp-spring-boot-starter</artifactId>
+                <version>${mp.weixin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -8,6 +8,7 @@ import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.basic.WebLogUser;
 import com.chia.multienty.core.domain.bo.PhoneCodeAuthentication;
+import com.chia.multienty.core.domain.constants.MultientyCacheKey;
 import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.domain.dto.PublicKeyDTO;
 import com.chia.multienty.core.domain.dto.TenantDTO;
@@ -22,21 +23,14 @@ import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.mapper.TenantMapper;
 import com.chia.multienty.core.mybatis.KutaFuncEnum;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
-import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.parameter.tenant.*;
-import com.chia.multienty.core.parameter.user.LoginParameter;
-import com.chia.multienty.core.parameter.user.LoginVerificationCodeSendParameter;
-import com.chia.multienty.core.parameter.user.LogoutParameter;
-import com.chia.multienty.core.parameter.user.PermissionListGetParameter;
+import com.chia.multienty.core.parameter.user.*;
 import com.chia.multienty.core.pojo.Role;
 import com.chia.multienty.core.pojo.Tenant;
 import com.chia.multienty.core.pojo.TenantRole;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
-import com.chia.multienty.core.service.MultientyUserService;
-import com.chia.multienty.core.service.PermissionService;
-import com.chia.multienty.core.service.TenantRoleService;
-import com.chia.multienty.core.service.TenantService;
+import com.chia.multienty.core.service.*;
 import com.chia.multienty.core.strategy.sms.SMSService;
 import com.chia.multienty.core.strategy.sms.SMSServiceFactory;
 import com.chia.multienty.core.strategy.sms.domain.SMSResult;
@@ -47,11 +41,13 @@ import com.chia.multienty.core.tools.TokenProvider;
 import com.chia.multienty.core.util.*;
 import com.github.yulichang.toolkit.MPJWrappers;
 import com.google.common.collect.Lists;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,11 +56,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -93,6 +91,8 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
     private final TenantRoleService tenantRoleService;
 
     private final PermissionService permissionService;
+
+    private final TenantSubAccountService tenantSubAccountService;
 
     private final ObjectProvider<Map<String,ReactiveAuthenticationManager>> authenticationManagerMap;
 
@@ -185,6 +185,12 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
         stringRedisService.set(cacheKey, String.valueOf(count + 1), 30 * 60 * 1000);
     }
 
+    private void clearLoginFailureExceedingCache(LoginMode loginMode, String username) {
+        String cacheKey = String.format(MultientyConstants.LOGIN_FAILURE_COUNT_CACHE_KEY,
+                loginMode.getCode(), username);
+        stringRedisService.delete(cacheKey);
+    }
+
     /**
      * 登录的账户名和密码经过RAS公钥加密
      */
@@ -194,11 +200,11 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
                 multientyProperties.getSecurity().getRsa().getPrivateKey(), parameter.getParam());
         DecryptedLoginInfo info = objectMapper.readValue(origStr, DecryptedLoginInfo.class);
         Mono<Authentication> authentication = null;
-//        checkLoginFailureExceedingThreshold(info);
+        checkLoginFailureExceedingThreshold(info);
 
         Authentication src = null;
 
-        delegatingUserDetailsService.setApplicationType(ApplicationType.TENANT);
+        delegatingUserDetailsService.setApplicationType(ApplicationType.MERCHANT, info.getAccType());
 
         Optional<ReactiveAuthenticationManager> delegate = null;
 
@@ -223,8 +229,14 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
         return authentication.flatMap(auth-> {
             LoggedUserVO user = (LoggedUserVO) auth.getPrincipal();
             String token = tokenProvider.createToken(auth);
-            parameter.setUserId(user.getUserId());
-            WebLogUser.getInstance().setUserName(user.getName()).setUserId(user.getUserId());
+            parameter.setUserId(user.getLogUserId());
+            WebLogUser.getInstance().setUserName(user.getName()).setUserId(user.getLogUserId());
+            String cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_TENANT, user.getLogUserId());
+            redisTemplate.get().opsForValue().set(cacheKey, user, multientyProperties
+                    .getSecurity()
+                    .getAuth()
+                    .getAccessTokenExpired(), TimeUnit.SECONDS);
+            clearLoginFailureExceedingCache(info.getLoginMode(), info.getUsername());
             return Mono.just(new Result<>(LoginResult.builder()
                     .code(200)
                     .msg("success")
@@ -245,11 +257,8 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
 
     @Override
     public void logout(LogoutParameter parameter) {
-        TenantDTO user = getByToken(parameter.getToken());
-        if(user != null) {
-            parameter.setUserId(user.getTenantId());
-        }
-        redisTemplate.ifPresent(template-> template.delete(parameter.getToken()));
+        Long userId = tokenProvider.getUserId(parameter.getToken());
+        redisTemplate.ifPresent(template-> template.delete(getCacheKey(userId)));
     }
 
 
@@ -270,16 +279,30 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
 
     @Override
     public void save(TenantSaveParameter parameter) {
+        parameter.setPassword(MD5Util.md5WithSalt(parameter.getPassword()));
         Tenant tenant = new Tenant();
         BeanUtils.copyProperties(parameter, tenant);
         tenant.setTenantId(IdWorkerProvider.next());
-        saveTE(tenant);
+        tenant.setTenantNo(RandomStringUtils.getRandomCode(6, 6));
+        tenant.setExpired(false);
+        tenant.setLocked(false);
+        try {
+            saveTE(tenant);
+        }
+        catch (Exception ex) {
+            if(ex instanceof DuplicateKeyException) {
+                throw new KutaRuntimeException(HttpResultEnum.DUPLICATE_USERNAME);
+            }
+        }
         parameter.setTenantId(tenant.getTenantId());
     }
 
     @Override
     public void update(TenantUpdateParameter parameter) {
         Tenant tenant = new Tenant();
+        if(parameter.getPassword().length() < 20) {
+            parameter.setPassword(MD5Util.md5WithSalt(parameter.getPassword()));
+        }
         BeanUtils.copyProperties(parameter, tenant);
         updateByIdTE(tenant);
     }
@@ -290,28 +313,38 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
     }
 
     @Override
-    public LoggedUserVO getLoggedInfo() throws KutaRuntimeException {
-        TenantDTO cachedTenant = getByToken(MultientyContext.getToken());
-        if(cachedTenant == null) {
-            throw new KutaRuntimeException(HttpResultEnum.TOKEN_EXPIRED);
+    public LoggedUserVO getLoggedInfo() throws KutaRuntimeException, IOException {
+
+        String token = MultientyContext.getToken();
+        Claims claims = tokenProvider.getClaims(token);
+        String userId = claims.getSubject();
+        String cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_TENANT, userId);
+        LoggedUserVO loggedUserVO = stringRedisService.get(cacheKey, LoggedUserVO.class);
+        if(loggedUserVO != null) {
+            return loggedUserVO;
         }
-        List<Role> roles = tenantRoleService.getRoles(cachedTenant.getTenantId());
-        Tenant tenant = getBy(cachedTenant.getTenantId(),
-                Tenant::getCompanyName,
-                Tenant::getAvatar);
+
+        if(!loggedUserVO.getIsMainAcc()) {
+            return tenantSubAccountService.getLoggedUser(Long.parseLong(userId));
+        }
+
+        Tenant tenant = getOne(mtLambdaWrapper().eq(Tenant::getTenantId, Long.parseLong(userId)));
+        if(tenant.getAvatar() == null) {
+            tenant.setAvatar(MultientyConstants.DEFAULT_AVATAR);
+        }
+        List<Role> roles = tenantRoleService.getRoles(tenant.getTenantId());
         return LoggedUserVO
                 .builder()
                 .username(tenant.getCompanyName())
                 .avatar(tenant.getAvatar())
                 .permissions(permissionService
-                        .getPermissions(
-                                new PermissionListGetParameter()
+                        .getFuncPermissions(
+                                new FuncPermissionListGetParameter()
                                         .setRoles(roles)
-                                        .setOwner(ApplicationType.TENANT.getValue())
-                                        .setUserId(cachedTenant.getTenantId())
+                                        .setOwner(ApplicationType.MERCHANT.getValue())
                         )
-
                 )
+                .roles(roles.stream().map(m->m.getName()).collect(Collectors.toList()))
                 .superAdmin(roles
                         .stream()
                         .filter(p->p.getSuperAdmin() != null && p.getSuperAdmin())
@@ -320,7 +353,7 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
     }
 
     @Override
-    public Mono<UserDetails> findByUsername(String username) {
+    public UserDetails findByUsername(String username) {
         TenantDTO tenant = selectJoinOne(
                 TenantDTO.class,
                 new MTLambdaWrapper<Tenant>()
@@ -340,15 +373,18 @@ public class TenantServiceImpl extends KutaBaseServiceImpl<TenantMapper, Tenant>
 
         List<Role> roles = tenantRoleService.getRoles(tenant.getTenantId());
         if(roles.size() > 0) {
-            tenant.setPermissions(permissionService.getPermissions(
-                    new PermissionListGetParameter()
+            tenant.setPermissions(permissionService.getFuncPermissions(
+                    new FuncPermissionListGetParameter()
                             .setOwner(ApplicationType.PLATFORM.getValue())
-                            .setUserId(tenant.getTenantId())
                             .setRoles(roles)
             ));
         }
+        tenant.setSuperAdmin(true);
+        if(tenant.getAvatar() == null) {
+            tenant.setAvatar(MultientyConstants.DEFAULT_AVATAR);
+        }
         LoggedUserVO loggedUser = new LoggedUserVO(tenant);
-        loggedUser.setApplicationType(ApplicationType.TENANT);
-        return Mono.just(loggedUser);
+        loggedUser.setApplicationType(ApplicationType.MERCHANT);
+        return loggedUser;
     }
 }

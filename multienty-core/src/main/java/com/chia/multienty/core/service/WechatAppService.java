@@ -2,15 +2,11 @@ package com.chia.multienty.core.service;
 
 import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.mybatis.service.KutaBaseService;
+import com.chia.multienty.core.parameter.wechat.*;
 import com.chia.multienty.core.pojo.WechatApp;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppPageGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppDeleteParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppEnableParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppDisableParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppSaveParameter;
-import com.chia.multienty.core.parameter.wechat.WechatAppUpdateParameter;
+import com.chia.multienty.core.strategy.pay.domain.PayType;
+
 /**
  * <p>
  * 微信应用 服务类
@@ -25,9 +21,15 @@ public interface WechatAppService extends KutaBaseService<WechatApp> {
 
     WechatApp getBy(Long tenantId, String appId);
 
+    boolean isWorking(Long tenantId, String appId);
+
+    PayType getPayType(Long programId);
+
     WechatApp getByAppId(String appId);
 
     WechatApp getByPreAuthCode(String preAuthCode);
+
+    WechatApp getByUniqueId(String uniqueId);
 
     WechatApp getWaiting(Long tenantId);
 
@@ -37,6 +39,9 @@ public interface WechatAppService extends KutaBaseService<WechatApp> {
     void enable(WechatAppEnableParameter parameter);
 
     void disable(WechatAppDisableParameter parameter);
+
+
+    void setSubMchId(WechatAppSubMchIdSetParameter parameter);
 
     void save(WechatAppSaveParameter parameter);
 

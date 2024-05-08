@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.chia.multienty.core.domain.dto.WechatAppDTO;
 import com.chia.multienty.core.domain.enums.TerminalType;
 import com.chia.multienty.core.dubbo.service.DubboMultientyService;
+import com.chia.multienty.core.dubbo.service.DubboWechatService;
 import com.chia.multienty.core.parameter.wechat.WechatAppDetailGetParameter;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.strategy.pay.domain.*;
@@ -15,12 +16,12 @@ import com.chia.multienty.core.strategy.pay.weixin.sdk.PaymentApi;
 import com.chia.multienty.core.strategy.pay.weixin.sdk.PaymentKit;
 import com.chia.multienty.core.strategy.pay.weixin.sdk.WXPayUtil;
 import com.chia.multienty.core.strategy.pay.weixin.service.WxPayService;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.chia.multienty.core.util.KutaBeanUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,16 +34,22 @@ import java.util.Map;
  * */
 @Service
 @Slf4j(topic = "WxPayServiceImpl")
-@RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.multienty.wechat.pay", name = "active", havingValue = "wechat-v2")
 public class WxPayServiceImpl implements WxPayService {
 
+    @Autowired
+    private YamlMultientyProperties properties;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired(required = false)
+    private DubboMultientyService dubboMultientyService;
+    @Autowired(required = false)
+    private DubboWechatService dubboWechatService;
 
-    private final YamlMultientyProperties properties;
+    @Override
+    public String getType() {
+        return "wechat-v2";
+    }
 
-    private final ObjectMapper objectMapper;
-
-    private final DubboMultientyService dubboMultientyService;
     /**
      * 微信退款
      * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4">微信支付v2退款接口</a>
@@ -51,9 +58,10 @@ public class WxPayServiceImpl implements WxPayService {
     @SneakyThrows
     public MTPayRefund refund(MTRefundRequest req) {
 
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
 
         //退款资金来源-可用余额退款
@@ -94,9 +102,10 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Override
     public MTPrepayResponse prepay(MTPrepayRequest req) throws Exception {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         Map<String, Object> requestParams = new HashMap<>();
         //生成一个新的订单支付编号
@@ -143,7 +152,7 @@ public class WxPayServiceImpl implements WxPayService {
         //终端IP
         requestParams.put(WeixinPayConstants.SPBILL_CREATE_IP, req.getIp());
         //通知地址
-        requestParams.put(WeixinPayConstants.NOTIFY_URL,  req.getNotifyUrl());
+        requestParams.put(WeixinPayConstants.NOTIFY_URL,  properties.getWechat().getPay().getV2NotifyUrls().get("order-pay"));
         //签名
         String sign = WXPayUtil.generateSignature(requestParams, app.getPay().getApiV2Key());
         requestParams.put(WeixinPayConstants.SIGN, sign);
@@ -181,9 +190,10 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Override
     public MTPayTransaction queryOrder(Long programId, String outTradeNo) throws Exception {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         Map<String, Object> resultMap = PaymentApi.queryByOutTradeNo(
                 app.getMiniAppId(),
@@ -197,9 +207,10 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     @SneakyThrows
     public MTPayOrderCloseResult closeOrder(MTPayOrderCloseRequest req) {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(req.getProgramId())
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         Map<String, Object> resultMap = PaymentApi.closeOrder(app.getMiniAppId(),
                 app.getPay().getMchId(),
@@ -214,9 +225,10 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     @SneakyThrows
     public MTPayRefund queryRefund(Long programId, String outRefundNo) {
-        WechatAppDTO app = dubboMultientyService.getWechatApp(new WechatAppDetailGetParameter()
+        WechatAppDTO app = dubboWechatService.getWechatApp(new WechatAppDetailGetParameter()
                 .setContainsPay(true)
                 .setProgramId(programId)
+                .setTenantId(MultientyContext.getTenant().getTenantId())
                 .setContainsTemplates(false));
         Map<String, Object> resultMap = PaymentApi.refundQueryByOutRefundNo(app.getMiniAppId(),
                 app.getPay().getMchId(),

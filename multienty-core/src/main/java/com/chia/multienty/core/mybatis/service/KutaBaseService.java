@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.yulichang.base.MPJBaseService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -16,7 +17,26 @@ public interface KutaBaseService<T> extends MPJBaseService<T> {
     <D> T getBy(Serializable id,
             SFunction<D, ?>... columns);
 
+    T getByIdAndSharding(T entity);
+
+
+
+
+    <DTO extends T> boolean updateByIdAndSharding(DTO entity);
+
+    <DTO extends T> boolean updateBatchByIdAndSharding(Collection<DTO> entityList, int batchSize);
+
+    @Transactional(rollbackFor = Exception.class)
+    <DTO extends T> boolean updateBatchByIdAndSharding(Collection<DTO> entityList);
+
+    boolean removeByIdAndSharding(T entity);
+
+    boolean removeBatchByIdAndSharding(Collection<T> entityList, int batchSize);
+
+    boolean removeBatchByIdAndSharding(Collection<T> entityList);
+
     String getCacheKey(Long id);
+
 
     void cacheObj(T obj, long expire) throws IllegalAccessException, JsonProcessingException;
 

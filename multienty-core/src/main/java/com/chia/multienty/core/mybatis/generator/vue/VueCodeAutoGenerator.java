@@ -2,10 +2,13 @@ package com.chia.multienty.core.mybatis.generator.vue;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.IFill;
 import com.baomidou.mybatisplus.generator.config.CustomFileConditionWrapper;
 import com.baomidou.mybatisplus.generator.config.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
@@ -23,15 +26,16 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-@ConditionalOnProperty(prefix = "spring.kuta.vue-code-generator", name="enabled", havingValue = "true")
 @Slf4j
 public class VueCodeAutoGenerator {
 
@@ -59,6 +63,8 @@ public class VueCodeAutoGenerator {
 
     @Autowired
     private VueCodeGeneratorProperties vueProperties;
+
+    private final static FreemarkerTemplateEngine engine = new FreemarkerTemplateEngine();
 
     private final static Map<String, String> componentTemplates;
 
@@ -154,28 +160,37 @@ public class VueCodeAutoGenerator {
                                         .fileName(".vue")
                                         .fileType(FileType.INDEX.name())
                                         .formatNameFunction(tableInfo -> StringUtil.camelCase(tableInfo.getEntityName()))
-                                        .filePath(vueProperties.getProjectPath() + SymbolEnum.SLASH.getCode() + vueProperties.getViews().getPath())
+                                        .filePath(Paths.get(vueProperties.getProjectPath(), vueProperties.getViews().getPath()).toString())
                                         .templatePath(INDEX_PAGE_TEMPLATE)
                                         .build()
                                 ;
+                                if(vueProperties.getOverrideMapping().containsKey(FileType.INDEX.name())) {
+                                    file.enableFileOverride();
+                                }
                             })
                             .customFile(file->{
                                 file.packageName(Strings.EMPTY)
                                         .fileName(".vue")
                                         .fileType(FileType.EDITOR.name())
                                         .formatNameFunction(tableInfo -> StringUtil.camelCase(tableInfo.getEntityName()) + "Editor")
-                                        .filePath(vueProperties.getProjectPath() + SymbolEnum.SLASH.getCode() + vueProperties.getViews().getPath() + "/components")
+                                        .filePath(Paths.get(vueProperties.getProjectPath(),vueProperties.getViews().getPath(), "components").toString())
                                         .templatePath(EDITOR_PAGE_TEMPLATE)
                                         .build();
+                                if(vueProperties.getOverrideMapping().containsKey(FileType.EDITOR.name())) {
+                                    file.enableFileOverride();
+                                }
                             })
                             .customFile(file-> {
                                 file.packageName(Strings.EMPTY)
                                         .fileName(".js")
                                         .fileType(FileType.APIS.name())
                                         .formatNameFunction(tableInfo -> StringUtil.camelCase(tableInfo.getEntityName()))
-                                        .filePath(vueProperties.getProjectPath() + SymbolEnum.SLASH.getCode() + vueProperties.getApis().getPath())
+                                        .filePath(Paths.get(vueProperties.getProjectPath(), vueProperties.getApis().getPath()).toString())
                                         .templatePath(APIS_PAGE_TEMPLATE)
                                 ;
+                                if(vueProperties.getOverrideMapping().containsKey(FileType.APIS.name())) {
+                                    file.enableFileOverride();
+                                }
                             })
 
 //                            .customFile(file-> {
@@ -202,7 +217,7 @@ public class VueCodeAutoGenerator {
                                 overrideParameterData(tableInfo, objectMap, injectionConfig);
                             })
                             .customFileCondition((tableInfo, customFileConditionWrapper) -> filterComponent(tableInfo, customFileConditionWrapper));
-                }).templateEngine(new FreemarkerTemplateEngine());
+                }).templateEngine(engine);
 
         fastAutoGenerator.execute();
     }
@@ -210,10 +225,14 @@ public class VueCodeAutoGenerator {
     private Boolean filterComponent(TableInfo tableInfo, CustomFileConditionWrapper wrapper) {
         FileType fileType = FileType.valueOf(wrapper.getFile().getFileType());
         Boolean result = true;
-
+        if(vueProperties.getIgnoreEntities().contains(tableInfo.getEntityName())) {
+            return false;
+        }
+//        if(!vueProperties.getPathOverride().containsKey(tableInfo.getEntityName())) {
+//            return false;
+//        }
         switch (fileType) {
             case INDEX:
-                break;
             case APIS:
                 break;
             case COMPONENT:
@@ -233,6 +252,32 @@ public class VueCodeAutoGenerator {
 //                    result = false;
 //                }
 //                break;
+        }
+        if(result) {
+            // 判定文件类型是否重写
+            boolean fileTypeOverride = vueProperties.getOverrideMapping().containsKey(fileType.name());
+            if(fileTypeOverride) {
+                boolean entityOverride = vueProperties.getOverrideMapping().get(fileType.name()).contains(tableInfo.getEntityName());
+                if(!entityOverride) {
+                    // 当此文件类型配置为重写，但当前类型不重写时先判定文件是否存在，如果文件已存在则过滤掉，不允许重写。
+                    String parentPath = engine.getConfigBuilder().getPathInfo().get(OutputFile.parent);
+                    String filePath = StringUtils.isNotBlank(wrapper.getFile().getFilePath()) ? wrapper.getFile().getFilePath()
+                            : parentPath;
+                    if (StringUtils.isNotBlank(wrapper.getFile().getPackageName())) {
+                        filePath = filePath + File.separator + wrapper.getFile().getPackageName().replaceAll("\\.",
+                                StringPool.BACK_SLASH + File.separator);
+                    }
+                    Function<TableInfo, String> formatNameFunction = wrapper.getFile().getFormatNameFunction();
+                    String fileName = filePath
+                            + File.separator + (null != formatNameFunction ? formatNameFunction.apply(tableInfo)
+                            : tableInfo.getEntityName()) + wrapper.getFile().getFileName();
+                    File file = new File(fileName);
+                    if(file.exists()) {
+                        // 文件存在
+                        return false;
+                    }
+                }
+            }
         }
         return result;
     }
@@ -279,15 +324,19 @@ public class VueCodeAutoGenerator {
         objectMap.put("inputIconMapping", vueProperties.getInputIconMapping());
         objectMap.put("formatter", vueProperties.getViews().getFormatter());
         objectMap.put("apis", vueProperties.getApis());
+        String serviceModuleName = vueProperties.getServiceModuleMapping().get(tableInfo.getEntityName());
+        objectMap.put("serviceModuleName", serviceModuleName == null ? "master": serviceModuleName);
 
+        String packageName = vueProperties
+                .getPathOverride()
+                .get(tableInfo.getEntityName());
+        objectMap.put("pkg", packageName);
         for (CustomFile customFile : injectionConfig.getCustomFiles()) {
-            if(vueProperties.getViews().getPathOverride().containsKey(tableInfo.getEntityName())) {
+            if(vueProperties.getPathOverride().containsKey(tableInfo.getEntityName())) {
                 if(customFile.getFileType().equals(FileType.INDEX.name()) || customFile.getFileType().equals(FileType.APIS.name())) {
                     Field fieldPackageName = customFile.getClass().getDeclaredField("packageName");
                     fieldPackageName.setAccessible(true);
-                    fieldPackageName.set(customFile, vueProperties
-                            .getViews().getPathOverride()
-                            .get(tableInfo.getEntityName()));
+                    fieldPackageName.set(customFile, packageName);
                     fieldPackageName.setAccessible(false);
                 }
                 else if (customFile.getFileType().equals(FileType.EDITOR.name())) {
@@ -297,14 +346,15 @@ public class VueCodeAutoGenerator {
                     fieldFilePath.set(customFile, viewsPath
                             + SymbolEnum.SLASH.getCode()
                             + vueProperties
-                            .getViews().getPathOverride()
+                            .getPathOverride()
                             .get(tableInfo.getEntityName())
                             + SymbolEnum.SLASH.getCode()
-                            + "components"
+                            + "component"
                     );
                     fieldFilePath.setAccessible(false);
                 }
             }
+
         }
         // 重写组件的模版路径（根据组件类型进行区分）
         rewriteComponentTemplatePath(tableInfo, injectionConfig);
@@ -319,7 +369,7 @@ public class VueCodeAutoGenerator {
                 viewPageProperties.getIndex().setTable(new VueGeneratorPageIndexTableProperties());
                 if(viewPageProperties.getEditor() == null) {
                     viewPageProperties.setEditor(new VueGeneratorEditorProperties());
-                    viewPageProperties.getEditor().setFormItems(getDefaultFormItemMap(tableInfo));
+                    setDefaultEditor(viewPageProperties.getEditor(), tableInfo);
                 }
                 if(viewPageProperties.getIndex().getTable().getTableColumns() == null) {
                     String[] columns = new String[1];
@@ -336,8 +386,12 @@ public class VueCodeAutoGenerator {
         }
     }
 
-    private Map<String, VueGeneratorEditorFormItemProperties> getDefaultFormItemMap(TableInfo tableInfo) {
+    private void setDefaultEditor(
+            VueGeneratorEditorProperties editorProperties,
+            TableInfo tableInfo) {
         Map<String, VueGeneratorEditorFormItemProperties> formItemMap = new HashMap<>();
+        Map<String, String> dataValues = new HashMap<>();
+        Map<String, String> watches = new HashMap<>();
         tableInfo.getFields().forEach(field-> {
             if(!field.isKeyFlag()
                     && !field.isVersionField()
@@ -351,19 +405,19 @@ public class VueCodeAutoGenerator {
                 if(type.equals(DbColumnType.BASE_BOOLEAN.getType())
                     || type.equals(DbColumnType.BOOLEAN.getType())) {
                      formItemProperties = new VueGeneratorEditorFormItemProperties()
-                            .setComponent("el-checkbox");
+                            .setComponent("el-checkbox").setHyphenName("el-checkbox");
                 } else if(type.equals(DbColumnType.LOCAL_TIME.getType())) {
                      formItemProperties = new VueGeneratorEditorFormItemProperties()
-                            .setComponent("el-time-select");
+                            .setComponent("el-time-select").setHyphenName("el-time-select");
                 } else if (type.equals(DbColumnType.LOCAL_DATE.getType())) {
                     formItemProperties = new VueGeneratorEditorFormItemProperties()
-                            .setComponent("el-date-picker").setType("date");
+                            .setComponent("el-date-picker").setType("date").setHyphenName("el-date-picker");
                 } else if(type.equals(DbColumnType.LOCAL_DATE_TIME.getType())) {
                      formItemProperties = new VueGeneratorEditorFormItemProperties()
-                            .setComponent("el-date-picker").setType("datetime");
+                            .setComponent("el-date-picker").setType("datetime").setHyphenName("el-date-picker");
                 } else {
                      formItemProperties = new VueGeneratorEditorFormItemProperties()
-                            .setComponent("el-input");
+                            .setComponent("el-input").setHyphenName("el-input");
                 }
                 formItemProperties.setBindings(MapBuilder.<String,String>create()
                         .add("v-model", "form." + field.getPropertyName()).get());
@@ -372,11 +426,13 @@ public class VueCodeAutoGenerator {
                 if(field.getPropertyName().equals("valueType")) {
                     formItemProperties = new VueGeneratorEditorFormItemProperties()
                             .setComponent("kt-value-type-selector")
+                            .setHyphenName("kt-value-type-selector")
                             .setBindings(MapBuilder.<String, String>create().add("v-model","form.valueType").get());
                 }
                 if(field.getPropertyName().equals("value")) {
                     formItemProperties = new VueGeneratorEditorFormItemProperties()
                             .setComponent("kt-value-input")
+                            .setHyphenName("kt-value-input")
                             .setBindings(MapBuilder.<String, String>create()
                                     .add("v-model","form.value")
                                     .add("value-type", type)
@@ -387,7 +443,69 @@ public class VueCodeAutoGenerator {
                     formItemProperties.setType("textarea");
                 }
 
+                // 从组件映射中查找是否有关联的
+                if(vueProperties.getComponents() != null && vueProperties.getComponents().getMapping()!=null
+                && vueProperties.getComponents().getMapping().size() > 0) {
+                    Optional<Map.Entry<String, VueGeneratorComponentProperties>> optional = vueProperties.getComponents().getMapping()
+                            .entrySet()
+                            .stream()
+                            .filter(p -> p.getValue().getKey().equals(field.getPropertyName()))
+                            .findAny();
+                    if(optional.isPresent()) {
+                        Map.Entry<String, VueGeneratorComponentProperties> compEntry = optional.get();
+                        if(field.getPropertyName().equals("details")) {
+                            formItemProperties = new VueGeneratorEditorFormItemProperties()
+                                    .setComponent("kt-rich-text-editor")
+                                    .setHyphenName("kt-rich-text-editor")
+                                    .setBindings(MapBuilder.<String, String>create()
+                                            .add("v-model","form.details")
+                                            .get());
+                        } else {
+                            Map<String, String> bindingsMapping = new HashMap<>();
+                            if(compEntry.getValue().getBindings() == null || compEntry.getValue().getBindings().size() == 0) {
+                                bindingsMapping.put("v-model", "from." + field.getPropertyName());
+                            } else {
+                                compEntry.getValue().getBindings().forEach((k,v)-> {
+                                    Map.Entry<String, String> bindingValue = v.entrySet().iterator().next();
+                                    String bindingValueName = bindingValue.getKey();
+                                    String bindingValueType = bindingValue.getValue();
+                                    bindingsMapping.put(k, bindingValueName);
+                                    if(k.equals("v-model")) {
+                                        if(bindingValueType.equals("Object")) {
+                                            // 绑定值是对象
+                                            dataValues.put(bindingValueName, "null");
+                                            watches.put(bindingValueName, compEntry.getValue().getKey());
+                                        }
+                                    } else {
+                                        switch (bindingValueType) {
+                                            case "Boolean":
+                                                dataValues.put(bindingValueName, "false");
+                                                break;
+                                            case "Number":
+                                                dataValues.put(bindingValueName, "0");
+                                                break;
+                                            case "String":
+                                                dataValues.put(bindingValueName, "''");
+                                                break;
+                                            default:
+                                                dataValues.put(bindingValueName, "null");
+                                                break;
+                                        }
+                                    }
+                                });
+                            }
+
+                            formItemProperties = new VueGeneratorEditorFormItemProperties()
+                                    .setComponent(compEntry.getKey())
+                                    .setPath(compEntry.getValue().getPath())
+                                    .setHyphenName(StringUtil.toHyphenCase(compEntry.getKey()))
+                                    .setBindings(bindingsMapping);
+                        }
+                    }
+                }
+
                 formItemMap.put(field.getPropertyName(), formItemProperties);
+
             }
             if(field.isKeyFlag()
                     || field.isVersionField()
@@ -399,6 +517,8 @@ public class VueCodeAutoGenerator {
                 formItemMap.put(field.getPropertyName(), formItemProperties);
             }
         });
-        return formItemMap;
+        editorProperties.setFormItems(formItemMap);
+        editorProperties.setDataValues(dataValues);
+        editorProperties.setWatches(watches);
     }
 }

@@ -10,9 +10,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel(value = "Result", description = "通用请求返回数据")
-public class Result<T> {
+public class Result<T> implements Serializable {
 
 
 

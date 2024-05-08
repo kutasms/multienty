@@ -6,6 +6,7 @@ import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.basic.UploadResult;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.enums.UploadFileType;
+import com.chia.multienty.core.domain.spi.TenantResourceMappingAlgorithm;
 import com.chia.multienty.core.parameter.base.FileRemoveParameter;
 import com.chia.multienty.core.pojo.UploadedFile;
 import com.chia.multienty.core.strategy.file.FileUploadService;
@@ -14,7 +15,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +40,9 @@ import java.util.*;
 @Api(tags = "文件前端控制器")
 public class FileController {
 
-
-    @GetMapping("/upload")
+    @Autowired(required = false)
+    private FileUploadService fileUploadService;
+    @PostMapping("/upload")
     @ApiOperation("上传文件")
     public Result<String> upload(MultipartFile file) throws Exception {
         Result result=new Result();
@@ -56,14 +62,15 @@ public class FileController {
                     return result;
                 }
             }
-            FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
-            String url = service.upload(file);
+            TenantResourceMappingAlgorithm resourceMappingAlgorithm = MultientyContext.getResourceMappingAlgorithm();
+
+            String url = fileUploadService.upload(file);
             result=new Result(url,HttpResultEnum.SUCCESS);
         }
         return result;
     }
 
-    @GetMapping("/upload2Bucket")
+    @PostMapping("/upload2Bucket")
     @ApiOperation("上传文件")
     @SneakyThrows
     public Result<UploadedFile> upload2Bucket(MultipartFile file, HttpServletRequest request) {
@@ -90,8 +97,7 @@ public class FileController {
                     return result;
                 }
             }
-            FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
-            UploadedFile uploadedFile = service.upload2Bucket(file, buckets[0], fileType);
+            UploadedFile uploadedFile = fileUploadService.upload2Bucket(file, buckets[0], fileType);
             UploadResult uploadResult = new UploadResult();
             uploadResult.setUrl(uploadedFile.getUrl());
             uploadResult.setUploadedFile(uploadedFile);
@@ -116,10 +122,9 @@ public class FileController {
 
     @PostMapping("removeFiles")
     @ApiOperation(value = "删除多个文件")
-    @MultiWebLog
+    @MultiWebLog(target = "UploadedFile")
     public Result<Boolean> removeFiles(@RequestBody FileRemoveParameter parameter) throws IOException {
-        FileUploadService service = MultientyContext.getResourceMappingAlgorithm().getFileUploadService();
-        service.removeFiles(parameter);
+        fileUploadService.removeFiles(parameter);
         return new Result<>(true);
     }
 }

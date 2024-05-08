@@ -13,7 +13,6 @@ public class MTPrepayRequest {
     private BigDecimal money;
     private  String openid;
     private String ip;
-    private  String notifyUrl;
     private PaySource source;
     private PayPurpose purpose;
     private Long tenantId;

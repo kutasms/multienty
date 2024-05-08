@@ -16,4 +16,8 @@ public interface KutaBaseMapper<T> extends MPJBaseMapper<T> {
                       @Param(KutaMybatisConstants.SFUNC)
                       List<SFunction<?, ?>> columns);
 
+    <DTO extends T> int updateByIdAndSharding(@Param(Constants.ENTITY) DTO dto);
+
+    int deleteByIdAndSharding(@Param(Constants.ENTITY) T entity);
+    T getByIdAndSharding(@Param(Constants.ENTITY) T entity);
 }

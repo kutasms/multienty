@@ -20,8 +20,8 @@ import lombok.experimental.Accessors;
  * 微信应用
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -139,6 +139,69 @@ public class WechatApp extends KutaBaseEntity {
     @ApiModelProperty(value = "过期时间")
     @TableField("`authorizer_token_expires_in`")
     private Integer authorizerTokenExpiresIn;
+
+    /**
+     * 应用昵称
+     */
+    @ApiModelProperty(value = "应用昵称")
+    @TableField("`app_nick_name`")
+    private String appNickName;
+
+    /**
+     * 唯一识别号
+     */
+    @ApiModelProperty(value = "唯一识别号")
+    @TableField("`unique_id`")
+    private String uniqueId;
+
+    /**
+     * 创建方式
+     */
+    @ApiModelProperty(value = "创建方式")
+    @TableField("`create_mode`")
+    private Byte createMode;
+
+    /**
+     * 实名验证状态
+     */
+    @ApiModelProperty(value = "实名验证状态")
+    @TableField("`realname_status`")
+    private Byte realnameStatus;
+
+    /**
+     * 帐号类型
+     */
+    @ApiModelProperty(value = "帐号类型")
+    @TableField("`account_type`")
+    private Byte accountType;
+
+    /**
+     * 主体名称
+     */
+    @ApiModelProperty(value = "主体名称")
+    @TableField("`principal_name`")
+    private String principalName;
+
+    /**
+     * 是否资质认证
+     */
+    @ApiModelProperty(value = "是否资质认证")
+    @TableField("`qualification_verify`")
+    private Boolean qualificationVerify;
+
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像")
+    @TableField("`head_image_url`")
+    private String headImageUrl;
+
+    /**
+     * 微信支付商户号
+     */
+    @ApiModelProperty(value = "微信支付商户号")
+    @TableField("`sub_mch_id`")
+    private String subMchId;
 
 
 }

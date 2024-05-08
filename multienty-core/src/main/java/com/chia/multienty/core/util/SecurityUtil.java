@@ -21,6 +21,6 @@ public class SecurityUtil {
     }
 
     public static Long getUserId() {
-        return getLoggedUser().getUserId();
+        return getLoggedUser().getLogUserId();
     }
 }

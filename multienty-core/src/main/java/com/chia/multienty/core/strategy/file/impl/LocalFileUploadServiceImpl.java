@@ -4,12 +4,13 @@ import com.chia.multienty.core.domain.enums.FileStorageMode;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.domain.enums.SymbolEnum;
 import com.chia.multienty.core.domain.enums.UploadFileType;
+import com.chia.multienty.core.parameter.base.FileRemoveParameter;
 import com.chia.multienty.core.pojo.UploadedFile;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.service.UploadedFileService;
 import com.chia.multienty.core.strategy.file.FileUploadService;
-import com.chia.multienty.core.parameter.base.FileRemoveParameter;
-import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.google.common.io.Files;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,13 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 @Slf4j
+@NoArgsConstructor
 public class LocalFileUploadServiceImpl implements FileUploadService {
 
     @Override
@@ -45,11 +47,15 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
     private UploadedFileService uploadedFileService;
 
 
+    private String replaceAll(String target) {
+        return target.replaceAll(Matcher.quoteReplacement(File.separator), SymbolEnum.SLASH.getCode());
+    }
+
     @Override
     public String upload(MultipartFile file) throws Exception {
-
+        String uuid = UUID.randomUUID().toString();
         //生成文件名
-        String fileName = UUID.randomUUID().toString()
+        final String fileName = uuid
                 .replace(SymbolEnum.HYPHEN.getCode(), SymbolEnum.EMPTY_STRING.getCode())
                 + SymbolEnum.UNDER_LINE.getCode() + file.getOriginalFilename();
 
@@ -59,18 +65,19 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
         // web服务器存放的绝对路径
         String absolutePath = Paths.get(pathPrefix, relativePath).toString();
 
-        java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
+        File pathFile = new File(absolutePath);
+        if(!pathFile.exists()){
+            pathFile.mkdirs();
+        }
 
+        java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
         FileUtils.writeByteArrayToFile(outFile, file.getBytes());
         String uriPrefix = properties.getFile().getLocal().get("url-prefix");
         String url = new StringBuilder(uriPrefix)
-                .append(relativePath)
+                .append(replaceAll(relativePath))
                 .append(SymbolEnum.SLASH.getCode())
                 .append(fileName)
                 .toString();
-        //替换掉windows环境的\路径
-        url = url.replaceAll(SymbolEnum.DOUBLE_BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode())
-                .replace(SymbolEnum.BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode());
         return url;
     }
 
@@ -83,48 +90,48 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
 
     @Override
     public UploadedFile upload2Bucket(MultipartFile file, String bucket, Byte fileTypeVal) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        String extension = Files.getFileExtension(file.getOriginalFilename());
         //生成文件名
-        String fileName = UUID.randomUUID().toString()
-                .replace(SymbolEnum.HYPHEN.getCode(), SymbolEnum.EMPTY_STRING.getCode())
-                + SymbolEnum.UNDER_LINE.getCode() + file.getOriginalFilename();
-        String extension = Files.getFileExtension(fileName);
+        final String fileName = uuid
+                .replace(SymbolEnum.HYPHEN.getCode(), SymbolEnum.EMPTY_STRING.getCode()) + SymbolEnum.DOT.getCode() + extension;
+
         //日期文件夹
-        String relativePath = Paths.get("file", LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_MONTH_SPLIT_BY_SLASH))).toString();
+        String relativePath = Paths.get(LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_MONTH_SPLIT_BY_SLASH))).toString();
         // web服务器存放的绝对路径
         String pathPrefix = properties.getFile().getLocal().get("path-prefix");
         String urlPrefix = properties.getFile().getLocal().get("url-prefix");
         String absolutePath = Paths.get(pathPrefix, bucket, relativePath).toString();
 
-        String url = Paths.get(urlPrefix, bucket, relativePath, fileName).toString();
-        //替换掉windows环境的\路径
-        url = url.replaceAll(SymbolEnum.DOUBLE_BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode())
-                .replace(SymbolEnum.BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode());
+        String url = urlPrefix + SymbolEnum.SLASH.getCode() + bucket + SymbolEnum.SLASH.getCode() +
+                replaceAll(relativePath) + SymbolEnum.SLASH.getCode() + fileName;
 
-        String relPath = Paths.get(bucket, relativePath).toString();
+        String finalFileName = Paths.get(absolutePath, fileName).toString();
 
-        Map<String,String> map = new HashMap<>();
-        map.put("url", url);
-        map.put("path", relPath);
-        map.put("extension", extension);
-        map.put("fileName", fileName);
         UploadedFile uploadedFile = new UploadedFile()
                 .setUrl(url)
                 .setName(fileName)
                 .setExtension(extension)
                 .setOrgFileName(file.getOriginalFilename())
-                .setPath(relPath)
+                .setPath(Paths.get(bucket, relativePath, fileName).toString())
                 .setType(fileTypeVal);
         uploadedFile.setStatus(StatusEnum.NORMAL.getCode());
         uploadedFileService.save(uploadedFile);
-        java.io.File outFile = new java.io.File(Paths.get(absolutePath, fileName).toString());
+
+        File pathFile = new File(absolutePath);
+        if(!pathFile.exists()){
+            pathFile.mkdirs();
+        }
+        java.io.File outFile = new java.io.File(finalFileName);
         FileUtils.writeByteArrayToFile(outFile, file.getBytes());
         return uploadedFile;
     }
 
     @Override
-    public UploadedFile uploadStream(String fileName, byte[] bytes) throws Exception {
+    public UploadedFile uploadStream(final String fileName, byte[] bytes) throws Exception {
+        String uuid = UUID.randomUUID().toString();
         //生成文件名
-        String newFileName = UUID.randomUUID().toString()
+        String newFileName = uuid
                 .replace(SymbolEnum.HYPHEN.getCode(), SymbolEnum.EMPTY_STRING.getCode()) + SymbolEnum.UNDER_LINE.getCode() + fileName;
         String extension = Files.getFileExtension(newFileName);
         //日期文件夹
@@ -135,15 +142,8 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
         String absolutePath = Paths.get(pathPrefix, relativePath).toString();
 
         String relPath = relativePath;
-
-        java.io.File outFile = new java.io.File(Paths.get(absolutePath, newFileName).toString());
-        FileUtils.writeByteArrayToFile(outFile, bytes);
-
-        String url = Paths.get(urlPrefix, relativePath,newFileName).toString();
-
-        //替换掉windows环境的\路径
-        url.replaceAll(SymbolEnum.DOUBLE_BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode())
-                .replace(SymbolEnum.BACK_SLASH.getCode(), SymbolEnum.SLASH.getCode());
+        String url = urlPrefix + SymbolEnum.SLASH.getCode() +
+                replaceAll(relativePath) + SymbolEnum.SLASH.getCode() + fileName;
 
         UploadedFile uploadedFile = new UploadedFile()
                 .setUrl(url)
@@ -154,6 +154,13 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
                 .setType(UploadFileType.UNKNOWN.getValue().byteValue());
         uploadedFile.setStatus(StatusEnum.NORMAL.getCode());
         uploadedFileService.save(uploadedFile);
+
+        File pathFile = new File(absolutePath);
+        if(!pathFile.exists()){
+            pathFile.mkdirs();
+        }
+        java.io.File outFile = new java.io.File(Paths.get(absolutePath, newFileName).toString());
+        FileUtils.writeByteArrayToFile(outFile, bytes);
         return uploadedFile;
     }
 
@@ -166,13 +173,16 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
     public Boolean removeFiles(FileRemoveParameter parameter) throws IOException {
         List<UploadedFile> files = uploadedFileService.listByIds(parameter.getFileIds());
         files.stream().forEach(f -> f.setStatus(StatusEnum.DELETED.getCode()));
-        uploadedFileService.batchUpdateDTOByIdTE(files);
+        uploadedFileService.batchRemoveByIdTE(files.stream().map(m->m.getFileId()).collect(Collectors.toList()));
         String pathPrefix = properties.getFile().getLocal().get("path-prefix");
         for (UploadedFile file : files) {
             // web服务器存放的绝对路径
             String fullFileName = Paths.get(pathPrefix, file.getPath(), file.getName()).toString();
             log.info("删除文件:{}", fullFileName);
-            FileUtils.forceDelete(new File(fullFileName));
+            File actualFile = new File(fullFileName);
+            if(actualFile.exists()) {
+                FileUtils.forceDelete(actualFile);
+            }
         }
         return true;
     }

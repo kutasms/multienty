@@ -4,8 +4,10 @@ import com.chia.multienty.core.annotation.LogMetaId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 @ApiModel(value = "LogoutParameter",description = "登出请求")
 public class LogoutParameter {
     private String token;

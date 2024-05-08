@@ -1,9 +1,7 @@
 package com.chia.multienty.core.parameter.base;
 
-import lombok.Data;
-import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 /**
  * <p>
  * Json格式配置信息详情获取请求
@@ -16,5 +14,6 @@ import io.swagger.annotations.ApiModelProperty;
 @Data
 @ApiModel(value = "JsonConfigDetailGetParameter",description = "Json格式配置信息详情获取请求")
 public class JsonConfigDetailGetParameter {
+
      private Long configId;
 }

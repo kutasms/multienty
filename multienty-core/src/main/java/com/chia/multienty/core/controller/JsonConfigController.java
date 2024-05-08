@@ -50,7 +50,7 @@ public class JsonConfigController {
 
     @PostMapping("/update")
     @ApiOperation("更新Json配置")
-    @WebLog
+    @WebLog(target = "JsonConfig")
     public Result<Boolean> update(@RequestBody JsonConfigUpdateParameter parameter) {
         jsonConfigService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class JsonConfigController {
 
     @PostMapping("/save")
     @ApiOperation("保存Json配置")
-    @WebLog
+    @WebLog(target = "JsonConfig")
     public Result<Boolean> save(@RequestBody JsonConfigSaveParameter parameter) {
         jsonConfigService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class JsonConfigController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除Json配置")
-    @WebLog
+    @WebLog(target = "JsonConfig")
     public Result<Boolean> delete(@RequestBody JsonConfigDeleteParameter parameter) {
         jsonConfigService.delete(parameter);
         return new Result<>(true);

@@ -51,8 +51,10 @@ public class WechatAppFuncScopeServiceImpl extends KutaBaseServiceImpl<WechatApp
     }
 
     @Override
-    public boolean deleteByProgramId(Long programId) {
-        return remove(new LambdaQueryWrapper<WechatAppFuncScope>().eq(WechatAppFuncScope::getProgramId, programId));
+    public boolean delete(Long tenantId, Long programId) {
+        return remove(new LambdaQueryWrapper<WechatAppFuncScope>()
+                .eq(WechatAppFuncScope::getTenantId, tenantId)
+                .eq(WechatAppFuncScope::getProgramId, programId));
     }
 
     @Override

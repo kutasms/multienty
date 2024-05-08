@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @since 2024-04-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -32,7 +32,7 @@ public class RolePermission extends KutaBaseEntity {
      * 关联编号
      */
     @ApiModelProperty(value = "关联编号")
-    @TableId(value = "rp_id", type = IdType.INPUT)
+    @TableId(value = "rp_id", type = IdType.AUTO)
     private Long rpId;
 
     /**

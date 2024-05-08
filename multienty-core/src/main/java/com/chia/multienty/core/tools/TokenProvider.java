@@ -3,8 +3,10 @@ package com.chia.multienty.core.tools;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.util.IdUtil;
 import com.chia.multienty.core.domain.enums.ApplicationType;
+import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.domain.vo.LoggedUserVO;
 import com.chia.multienty.core.exception.InvalidJwtAuthenticationException;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -32,10 +34,12 @@ public class TokenProvider implements InitializingBean {
     @Autowired
     private YamlMultientyProperties properties;
 
-    private final String CLAIM_KEY = "TOKEN_CLAIM_";
-    private final String CLAIM_USER_NAME = CLAIM_KEY + "USERNAME";
+    private final String CLAIM_KEY = "CLAIM_";
+    private final String CLAIM_USER_NAME = CLAIM_KEY + "UNAME";
     private final String CLAIM_PERMISSIONS = CLAIM_KEY + "PERMS";
-    private final String CLAIM_APP_TYPE = CLAIM_KEY + "APP_TYPE";
+    private final String CLAIM_APP_TYPE = CLAIM_KEY + "TYPE";
+
+    private final String CLAIM_SUB_ACC = CLAIM_KEY + "SUB";
 
     private JwtParser jwtParser;
     private JwtBuilder jwtBuilder;
@@ -75,9 +79,10 @@ public class TokenProvider implements InitializingBean {
     public String createToken(Authentication authentication) {
         LoggedUserVO user = (LoggedUserVO) authentication.getPrincipal();
 //        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Claims claims = Jwts.claims().setSubject(user.getUserId().toString());
+        Claims claims = Jwts.claims().setSubject(user.getLogUserId().toString());
         claims.put(CLAIM_USER_NAME, user.getUsername());
         claims.put(CLAIM_APP_TYPE, user.getApplicationType().getValue());
+        claims.put(CLAIM_SUB_ACC, !user.getIsMainAcc());
 //        if (!authorities.isEmpty()) {
 //            claims.put(CLAIM_PERMISSIONS, authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
 //        }
@@ -90,6 +95,21 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
+    public String createToken(LoggedUserVO user) {
+        Claims claims = Jwts.claims().setSubject(user.getLogUserId().toString());
+        claims.put(CLAIM_USER_NAME, user.getUsername());
+        claims.put(CLAIM_APP_TYPE, user.getApplicationType().getValue());
+        claims.put(CLAIM_SUB_ACC, !user.getIsMainAcc());
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() +
+                        properties.getSecurity().getAuth().getAccessTokenExpired() * 1000))
+                .signWith(SignatureAlgorithm.HS256, properties.getSecurity().getAuth().getBase64Secret())
+                .compact();
+    }
+
+
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         ApplicationType applicationType = ApplicationType.valueOf(claims.get(CLAIM_APP_TYPE, Long.class));
@@ -99,6 +119,7 @@ public class TokenProvider implements InitializingBean {
                 .username(claims.get(CLAIM_USER_NAME).toString())
                 .userId(getUserId(claims))
                 .applicationType(applicationType)
+                .isMainAcc(!claims.get(CLAIM_SUB_ACC, Boolean.class))
 //                .joiningRoles(permissions)
                 .build();
         return new UsernamePasswordAuthenticationToken(principal, token, null);
@@ -169,9 +190,14 @@ public class TokenProvider implements InitializingBean {
     }
 
     public Claims getClaims(String token) {
-        return jwtParser
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return jwtParser
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+        catch (ExpiredJwtException ex) {
+            throw new KutaRuntimeException(HttpResultEnum.TOKEN_EXPIRED);
+        }
     }
 
     /**

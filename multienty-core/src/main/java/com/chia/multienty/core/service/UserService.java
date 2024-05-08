@@ -33,17 +33,19 @@ public interface UserService extends KutaBaseService<User>, MultientyUserService
 
     Mono<Result<LoginResult>> login(LoginParameter parameter) throws Exception;
 
-    void logout();
+
+    void logout(LogoutParameter parameter);
 
     UserDTO getDetail(Long userId);
 
     LoggedUserVO getUserInfo() throws IOException;
 
+
     LoggedUserVO getUserInfo(Long userId, UserDTO userDTO) throws KutaRuntimeException, IOException;
 
-    UserDTO getByPhone(String phone, SFunction<User, ?>... columns);
+    LoggedUserVO getByPhone(String phone, SFunction<User, ?>... columns);
 
-    IPage<UserDTO> getList(UserListGetParameter parameter);
+    IPage<LoggedUserVO> getList(UserListGetParameter parameter);
 
     int update(UserUpdateParameter parameter);
 

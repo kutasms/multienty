@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.chia.multienty.core.mybatis.KutaSqlMethod;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CountByMethod extends AbstractMethod {
     public CountByMethod() {
         super("countBy");

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * */
 public interface IWebLogUser {
     @JsonIgnore
-    Long getUserId();
+    Long getLogUserId();
     @JsonIgnore
-    String getUserName();
+    String getLogUserName();
 }

@@ -1,27 +1,20 @@
 package com.chia.multienty.core.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chia.multienty.core.domain.dto.WechatMppCodeAuditDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.WechatMppCodeAuditMapper;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
+import com.chia.multienty.core.parameter.wechat.*;
 import com.chia.multienty.core.pojo.WechatMppCodeAudit;
 import com.chia.multienty.core.service.WechatMppCodeAuditService;
 import com.chia.multienty.core.tools.MultientyContext;
 import com.chia.multienty.core.util.ListUtil;
-import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditDetailGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditPageGetParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditDeleteParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditSaveParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditUpdateParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditEnableParameter;
-import com.chia.multienty.core.parameter.wechat.WechatMppCodeAuditDisableParameter;
 import com.github.yulichang.toolkit.MPJWrappers;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -45,7 +38,7 @@ public class WechatMppCodeAuditServiceImpl extends KutaBaseServiceImpl<WechatMpp
     @Override
     public WechatMppCodeAudit getByAppId(String appId) {
         Page<WechatMppCodeAudit> page = page(new Page<WechatMppCodeAudit>(1, 1),
-                Wrappers.<WechatMppCodeAudit>lambdaQuery()
+                mtLambdaWrapper()
                         .eq(WechatMppCodeAudit::getTenantId, MultientyContext.getTenant().getTenantId())
                         .eq(WechatMppCodeAudit::getAppId, appId)
                         .orderByDesc(WechatMppCodeAudit::getCreateTime)
@@ -58,7 +51,8 @@ public class WechatMppCodeAuditServiceImpl extends KutaBaseServiceImpl<WechatMpp
 
     @Override
     public void delete(WechatMppCodeAuditDeleteParameter parameter) {
-        removeByIdTE(parameter.getAuditId());
+        removeByIdAndSharding(
+                new WechatMppCodeAudit().setAuditId(parameter.getAuditId()).setTenantId(parameter.getTenantId()));
     }
 
     @Override
@@ -82,7 +76,10 @@ public class WechatMppCodeAuditServiceImpl extends KutaBaseServiceImpl<WechatMpp
     public void update(WechatMppCodeAuditUpdateParameter parameter) {
         WechatMppCodeAudit wechatMppCodeAudit = new WechatMppCodeAudit();
         BeanUtils.copyProperties(parameter, wechatMppCodeAudit);
-        updateByIdTE(wechatMppCodeAudit);
+        update(wechatMppCodeAudit, mtLambdaWrapper()
+                .eq(WechatMppCodeAudit::getAuditId, parameter.getAuditId())
+                .eq(WechatMppCodeAudit::getTenantId, parameter.getTenantId())
+        );
     }
     @Override
     public void enable(WechatMppCodeAuditEnableParameter parameter) {

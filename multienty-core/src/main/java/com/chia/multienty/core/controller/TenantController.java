@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * <p>
@@ -50,21 +51,21 @@ public class TenantController {
 
     @PostMapping("login")
     @ApiOperation(value = "登录")
-    @WebLog
+    @WebLog(target = "Tenant")
     public Mono<Result<LoginResult>> login(@RequestBody LoginParameter parameter, HttpServletRequest request) throws java.lang.Exception {
         return tenantService.login(parameter);
     }
 
     @PostMapping("getInfo")
     @ApiOperation(value = "获取租户信息")
-    public Result<LoggedUserVO> getInfo(HttpServletRequest request) throws KutaRuntimeException {
+    public Result<LoggedUserVO> getInfo(HttpServletRequest request) throws KutaRuntimeException, IOException {
         LoggedUserVO vo = tenantService.getLoggedInfo();
         return new Result<>(vo, HttpResultEnum.SUCCESS);
     }
 
     @PostMapping("logout")
     @ApiOperation(value = "登出")
-    @WebLog
+    @WebLog(target = "Tenant")
     public Result logout(@RequestBody LogoutParameter parameter, HttpServletRequest request) {
         tenantService.logout(parameter);
         return new Result(HttpResultEnum.SUCCESS);
@@ -86,7 +87,7 @@ public class TenantController {
 
     @PostMapping("/update")
     @ApiOperation("更新租户")
-    @WebLog
+    @WebLog(target = "Tenant")
     public Result<Boolean> update(@RequestBody TenantUpdateParameter parameter) {
         tenantService.update(parameter);
         return new Result<>(true);
@@ -94,7 +95,7 @@ public class TenantController {
 
     @PostMapping("/save")
     @ApiOperation("保存租户")
-    @WebLog
+    @WebLog(target = "Tenant")
     public Result<Boolean> save(@RequestBody TenantSaveParameter parameter) {
         tenantService.save(parameter);
         return new Result<>(true);
@@ -102,7 +103,7 @@ public class TenantController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除租户")
-    @WebLog
+    @WebLog(target = "Tenant")
     public Result<Boolean> delete(@RequestBody TenantDeleteParameter parameter) {
         tenantService.delete(parameter);
         return new Result<>(true);

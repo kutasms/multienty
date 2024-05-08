@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum ApplicationType {
 
     PLATFORM(1L, "平台","PLAT"),
-    TENANT(2L, "租户","TENT"),
+    MERCHANT(2L, "商家","MERC"),
     WECHAT_MPP(3L, "微信小程序","WEMP"),
     NATIVE_APP(4L, "APP", "NAPP");
 

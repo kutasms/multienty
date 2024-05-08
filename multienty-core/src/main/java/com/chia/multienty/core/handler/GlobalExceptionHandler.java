@@ -3,6 +3,7 @@ package com.chia.multienty.core.handler;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.exception.HttpException;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.validation.UnexpectedTypeException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class GlobalExceptionHandler {
 
@@ -71,7 +73,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         BindingResult result = exception.getBindingResult();
-        StringBuilder stringBuilder = new StringBuilder();
+        List<String> list = new ArrayList<>();
         if(result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             if(errors != null) {
@@ -81,11 +83,12 @@ public class GlobalExceptionHandler {
                             fieldError.getObjectName(),
                             fieldError.getField(),
                             fieldError.getDefaultMessage());
-                    stringBuilder.append(fieldError.getDefaultMessage());
+
+                    list.add(fieldError.getField() + fieldError.getDefaultMessage());
                 });
             }
         }
-        return new Result(HttpResultEnum.METHOD_ARG_NOT_VALID, stringBuilder.toString());
+        return new Result(HttpResultEnum.METHOD_ARG_NOT_VALID, list);
     }
 
     /**
@@ -107,5 +110,15 @@ public class GlobalExceptionHandler {
     public Result<String> handleUnhandledException(Exception ex) {
         log.warn("[全局异常处理] [未处理异常]{}", ex.getMessage(), ex);
         return new Result<>(HttpResultEnum.UNHANDLED_EXCEPTION);
+    }
+    /**
+     * 未处理异常异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(KutaRuntimeException.class)
+    public Result<String> handleKutaRuntimeException(KutaRuntimeException ex) {
+        log.warn("[全局异常处理] [Multienty内部异常]{}", ex.getMessage(), ex);
+        return new Result<>(ex.getCode(), ex.getMessage());
     }
 }

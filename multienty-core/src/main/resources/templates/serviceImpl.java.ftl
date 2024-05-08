@@ -150,12 +150,13 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
                 </#if>
             </#if>
         </#list>
-        saveTE(${entity?uncap_first});
+
     <#if cfg.sharding??>
         <#if cfg.sharding.shardingDatabase && cfg.sharding.databaseShardingColumnName == "tenantId">
         ${entity?uncap_first}.set${cfg.sharding.databaseShardingColumnName?cap_first}(MultientyContext.getTenant().getTenantId());
         </#if>
     </#if>
+        saveTE(${entity?uncap_first});
         <#list table.fields as field>
             <#if field.keyFlag>
         parameter.set${field.propertyName?cap_first}(${entity?uncap_first}.get${field.propertyName?cap_first}());

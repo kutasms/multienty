@@ -1,9 +1,9 @@
 package com.chia.multienty.core.tools;
 
 import com.chia.multienty.core.domain.dto.TenantDTO;
-import com.chia.multienty.core.domain.dto.UserDTO;
 import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.spi.TenantResourceMappingAlgorithm;
+import com.chia.multienty.core.domain.vo.LoggedUserVO;
 
 public class MultientyContext {
     private static final ThreadLocal<TenantDTO> cachedTenant = new ThreadLocal<>();
@@ -15,13 +15,15 @@ public class MultientyContext {
     private static final ThreadLocal<String> cachedMppAppId = new ThreadLocal<>();
 
 
-    private static ThreadLocal<UserDTO> cachedUser = new ThreadLocal<>();
+    private static ThreadLocal<LoggedUserVO> cachedUser = new ThreadLocal<>();
 
-    public static void setUser(UserDTO user) {
+    private static ThreadLocal<Long> cachedProgramId = new ThreadLocal<>();
+
+    public static void setUser(LoggedUserVO user) {
         cachedUser.set(user);
     }
 
-    public static UserDTO getUser() {
+    public static LoggedUserVO getUser() {
         return cachedUser.get();
     }
 
@@ -43,6 +45,13 @@ public class MultientyContext {
      */
     public static String getMppAppId() {
         return cachedMppAppId.get();
+    }
+
+    public static void setProgramId(Long programId) {
+        cachedProgramId.set(programId);
+    }
+    public static Long getProgramId() {
+        return cachedProgramId.get();
     }
 
     public static void setTestAcc(Boolean testAcc) {

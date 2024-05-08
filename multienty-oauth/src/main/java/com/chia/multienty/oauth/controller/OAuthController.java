@@ -6,12 +6,16 @@ import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.constants.MultientyHeaderConstants;
 import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
+import com.chia.multienty.core.domain.enums.LoginAccountType;
 import com.chia.multienty.core.domain.vo.LoginResult;
+import com.chia.multienty.core.dubbo.service.DubboWxOAuthService;
 import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.parameter.user.LoginParameter;
 import com.chia.multienty.core.parameter.user.LoginVerificationCodeSendParameter;
+import com.chia.multienty.core.parameter.user.LogoutParameter;
 import com.chia.multienty.core.service.TenantService;
 import com.chia.multienty.core.service.UserService;
+import com.chia.multienty.core.service.impl.DelegatingUserDetailsServiceImpl;
 import com.chia.multienty.core.strategy.sms.domain.SMSResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +32,11 @@ public class OAuthController {
     @Autowired
     private TenantService tenantService;
 
+    @Autowired(required = false)
+    private DubboWxOAuthService dubboWxOAuthService;
+
+    @Autowired(required = false)
+    private DelegatingUserDetailsServiceImpl delegatingUserDetailsService;
     @Autowired
     private StringRedisService stringRedisService;
     @PostMapping("access_token_get")
@@ -35,8 +44,14 @@ public class OAuthController {
         String appId = exchange.getRequest().getHeaders().getFirst(MultientyHeaderConstants.APP_ID_KEY);
         ApplicationType applicationType = ApplicationType.valueOf(Long.parseLong(appId));
         switch (applicationType) {
-            case TENANT:
+            case MERCHANT:
                 return tenantService.login(parameter);
+            case WECHAT_MPP:
+                if(dubboWxOAuthService == null) {
+                    throw new KutaRuntimeException(HttpResultEnum.PATTERN_SERVICE_NOT_IMPLEMENT, "微信小程序登录");
+                }
+                delegatingUserDetailsService.setApplicationType(ApplicationType.WECHAT_MPP, LoginAccountType.MAIN_ACCOUNT);
+                return Mono.just(dubboWxOAuthService.login(parameter));
             default:
                 return userService.login(parameter);
         }
@@ -44,6 +59,23 @@ public class OAuthController {
     @GetMapping("get_info")
     public Mono<Result<String>> getInfo() {
         return Mono.just(new Result<>("OAuth2 Service Application"));
+    }
+
+    @GetMapping("logout")
+    public Mono<Result<Void>> logout(ServerWebExchange exchange) {
+        String appId = exchange.getRequest().getHeaders().getFirst(MultientyHeaderConstants.APP_ID_KEY);
+        ApplicationType applicationType = ApplicationType.valueOf(Long.parseLong(appId));
+        switch (applicationType) {
+            case MERCHANT:
+                 tenantService.logout(
+                        new LogoutParameter()
+                                .setToken(exchange.getRequest().getHeaders().getFirst(MultientyHeaderConstants.TOKEN_KEY)));
+            case PLATFORM:
+                userService.logout(
+                        new LogoutParameter()
+                            .setToken(exchange.getRequest().getHeaders().getFirst(MultientyHeaderConstants.TOKEN_KEY)));
+        }
+        return Mono.just(new Result<>());
     }
 
     @PostMapping("send_verify_code")
@@ -55,7 +87,7 @@ public class OAuthController {
         ApplicationType applicationType = ApplicationType.valueOf(Long.parseLong(appId));
         SMSResult smsResult = null;
         switch (applicationType) {
-            case TENANT:
+            case MERCHANT:
                 smsResult = tenantService.sendVerificationCode(parameter);
                 break;
             case PLATFORM:
@@ -70,5 +102,6 @@ public class OAuthController {
             return Mono.just(new Result(HttpResultEnum.FAILURE));
         }
     }
+
 
 }

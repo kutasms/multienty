@@ -10,6 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 public class YamlMultientyProperties {
     /**
+     * 是否演示系统
+     */
+    private Boolean isDemo;
+    /**
      * 是否启动独立数据库模式
      * 普通客户为分表的租户模式，有部分客户可能需要部署独立数据库
      */
@@ -61,4 +65,8 @@ public class YamlMultientyProperties {
      * 微信配置
      */
     private YamlMultientyWechatProperties wechat;
+    /**
+     * 调度任务配置
+     */
+    private YamlMultientySchedulingProperties scheduling;
 }

@@ -1,0 +1,3 @@
+com.chia.multienty.core.strategy.pay.weixin.service.impl.WxV3PartnerPayServiceImpl
+com.chia.multienty.core.strategy.pay.weixin.service.impl.WxPayServiceImpl
+com.chia.multienty.core.strategy.pay.weixin.service.impl.WxV3PayServiceImpl

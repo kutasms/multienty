@@ -1,14 +1,14 @@
 package com.chia.multienty.core.strategy.pay;
 
-import com.chia.multienty.core.strategy.pay.domain.MTPayRefund;
-import com.chia.multienty.core.strategy.pay.domain.MTPayTransaction;
+import com.chia.multienty.core.domain.spi.typed.TypedSPI;
 import com.chia.multienty.core.exception.KutaRuntimeException;
+import com.chia.multienty.core.strategy.pay.domain.MTPayRefund;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPayOrderCloseRequest;
 import com.chia.multienty.core.strategy.pay.domain.request.MTPrepayRequest;
 import com.chia.multienty.core.strategy.pay.domain.request.MTRefundRequest;
 import com.chia.multienty.core.strategy.pay.domain.response.MTPrepayResponse;
 
-public interface PayService {
+public interface PayService extends TypedSPI {
 
     /**
      * 售后微信退款
@@ -34,7 +34,7 @@ public interface PayService {
      * @param outTradeNo 外部交易号
      * @return
      */
-    MTPayTransaction queryOrder(Long programId, String outTradeNo) throws Exception;
+    <Rsp> Rsp queryOrder(Long programId, String outTradeNo) throws Exception;
 
     /**
      * 关闭订单

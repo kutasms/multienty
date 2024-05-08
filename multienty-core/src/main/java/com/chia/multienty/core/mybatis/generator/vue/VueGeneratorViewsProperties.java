@@ -8,7 +8,7 @@ import java.util.Map;
 public class VueGeneratorViewsProperties {
     private Boolean enabled;
     private String path = "views";
-    private Map<String, String> pathOverride;
+
 
     private Map<String, String> formatter;
 

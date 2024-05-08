@@ -2,23 +2,21 @@ package com.chia.multienty.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.RabbitLogDTO;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.mapper.RabbitLogMapper;
 import com.chia.multienty.core.mybatis.MTLambdaWrapper;
 import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
+import com.chia.multienty.core.parameter.log.*;
 import com.chia.multienty.core.pojo.RabbitLog;
 import com.chia.multienty.core.service.RabbitLogService;
 import com.chia.multienty.core.util.ListUtil;
-import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chia.multienty.core.parameter.log.RabbitLogDetailGetParameter;
-import com.chia.multienty.core.parameter.log.RabbitLogPageGetParameter;
-import com.chia.multienty.core.parameter.log.RabbitLogDeleteParameter;
-import com.chia.multienty.core.parameter.log.RabbitLogSaveParameter;
-import com.chia.multienty.core.parameter.log.RabbitLogUpdateParameter;
 import com.github.yulichang.toolkit.MPJWrappers;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +35,13 @@ public class RabbitLogServiceImpl extends KutaBaseServiceImpl<RabbitLogMapper, R
         return baseMapper.selectOne(new LambdaQueryWrapper<RabbitLog>().eq(RabbitLog::getKey, key));
     }
 
+    @Override
+    public RabbitLog getBy(Long metaId, String boType) {
+        return getOne(mtLambdaWrapper()
+                .eq(RabbitLog::getMetaId, metaId)
+                .eq(RabbitLog::getBoType, boType)
+        );
+    }
     @Override
     public boolean remove(String routingKey, Long metaId, String boType) {
         RabbitLog rabbitLog = new RabbitLog();
@@ -96,5 +101,13 @@ public class RabbitLogServiceImpl extends KutaBaseServiceImpl<RabbitLogMapper, R
         RabbitLog rabbitLog = new RabbitLog();
         BeanUtils.copyProperties(parameter, rabbitLog);
         updateByIdTE(rabbitLog);
+    }
+
+    @Override
+    public void batchUpdateStatus(StatusEnum status,List<Long> rids) {
+        RabbitLog rabbitLog = new RabbitLog();
+        rabbitLog.setStatus(status.getCode());
+        update(rabbitLog, mtLambdaWrapper()
+                .in(RabbitLog::getRid, rids));
     }
 }

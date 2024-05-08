@@ -1,12 +1,13 @@
 package com.chia.multienty.core.rabbitmq;
 
+import com.chia.multienty.core.pojo.RabbitLog;
 import com.chia.multienty.core.tools.SnowflakeIdWorker;
+import com.chia.multienty.core.util.TimeUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name="enabled",havingValue = "true")
 public class RetryManager {
 
     private Map<String, UnverifiedMessage> localCache = new ConcurrentHashMap<>();
@@ -59,6 +59,24 @@ public class RetryManager {
     public void remove(String id) {
         log.info("从本地缓存中清理Rabbit消息:{}", id);
         localCache.remove(id);
+    }
+
+    public void push(RabbitLog rabbitLog) {
+        localCache.put(rabbitLog.getKey(),new UnverifiedMessage()
+                .setIsDelayed(rabbitLog.getDelayed())
+                .setBoType(rabbitLog.getBoType())
+                .setDataType(RabbitDataType.valueOf(rabbitLog.getDataType()))
+                .setDeadline(TimeUtil.parseTimestamp(rabbitLog.getTimestamp()))
+                .setDelayTime(rabbitLog.getDelayTime())
+                .setHalfMode(rabbitLog.getHalfMode())
+                .setIdempotent(rabbitLog.getIdempotent())
+                .setLogId(rabbitLog.getRid())
+                .setMessage(rabbitLog.getMessage())
+                .setMetaId(rabbitLog.getMetaId())
+                .setRetryStarted(true)
+                .setRoutingKey(rabbitLog.getRoutingKey())
+                .setTime(rabbitLog.getTimestamp())
+        );
     }
 
     public void push(String id,

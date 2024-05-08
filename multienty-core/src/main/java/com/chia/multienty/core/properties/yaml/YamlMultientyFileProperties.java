@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 @ConfigurationProperties(prefix = "spring.multienty.file")
 public class YamlMultientyFileProperties implements YamlProperties {
-    private String storageMode = "LOCAL";
+    private String storageMode = FileStorageMode.LOCAL.name();
 
     private Map<String, String> custom;
     private Map<String, String> local;

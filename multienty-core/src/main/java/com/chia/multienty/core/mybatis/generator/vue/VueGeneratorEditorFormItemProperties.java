@@ -11,6 +11,10 @@ public class VueGeneratorEditorFormItemProperties {
     private String component = "el-input";
 
     private String name;
+    /**
+     * 带横杠的名称，如: tenant-selector
+     */
+    private String hyphenName;
     private String path;
     private String type;
 

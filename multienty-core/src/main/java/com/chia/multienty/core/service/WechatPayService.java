@@ -23,6 +23,10 @@ public interface WechatPayService extends KutaBaseService<WechatPay> {
 
     WechatPayDTO getDetail(WechatPayDetailGetParameter parameter);
 
+    WechatPay getBy(Long tenantId, Long programId);
+
+    WechatPayDTO getDTOBy(Long tenantId);
+
     void delete(WechatPayDeleteParameter parameter);
 
     IPage<WechatPayDTO> getPage(WechatPayPageGetParameter parameter);
@@ -34,5 +38,4 @@ public interface WechatPayService extends KutaBaseService<WechatPay> {
 
     void update(WechatPayUpdateParameter parameter);
 
-    WechatPay getByTenantId(Long tenantId);
 }

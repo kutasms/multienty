@@ -26,7 +26,8 @@ public interface WechatAppFuncScopeService extends KutaBaseService<WechatAppFunc
 
     IPage<WechatAppFuncScopeDTO> getPage(WechatAppFuncScopePageGetParameter parameter);
 
-    boolean deleteByProgramId(Long programId);
+
+    boolean delete(Long tenantId, Long programId);
 
     void save(WechatAppFuncScopeSaveParameter parameter);
 

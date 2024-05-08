@@ -80,7 +80,7 @@ public class TenantRoleServiceImpl extends KutaBaseServiceImpl<TenantRoleMapper,
                         .selectAs(Role::getAlias, TenantRoleDTO::getRoleName)
                         .leftJoin(Role.class, Role::getRoleId, TenantRole::getRoleId)
                         .eq(TenantRole::getTenantId, tenantId)
-                        .eq(Role::getOwner, ApplicationType.TENANT.getValue())
+                        .eq(Role::getOwner, ApplicationType.MERCHANT.getValue())
         );
         if(dtoList!= null && dtoList.size() > 0) {
             return dtoList.stream().map(m->m.getRoleName()).collect(Collectors.toList());
@@ -96,7 +96,7 @@ public class TenantRoleServiceImpl extends KutaBaseServiceImpl<TenantRoleMapper,
                         .select(Role::getAlias)
                         .leftJoin(Role.class, Role::getRoleId, TenantRole::getRoleId)
                         .eq(TenantRole::getTenantId, tenantId)
-                        .eq(Role::getOwner, ApplicationType.TENANT.getValue())
+                        .eq(Role::getOwner, ApplicationType.MERCHANT.getValue())
         );
     }
 
@@ -107,7 +107,7 @@ public class TenantRoleServiceImpl extends KutaBaseServiceImpl<TenantRoleMapper,
                         .selectAll(Role.class)
                         .innerJoin(Role.class,
                                 on-> on.eq(Role::getRoleId, TenantRole::getRoleId)
-                                        .eq(Role::getOwner, ApplicationType.TENANT.getValue())
+                                        .eq(Role::getOwner, ApplicationType.MERCHANT.getValue())
                                         .eq(Role::getStatus, StatusEnum.NORMAL.getCode())
                         )
                         .eq(TenantRole::getTenantId, tenantId)

@@ -50,7 +50,7 @@ public class RabbitLogController {
 
     @PostMapping("/update")
     @ApiOperation("更新Rabbit MQ日志信息")
-    @WebLog
+    @WebLog(target = "RabbitLog")
     public Result<Boolean> update(@RequestBody RabbitLogUpdateParameter parameter) {
         rabbitLogService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class RabbitLogController {
 
     @PostMapping("/save")
     @ApiOperation("保存Rabbit MQ日志信息")
-    @WebLog
+    @WebLog(target = "RabbitLog")
     public Result<Boolean> save(@RequestBody RabbitLogSaveParameter parameter) {
         rabbitLogService.save(parameter);
         return new Result<>(true);
@@ -66,7 +66,7 @@ public class RabbitLogController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除Rabbit MQ日志信息")
-    @WebLog
+    @WebLog(target = "RabbitLog")
     public Result<Boolean> delete(@RequestBody RabbitLogDeleteParameter parameter) {
         rabbitLogService.delete(parameter);
         return new Result<>(true);

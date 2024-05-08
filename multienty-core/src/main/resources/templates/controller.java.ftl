@@ -62,6 +62,7 @@ public class ${table.controllerName} extends ${superControllerClass} {
 public class ${table.controllerName} {
 </#if>
     <#assign serviceName = table.serviceName?uncap_first>
+
     private final ${table.serviceName} ${serviceName};
 
     @PostMapping("/detail")
@@ -86,7 +87,7 @@ public class ${table.controllerName} {
     <#if swagger>
     @ApiOperation("更新${table.comment!}")
     </#if>
-    @WebLog
+    @WebLog(target = "${entity}")
     public Result<Boolean> update(@Validated @RequestBody ${entity}UpdateParameter parameter) {
         ${serviceName}.update(parameter);
         return new Result<>(true);
@@ -96,7 +97,7 @@ public class ${table.controllerName} {
     <#if swagger>
     @ApiOperation("保存${table.comment!}")
     </#if>
-    @WebLog
+    @WebLog(target = "${entity}")
     public Result<Boolean> save(@Validated @RequestBody ${entity}SaveParameter parameter) {
         ${serviceName}.save(parameter);
         return new Result<>(true);
@@ -108,7 +109,7 @@ public class ${table.controllerName} {
     <#if swagger>
     @ApiOperation("启用${table.comment!}")
     </#if>
-    @WebLog
+    @WebLog(target = "${entity}")
     public Result<Boolean> enable(@Validated @RequestBody ${entity}EnableParameter parameter) {
         ${serviceName}.enable(parameter);
         return new Result<>(true);
@@ -118,8 +119,8 @@ public class ${table.controllerName} {
     <#if swagger>
     @ApiOperation("禁用${table.comment!}")
     </#if>
-    @WebLog
-    public Result<Boolean> save(@Validated @RequestBody ${entity}DisableParameter parameter) {
+    @WebLog(target = "${entity}")
+    public Result<Boolean> disable(@Validated @RequestBody ${entity}DisableParameter parameter) {
         ${serviceName}.disable(parameter);
         return new Result<>(true);
     }
@@ -130,7 +131,7 @@ public class ${table.controllerName} {
     <#if swagger>
     @ApiOperation("删除${table.comment!}")
     </#if>
-    @WebLog
+    @WebLog(target = "${entity}")
     public Result<Boolean> delete(@Validated @RequestBody ${entity}DeleteParameter parameter) {
         ${serviceName}.delete(parameter);
         return new Result<>(true);

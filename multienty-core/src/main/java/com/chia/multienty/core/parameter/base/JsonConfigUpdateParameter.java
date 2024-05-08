@@ -1,9 +1,11 @@
 package com.chia.multienty.core.parameter.base;
 
-import lombok.Data;
-import java.time.LocalDateTime;
+import com.chia.multienty.core.annotation.LogMetaId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 /**
  * <p>
  * Json格式配置信息更新请求
@@ -16,7 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Data
 @ApiModel(value = "JsonConfigUpdateParameter",description = "Json格式配置信息更新请求")
 public class JsonConfigUpdateParameter {
-
+        @LogMetaId
         private Long configId;
         /**
          * 别名

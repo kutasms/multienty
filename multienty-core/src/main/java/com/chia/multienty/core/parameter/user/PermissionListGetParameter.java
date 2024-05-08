@@ -16,6 +16,5 @@ import java.util.List;
 public class PermissionListGetParameter {
     private Long userId;
     private Long owner;
-
     private List<Role> roles;
 }

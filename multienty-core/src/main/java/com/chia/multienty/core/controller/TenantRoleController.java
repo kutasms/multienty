@@ -50,7 +50,7 @@ public class TenantRoleController {
 
     @PostMapping("/update")
     @ApiOperation("更新租户角色关联")
-    @WebLog
+    @WebLog(target = "TenantRole")
     public Result<Boolean> update(@RequestBody TenantRoleUpdateParameter parameter) {
         tenantRoleService.update(parameter);
         return new Result<>(true);
@@ -58,7 +58,7 @@ public class TenantRoleController {
 
     @PostMapping("/save")
     @ApiOperation("保存租户角色关联")
-    @WebLog
+    @WebLog(target = "TenantRole")
     public Result<Boolean> save(@RequestBody TenantRoleSaveParameter parameter) {
         tenantRoleService.save(parameter);
         return new Result<>(true);
@@ -67,7 +67,7 @@ public class TenantRoleController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除租户角色关联")
-    @WebLog
+    @WebLog(target = "TenantRole")
     public Result<Boolean> delete(@RequestBody TenantRoleDeleteParameter parameter) {
         tenantRoleService.delete(parameter);
         return new Result<>(true);

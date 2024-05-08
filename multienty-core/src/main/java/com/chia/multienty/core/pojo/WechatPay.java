@@ -1,27 +1,21 @@
 package com.chia.multienty.core.pojo;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.chia.multienty.core.pojo.KutaBaseEntity;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 微信支付
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -65,6 +59,13 @@ public class WechatPay extends KutaBaseEntity {
     @ApiModelProperty(value = "商户私钥路径")
     @TableField("`private_key_path`")
     private String privateKeyPath;
+
+    /**
+     * 程序编号
+     */
+    @ApiModelProperty(value = "程序编号")
+    @TableField("`program_id`")
+    private Long programId;
 
     /**
      * 商户证书序列号

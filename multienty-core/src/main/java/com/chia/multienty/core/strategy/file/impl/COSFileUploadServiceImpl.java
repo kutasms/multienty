@@ -4,15 +4,16 @@ import com.chia.multienty.core.domain.enums.FileStorageMode;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.domain.enums.SymbolEnum;
 import com.chia.multienty.core.domain.enums.UploadFileType;
+import com.chia.multienty.core.parameter.base.FileRemoveParameter;
 import com.chia.multienty.core.pojo.UploadedFile;
+import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.chia.multienty.core.service.UploadedFileService;
 import com.chia.multienty.core.strategy.file.FileUploadService;
-import com.chia.multienty.core.parameter.base.FileRemoveParameter;
-import com.chia.multienty.core.properties.yaml.YamlMultientyProperties;
 import com.google.common.io.Files;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +31,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class COSFileUploadServiceImpl implements FileUploadService {
     private final static String YEAR_MONTH_SPLIT_BY_SLASH = "yyyy/MM";
-    private final YamlMultientyProperties properties;
-    private final UploadedFileService uploadedFileService;
+    @Autowired
+    private YamlMultientyProperties properties;
+    @Autowired
+    private UploadedFileService uploadedFileService;
 
     @Override
     public FileStorageMode getMode() {

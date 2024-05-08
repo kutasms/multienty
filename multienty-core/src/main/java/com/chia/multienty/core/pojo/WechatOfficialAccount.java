@@ -20,8 +20,8 @@ import lombok.experimental.Accessors;
  * 微信公众号账户
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

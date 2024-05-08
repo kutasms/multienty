@@ -3,6 +3,7 @@ package com.chia.multienty.core.mybatis;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.chia.multienty.core.domain.basic.CityVO;
 import com.chia.multienty.core.domain.basic.PagedParameter;
+import com.chia.multienty.core.domain.vo.OrderByVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -76,4 +77,9 @@ public class DefaultListGetParameter<T> extends PagedParameter<T> {
      */
     @ApiModelProperty(value = "是否模拟数据")
     private Boolean mockData;
+    /**
+     * 排序
+     */
+    @ApiModelProperty(value = "排序")
+    private OrderByVO orderBy;
 }

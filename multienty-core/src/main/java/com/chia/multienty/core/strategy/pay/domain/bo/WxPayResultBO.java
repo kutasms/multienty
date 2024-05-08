@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
  * 微信支付通知结果
  * @see <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7&index=8">...</a>
@@ -73,6 +75,10 @@ public class WxPayResultBO {
     private String attach;
     @ApiModelProperty("支付完成时间")
     private String timeEnd;
-
-
+    @ApiModelProperty("租户编号")
+    private Long tenantId;
+    @ApiModelProperty("程序编号")
+    private Long programId;
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createTime;
 }

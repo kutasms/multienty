@@ -16,17 +16,17 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 微信小程序代码审核单
+ * 微信小程序注册审核单
  * </p>
  *
- * @author Multi Tenant Auto Generator
- * @since 2024-03-08
+ * @author Multienty Auto Generator
+ * @since 2024-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("mt_wechat_mpp_register_audit")
-@ApiModel(value="WechatMppRegisterAudit对象", description="微信小程序代码审核单")
+@ApiModel(value="WechatMppRegisterAudit对象", description="微信小程序注册审核单")
 public class WechatMppRegisterAudit extends KutaBaseEntity {
 
 
@@ -45,13 +45,6 @@ public class WechatMppRegisterAudit extends KutaBaseEntity {
     private Long tenantId;
 
     /**
-     * 任务编号
-     */
-    @ApiModelProperty(value = "任务编号")
-    @TableField("`task_id`")
-    private String taskId;
-
-    /**
      * 商家小程序编号
      */
     @ApiModelProperty(value = "商家小程序编号")
@@ -62,15 +55,15 @@ public class WechatMppRegisterAudit extends KutaBaseEntity {
      * 错误码
      */
     @ApiModelProperty(value = "错误码")
-    @TableField("`error_code`")
-    private Integer errorCode;
+    @TableField("`wx_status`")
+    private Integer wxStatus;
 
     /**
      * 错误信息
      */
     @ApiModelProperty(value = "错误信息")
-    @TableField("`error_msg`")
-    private String errorMsg;
+    @TableField("`auth_code`")
+    private String authCode;
 
     /**
      * 授权链接
@@ -87,39 +80,11 @@ public class WechatMppRegisterAudit extends KutaBaseEntity {
     private String status;
 
     /**
-     * 任务状态码
-     */
-    @ApiModelProperty(value = "任务状态码")
-    @TableField("`task_status`")
-    private Integer taskStatus;
-
-    /**
-     * 审核单状态
-     */
-    @ApiModelProperty(value = "审核单状态")
-    @TableField("`apply_status`")
-    private Integer applyStatus;
-
-    /**
      * 提示信息
      */
     @ApiModelProperty(value = "提示信息")
     @TableField("`message`")
     private String message;
-
-    /**
-     * 审核机构名称
-     */
-    @ApiModelProperty(value = "审核机构名称")
-    @TableField("`provider`")
-    private String provider;
-
-    /**
-     * 审核机构联系方式
-     */
-    @ApiModelProperty(value = "审核机构联系方式")
-    @TableField("`contact`")
-    private String contact;
 
     /**
      * 创建时间
@@ -129,11 +94,60 @@ public class WechatMppRegisterAudit extends KutaBaseEntity {
     private LocalDateTime createTime;
 
     /**
-     * 派单时间
+     * 企业名称
      */
-    @ApiModelProperty(value = "派单时间")
-    @TableField("`dispatch_time`")
-    private LocalDateTime dispatchTime;
+    @ApiModelProperty(value = "企业名称")
+    @TableField("`name`")
+    private String name;
+
+    /**
+     * 企业代码
+     */
+    @ApiModelProperty(value = "企业代码")
+    @TableField("`code`")
+    private String code;
+
+    /**
+     * 企业代码类型
+     */
+    @ApiModelProperty(value = "企业代码类型")
+    @TableField("`code_type`")
+    private Integer codeType;
+
+    /**
+     * 法人微信号
+     */
+    @ApiModelProperty(value = "法人微信号")
+    @TableField("`legal_persona_wechat`")
+    private String legalPersonaWechat;
+
+    /**
+     * 法人姓名
+     */
+    @ApiModelProperty(value = "法人姓名")
+    @TableField("`legal_persona_name`")
+    private String legalPersonaName;
+
+    /**
+     * 第三方联系电话
+     */
+    @ApiModelProperty(value = "第三方联系电话")
+    @TableField("`component_phone`")
+    private String componentPhone;
+
+    /**
+     * 错误代码
+     */
+    @ApiModelProperty(value = "错误代码")
+    @TableField("`error_code`")
+    private Integer errorCode;
+
+    /**
+     * 错误信息
+     */
+    @ApiModelProperty(value = "错误信息")
+    @TableField("`error_msg`")
+    private String errorMsg;
 
 
 }

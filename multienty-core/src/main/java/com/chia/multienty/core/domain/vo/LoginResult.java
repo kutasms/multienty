@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel(value = "LoginResult",description = "登录结果")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResult {
+public class LoginResult implements Serializable {
 
     /**
      * 状态码
@@ -25,4 +27,9 @@ public class LoginResult {
      * 查询到的结果数据，
      */
     private String accessToken;
+    /**
+     * 用户信息
+     */
+    private Object userInfo;
+
 }

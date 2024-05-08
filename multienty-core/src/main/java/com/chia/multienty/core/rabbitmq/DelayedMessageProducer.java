@@ -2,26 +2,31 @@ package com.chia.multienty.core.rabbitmq;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
+import com.chia.multienty.core.domain.enums.StatusEnum;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.pojo.RabbitLog;
 import com.chia.multienty.core.service.RabbitLogService;
 import com.chia.multienty.core.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.function.Consumer;
 
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name="enabled",havingValue = "true")
 public class DelayedMessageProducer {
 
     @Autowired
@@ -65,9 +70,9 @@ public class DelayedMessageProducer {
                                             RabbitDataType dataType, String boType,Long metaId,
                                             boolean idempotent) {
         CorrelationData data = new CorrelationData(id == null ? retryManager.generateId() : id);
-        return this.sendImmediately(id, msg, routingKey, delayTime, dataType, boType, data, metaId, idempotent);
+        return this.sendImmediately(msg, routingKey, delayTime, dataType, boType, data, metaId, idempotent);
     }
-    public RabbitPushResult sendImmediately(String id, String msg, String routingKey, Long delayTime,
+    public RabbitPushResult sendImmediately(String msg, String routingKey, Long delayTime,
                                             RabbitDataType dataType,
                                             String boType,
                                             CorrelationData data,
@@ -76,19 +81,9 @@ public class DelayedMessageProducer {
         try {
             //计算过期时间
             LocalDateTime deadline = TimeUtil.parseTimestamp(System.currentTimeMillis() + delayTime);
-//            if(idempotent) {
-//                /**
-//                 * 幂等模式
-//                 * 1.在redis中存入key
-//                 * 2.消费时处理，判断是否为null
-//                 *  2.1 如果结果为null，表示已经被消费，跳过
-//                 *  2.2 如果不为null, 则消费并删除key缓存
-//                 * */
-//                String cacheKey = String.format("%s-%s",RabbitConfig.IDEMPOTENT_CACHE_PREFIX,data.getId());
-//                stringRedisService.set(cacheKey, "1");
-//            }
             retryManager.push(data.getId(), metaId, msg, true, TimeUtil.toMills(deadline) ,delayTime, routingKey, deadline, dataType,
                     boType, idempotent, true, false);
+
             this.rabbitTemplate.convertAndSend(
                     RabbitConfig.DELAYED_EXCHANGE,
                     routingKey == null ? RabbitConfig.DELAYED_ROUTING_KEY : routingKey,
@@ -100,6 +95,7 @@ public class DelayedMessageProducer {
                             message.getMessageProperties().getHeaders().put(KutaRabbitHeader.BO_TYPE, boType);
                         }
                         message.getMessageProperties().getHeaders().put(KutaRabbitHeader.IDEMPOTENT_FLAG, idempotent);
+                        message.getMessageProperties().getHeaders().put(KutaRabbitHeader.KEY, data.getId());
                         message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                         return message;
                     },data);
@@ -109,6 +105,76 @@ public class DelayedMessageProducer {
             return new RabbitPushResult(false, ex, data.getId(), ex.getMessage(), -1);
         }
     }
+
+    /**
+     * 半开模式发送消息
+     * <p>
+     *     1. 先将消息保存至队列和数据库中，并提供一个consumer
+     *     2. 执行consumer
+     *     3. 如果consumer执行正常，则立即执行并将状态更新为committed，否则放弃该数据并将状态更新为rolled_back
+     * </p>
+     * @return
+     */
+    @SneakyThrows
+    @Transactional(isolation= Isolation.DEFAULT,propagation= Propagation.REQUIRED,rollbackFor = {
+            Exception.class})
+    public RabbitPushResult sendHalf(String id, Object msg, String routingKey, Long delayTime,RabbitDataType dataType,
+                                     String boType, Long metaId, boolean idempotent, Consumer<RabbitLog> consumer) {
+        CorrelationData data = new CorrelationData(id == null ? retryManager.generateId() : id);
+        String json = objectMapper.writeValueAsString(msg);
+        long currentMills = System.currentTimeMillis();
+
+        RabbitLog rabbitLog = new RabbitLog()
+                .setMessage(json)
+                .setKey(data.getId())
+                .setDelayed(true)
+                .setBoType(boType)
+                .setTimestamp(currentMills + delayTime)
+                .setDelayTime(delayTime)
+                .setIdempotent(idempotent)
+                .setDataType(dataType.name())
+                .setRoutingKey(routingKey)
+                .setHalfMode(true)
+                .setMetaId(metaId)
+                .setStatus(StatusEnum.HALF.getCode());
+
+        // 将消息放入数据库中
+        rabbitLogService.saveTE(rabbitLog);
+        try {
+            consumer.accept(rabbitLog);
+        }
+        catch (KutaRuntimeException ex) {
+            log.error("半开模式发布消息时发生故障",ex);
+            rabbitLog.setStatus(StatusEnum.ROLLED_BACK.getCode());
+            rabbitLogService.updateByIdTE(rabbitLog);
+            return new RabbitPushResult(false, ex, data.getId(), ex.getMessage(), ex.getCode());
+        }
+
+        rabbitLog.setStatus(StatusEnum.COMMITTED.getCode());
+        rabbitLogService.updateByIdTE(rabbitLog);
+        if(delayTime <= reloadFromDbInterval) {
+            this.retryManager.push(rabbitLog);
+            this.rabbitTemplate.convertAndSend(
+                    RabbitConfig.IMMEDIATE_EXCHANGE,
+                    routingKey,
+                    msg,
+                    message -> {
+                        message.getMessageProperties().getHeaders().put(KutaRabbitHeader.DATA_TYPE, dataType.name());
+                        if(boType != null) {
+                            message.getMessageProperties().getHeaders().put(KutaRabbitHeader.BO_TYPE, boType);
+                        }
+                        message.getMessageProperties().getHeaders().put(KutaRabbitHeader.IDEMPOTENT_FLAG, idempotent);
+                        message.getMessageProperties().getHeaders().put(KutaRabbitHeader.KEY, data.getId());
+                        message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                        return message;
+                    }, data);
+
+            return new RabbitPushResult(true, null, data.getId(), null, 0);
+        } else {
+            return new RabbitPushResult().setKey(data.getId()).setSuccess(true).setThrowable(null);
+        }
+    }
+
     /**
      * 发送延时消息
      * @param msg 消息
@@ -129,26 +195,30 @@ public class DelayedMessageProducer {
                 routingKey == null ? RabbitConfig.DELAYED_ROUTING_KEY: routingKey,
                 data.getId());
 
+        long currentMills = System.currentTimeMillis();
+
+        RabbitLog rabbitLog = new RabbitLog()
+                .setMessage(msg)
+                .setKey(data.getId())
+                .setDelayed(true)
+                .setBoType(boType)
+                .setTimestamp(currentMills + delayTime)
+                .setDelayTime(delayTime)
+                .setIdempotent(idempotent)
+                .setDataType(dataType.name())
+                .setRoutingKey(routingKey)
+                .setHalfMode(true)
+                .setMetaId(metaId)
+                .setStatus(StatusEnum.HALF.getCode());
+
+        // 将消息放入数据库中
+        rabbitLogService.saveTE(rabbitLog);
+
         if(delayTime > reloadFromDbInterval) {
             // 当延迟时间大于每次从数据库加载RabbitMQ队列数据时间间隔时，直接放入数据库
-            LocalDateTime now = LocalDateTime.now();
-            RabbitLog log = new RabbitLog();
-            log.setMessage(msg);
-            log.setStatus(RabbitDeliveryStatus.WAITING.name());
-            log.setKey(data.getId());
-            log.setTimestamp(System.currentTimeMillis() + delayTime);
-            log.setDelayTime(delayTime);
-            log.setDataType(dataType.name());
-            log.setErrorMsg(null);
-            log.setRoutingKey(routingKey);
-            log.setMetaId(metaId);
-            log.setDelayed(true);
-            log.setBoType(boType);
-            log.setIdempotent(idempotent);
-            rabbitLogService.save(log);
             return new RabbitPushResult().setKey(data.getId()).setSuccess(true).setThrowable(null);
         }
-        return this.sendImmediately(id, msg, routingKey, delayTime, dataType, boType, data, metaId, idempotent);
+        return this.sendImmediately(msg, routingKey, delayTime, dataType, boType, data, metaId, idempotent);
     }
 
     public RabbitPushResult send(String id, String msg, String routingKey,

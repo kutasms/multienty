@@ -2,14 +2,31 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/multienty-admin/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/multienty-core-fusion/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-core-infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-core-mysql-resource/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-gateway/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/multienty-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-master/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-oauth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-oauth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/multienty-plugin-ai-ocr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-ai/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-mall/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-orm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/multienty-plugin-sms-tencent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-sms/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/multienty-plugin-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-plugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-spring-boot-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multienty-wechat-third-party/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/multienty-workflow/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../../tools/.m2/repository/org/springframework/boot/spring-boot-starter-parent/2.6.13/src/main/resources" charset="UTF-8" />

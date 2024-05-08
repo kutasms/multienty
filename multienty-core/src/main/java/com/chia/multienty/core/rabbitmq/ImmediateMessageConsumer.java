@@ -1,15 +1,14 @@
 package com.chia.multienty.core.rabbitmq;
 
 import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
+import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import com.chia.multienty.core.pojo.RabbitLog;
-import com.chia.multienty.core.service.RabbitLogService;
 import com.chia.multienty.core.rabbitmq.exception.KutaRabbitConsumingFailureException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -19,16 +18,16 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name="enabled",havingValue = "true")
 public class ImmediateMessageConsumer {
-    @Autowired
-    private RabbitLogService rabbitLogService;
 
     @Autowired
     protected ObjectMapper objectMapper;
 
     @Autowired
     protected StringRedisService stringRedisService;
+
+    @Autowired(required = false)
+    protected DubboMultientyService dubboMultientyService;
 
     public void process(@NotNull String message,
                         @NotNull long deliveryTag,
@@ -42,7 +41,7 @@ public class ImmediateMessageConsumer {
         log.info("已收到直连交换机消息: {},数据类型:{}", message, dataTypeStr);
 
         try {
-            String key = msg.getMessageProperties().getHeaders().get("spring_returned_message_correlation").toString();
+            String key = msg.getMessageProperties().getHeaders().get(KutaRabbitHeader.KEY).toString();
             if(idempotent) {
                 //缓存方式处理幂等逻辑
                 String cacheKey = String.format("%s-%s",RabbitConfig.IDEMPOTENT_CACHE_PREFIX, key);
@@ -59,7 +58,7 @@ public class ImmediateMessageConsumer {
                 consumer.accept(message);
                 channel.basicAck(deliveryTag, false);
             }
-            rabbitLogService.finish(key);
+            dubboMultientyService.finishRabbitLog(key);
         }
         catch (Exception e) {
             try {
@@ -78,13 +77,13 @@ public class ImmediateMessageConsumer {
 
     private void handleException(Message msg,Throwable throwable) {
         try {
-            String key = msg.getMessageProperties().getHeaders().get("spring_returned_message_correlation").toString();
-            RabbitLog rabbitLog = rabbitLogService.getByKey(key);
+            String key = msg.getMessageProperties().getHeaders().get(KutaRabbitHeader.KEY).toString();
+            RabbitLog rabbitLog = dubboMultientyService.getRabbitLogByKey(key);
             if (rabbitLog != null) {
                 rabbitLog.setStatus(RabbitDeliveryStatus.EXCEPTION.name());
                 rabbitLog.setUpdateTime(LocalDateTime.now());
                 rabbitLog.setErrorMsg(throwable.getLocalizedMessage());
-                rabbitLogService.updateById(rabbitLog);
+                dubboMultientyService.updateRabbitLog(rabbitLog);
             }
         }catch (Exception ex) {
             log.error("更新Rabbit日志发生故障", ex);

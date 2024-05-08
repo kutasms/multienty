@@ -2,22 +2,20 @@ package com.chia.multienty.core.rabbitmq;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chia.multienty.core.domain.enums.StatusEnum;
+import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import com.chia.multienty.core.pojo.RabbitLog;
-import com.chia.multienty.core.service.RabbitLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name="enabled",havingValue = "true")
 public class RabbitCallbackProcessor implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
 
     @Autowired
@@ -26,8 +24,9 @@ public class RabbitCallbackProcessor implements RabbitTemplate.ConfirmCallback, 
     @Autowired
     private RetryManager retryManager;
 
-    @Autowired
-    private RabbitLogService rabbitLogService;
+
+    @Autowired(required = false)
+    private DubboMultientyService dubboMultientyService;
 
     @Override
     public void returnedMessage(ReturnedMessage returnedMessage) {
@@ -35,7 +34,7 @@ public class RabbitCallbackProcessor implements RabbitTemplate.ConfirmCallback, 
         // 消息接收故障
         String msg = message.toString();
 
-        String correlationId = message.getMessageProperties().getHeaders().get("spring_returned_message_correlation").toString();
+        String correlationId = message.getMessageProperties().getHeaders().get(KutaRabbitHeader.KEY).toString();
         //记录日志
         log.info("RabbitMQ 消息接收故障 msg:{}, replyCode:{},replyText:{},exchange:{},routingKey:{}",
                 message.toString().substring(0, msg.length() > 200 ? 200 : msg.length()),
@@ -64,10 +63,11 @@ public class RabbitCallbackProcessor implements RabbitTemplate.ConfirmCallback, 
             rabbitLog.setTimestamp(unverifiedMessage.getTime());
             rabbitLog.setIdempotent(unverifiedMessage.getIdempotent());
             rabbitLog.setRoutingKey(returnedMessage.getRoutingKey());
+            rabbitLog.setHalfMode(unverifiedMessage.getHalfMode());
             rabbitLog.setErrorMsg(msg.length() > 4500 ? msg.substring(0,4500): msg);
             rabbitLog.setSentTime(LocalDateTime.now());
             try {
-                rabbitLogService.saveOrUpdate(rabbitLog);
+                dubboMultientyService.saveOrUpdateRabbitLog(rabbitLog);
             }catch (Exception ex) {
                 log.error("RabbitMQ 消息接收回调保存日志失败", ex);
             }
@@ -80,11 +80,11 @@ public class RabbitCallbackProcessor implements RabbitTemplate.ConfirmCallback, 
         RetryManager.UnverifiedMessage unverifiedMessage = retryManager.getMap().get(correlationData.getId());
         if(!ack) {
             // 对数据库中已有数据做处理
-            RabbitLog rabbitLog = rabbitLogService.getByKey(unverifiedMessage.getLogId().toString());
+            RabbitLog rabbitLog = dubboMultientyService.getRabbitLogByKey(unverifiedMessage.getLogId().toString());
             if(rabbitLog != null && rabbitLog.getRid() !=null) {
                 rabbitLog.setStatus(StatusEnum.FAILURE.getCode());
                 rabbitLog.setErrorMsg(cause);
-                rabbitLogService.updateByIdTE(rabbitLog);
+                dubboMultientyService.updateRabbitLog(rabbitLog);
             }
 
             //消息发送故障,重发

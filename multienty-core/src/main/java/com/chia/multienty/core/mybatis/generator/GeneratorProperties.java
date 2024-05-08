@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @ConfigurationProperties(prefix = "spring.code-generator")
@@ -13,6 +14,7 @@ import java.util.Map;
 public class GeneratorProperties {
     private String author = "Multi Tenant Auto Generator";
     private String rootPackage;
+    private String rootDir;
     private String commonModuleName;
     private String tablePrefix;
     private String controllerModuleName;
@@ -38,5 +40,5 @@ public class GeneratorProperties {
         return IdType.valueOf(idType);
     }
 
-
+    public Map<String, List<String>> overrideMapping;
 }

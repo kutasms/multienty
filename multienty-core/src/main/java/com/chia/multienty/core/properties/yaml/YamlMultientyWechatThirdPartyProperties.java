@@ -22,9 +22,10 @@ public class YamlMultientyWechatThirdPartyProperties {
      */
     private String messageDecryptKey;
     /**
-     * 授权回跳URL
+     * 业务地址前缀
      */
-    private String authRedirectUri;
+    private String bizUrlPrefix;
+
     /**
      * 权限获取列表
      */

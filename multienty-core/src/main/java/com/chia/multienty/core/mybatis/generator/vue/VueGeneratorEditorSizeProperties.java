@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class VueGeneratorEditorSizeProperties {
     private String width = "750px";
-    private String height = "90vh";
-    private String top = "5vh";
+    private String height;
+    private String top;
 }

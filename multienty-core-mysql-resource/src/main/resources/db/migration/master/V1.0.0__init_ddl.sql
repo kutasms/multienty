@@ -88,7 +88,7 @@ CREATE TABLE `mt_tenant_sub_account` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`sub_account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='余额账单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户子账号';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -403,13 +403,13 @@ DROP TABLE IF EXISTS `mt_chinese_city`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mt_chinese_city` (
-  `city_id` bigint NOT NULL AUTO_INCREMENT COMMENT '城市编号',
+  `city_id` bigint NOT NULL COMMENT '城市编号',
   `city_pid` bigint NOT NULL COMMENT '父级编号',
   `city_name` varchar(20) DEFAULT NULL COMMENT '城市名称',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`city_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=109999 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='中国城市';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='中国城市';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 

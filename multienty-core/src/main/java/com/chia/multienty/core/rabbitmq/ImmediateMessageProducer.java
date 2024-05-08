@@ -3,9 +3,9 @@ package com.chia.multienty.core.rabbitmq;
 import com.alibaba.fastjson.JSONObject;
 import com.chia.multienty.core.cache.redis.service.api.StringRedisService;
 import com.chia.multienty.core.domain.enums.StatusEnum;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.chia.multienty.core.pojo.RabbitLog;
 import com.chia.multienty.core.service.RabbitLogService;
-import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
@@ -24,7 +23,6 @@ import java.util.function.Consumer;
 
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name="enabled",havingValue = "true")
 public class ImmediateMessageProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -113,6 +111,7 @@ public class ImmediateMessageProducer {
                         message.getMessageProperties().getHeaders().put(KutaRabbitHeader.BO_TYPE, boType);
                     }
                     message.getMessageProperties().getHeaders().put(KutaRabbitHeader.IDEMPOTENT_FLAG, idempotent);
+                    message.getMessageProperties().getHeaders().put(KutaRabbitHeader.KEY, data.getId());
                     message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                     return message;
                 }, data);
@@ -152,6 +151,7 @@ public class ImmediateMessageProducer {
                             message.getMessageProperties().getHeaders().put(KutaRabbitHeader.BO_TYPE, boType);
                         }
                         message.getMessageProperties().getHeaders().put(KutaRabbitHeader.IDEMPOTENT_FLAG, idempotent);
+                        message.getMessageProperties().getHeaders().put(KutaRabbitHeader.KEY, data.getId());
                         message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                         return message;
                     }, data);

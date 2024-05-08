@@ -16,4 +16,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value="TenantSubAccountRoleDTO", description="租户子账号角色关联DTO对象")
 public class TenantSubAccountRoleDTO extends TenantSubAccountRole {
+    private String roleName;
 }

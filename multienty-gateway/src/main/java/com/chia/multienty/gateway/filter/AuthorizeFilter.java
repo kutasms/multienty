@@ -33,9 +33,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -57,6 +55,8 @@ public class AuthorizeFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         URI proxyRequestUri = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
+//        Set<URI> origReqUrlAttr = (LinkedHashSet<URI>)exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
+//        String origUrl = origReqUrlAttr.stream().findFirst().get().getPath();
         long start = System.currentTimeMillis();
 
         ServerHttpRequest request = exchange.getRequest();
@@ -66,14 +66,15 @@ public class AuthorizeFilter implements GlobalFilter {
         String path = request.getURI().getPath();
         if(antPathMatcher.match("/oauth/**", path)) {
             // oauth请求直接放行，授权和鉴权均由其自行决定
-            return chain.filter(exchange);
+            return wrapMono(exchange, chain, proxyRequestUri, start);
         }
 
         if(Arrays.stream(properties.getSecurity().getIgnorePaths()).anyMatch(m-> antPathMatcher.match(m, path))) {
+            log.info("忽略路径匹配成功则放行,{}", path, proxyRequestUri.toString());
             // 忽略路径匹配成功则放行
-            return chain.filter(exchange);
+            return wrapMono(exchange, chain, proxyRequestUri, start);
         }
-
+        //放行静态资源
         String token = headers.getFirst(HEADER_TOKEN);
         if(Strings.isEmpty(token)) {
             // 如果请求的header中没有token,则报401 UNAUTHORIZED错误
@@ -86,9 +87,27 @@ public class AuthorizeFilter implements GlobalFilter {
         }
 
         log.info("request path:{}, URI:{}", path, proxyRequestUri.toString());
-        if (!hasPermission(token, path)){
-            return getVoidMono(response, 403, "无访问权限");
+
+        Claims claims = tokenProvider.getClaims(token);
+        if(!tokenProvider.validateToken(token)) {
+            return getVoidMono(response, HttpResultEnum.TOKEN_EXPIRED);
         }
+
+
+        // 无需权限验证的操作
+        if(Arrays.stream(properties.getSecurity().getIgnoreVerifyPermissions())
+                .anyMatch(m-> antPathMatcher.match(m, path))) {
+            // 忽略路径匹配成功则放行
+            return wrapMono(exchange, chain, proxyRequestUri, start);
+        }
+        if (!hasPermission(claims, path)){
+            return getVoidMono(response, HttpResultEnum.ACCESS_DENIED);
+        }
+        return wrapMono(exchange, chain, proxyRequestUri, start);
+    }
+
+    private Mono<Void> wrapMono(ServerWebExchange exchange, GatewayFilterChain chain, URI proxyRequestUri, long start) {
+
         return chain.filter(exchange).then(Mono.fromRunnable(()-> {
             long end = System.currentTimeMillis();
             if(log.isDebugEnabled()) {
@@ -98,21 +117,27 @@ public class AuthorizeFilter implements GlobalFilter {
     }
 
     @SneakyThrows
-    private boolean hasPermission(String token, String path){
-        Claims claims = tokenProvider.getClaims(token);
+    private boolean hasPermission(Claims claims, String path){
         ApplicationType applicationType = tokenProvider.getAppType(claims);
         String cacheKey = null;
         switch (applicationType) {
             case PLATFORM:
                 cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_USER, tokenProvider.getUserId(claims));
                 break;
-            case TENANT:
+            case MERCHANT:
                 cacheKey = String.format(MultientyCacheKey.PATTERN_LOGGED_TENANT, tokenProvider.getUserId(claims));
                 break;
+            case WECHAT_MPP:
+                // 微信小程序暂时全面开放权限
+                return true;
         }
         LoggedUserVO user = stringRedisService.get(cacheKey, LoggedUserVO.class);
         if (Objects.isNull(user)){
             return false;
+        }
+
+        if(user.getSuperAdmin() != null && user.getSuperAdmin()) {
+            return true;
         }
 
         List<String> apis = user.getPermissions().stream()
@@ -127,6 +152,17 @@ public class AuthorizeFilter implements GlobalFilter {
     private Mono<Void> getVoidMono(ServerHttpResponse response, int i, String msg) {
         // 构造错误响应体
         Result<String> result = new Result<>(i, msg);
+        response.setStatusCode(HttpStatus.FORBIDDEN);
+        // 将错误响应体转换为JSON字符串
+        String json = JSONObject.toJSONString(result);
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        DataBuffer buffer = response.bufferFactory().wrap(json.getBytes(StandardCharsets.UTF_8));
+        return response.writeWith(Mono.just(buffer));
+    }
+
+    private Mono<Void> getVoidMono(ServerHttpResponse response, HttpResultEnum httpResultEnum) {
+        // 构造错误响应体
+        Result<String> result = new Result<>(httpResultEnum);
         response.setStatusCode(HttpStatus.FORBIDDEN);
         // 将错误响应体转换为JSON字符串
         String json = JSONObject.toJSONString(result);

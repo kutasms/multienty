@@ -5,6 +5,7 @@ import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.WechatAppFuncScopeDTO;
 import com.chia.multienty.core.service.WechatAppFuncScopeService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.chia.multienty.core.parameter.wechat.WechatAppFuncScopeDetailGetParameter;
 import com.chia.multienty.core.parameter.wechat.WechatAppFuncScopePageGetParameter;
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/wechat-app-func-scope")
 @RequiredArgsConstructor
 @Api(tags = "权限集")
+@ConditionalOnProperty(prefix = "spring.multienty", name = "wechat-module-enabled", havingValue = "true")
 public class WechatAppFuncScopeController {
     private final WechatAppFuncScopeService wechatAppFuncScopeService;
 
@@ -48,7 +50,7 @@ public class WechatAppFuncScopeController {
 
     @PostMapping("/update")
     @ApiOperation("更新权限集")
-    @WebLog
+    @WebLog(target = "WechatAppFuncScope")
     public Result<Boolean> update(@RequestBody WechatAppFuncScopeUpdateParameter parameter) {
         wechatAppFuncScopeService.update(parameter);
         return new Result<>(true);
@@ -56,7 +58,7 @@ public class WechatAppFuncScopeController {
 
     @PostMapping("/save")
     @ApiOperation("保存权限集")
-    @WebLog
+    @WebLog(target = "WechatAppFuncScope")
     public Result<Boolean> save(@RequestBody WechatAppFuncScopeSaveParameter parameter) {
         wechatAppFuncScopeService.save(parameter);
         return new Result<>(true);
@@ -65,7 +67,7 @@ public class WechatAppFuncScopeController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除权限集")
-    @WebLog
+    @WebLog(target = "WechatAppFuncScope")
     public Result<Boolean> delete(@RequestBody WechatAppFuncScopeDeleteParameter parameter) {
         wechatAppFuncScopeService.delete(parameter);
         return new Result<>(true);

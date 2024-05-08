@@ -3,6 +3,7 @@ package com.chia.multienty.core.handler;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;
 import com.chia.multienty.core.exception.HttpException;
+import com.chia.multienty.core.exception.KutaRuntimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.UnexpectedTypeException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -53,7 +55,7 @@ public class ReactiveGlobalExceptionHandler implements ErrorWebExceptionHandler 
             log.error("[全局异常处理] [方法参数效验不通过]{}", ex.getMessage(), ex);
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException)ex;
             BindingResult bindingResult = exception.getBindingResult();
-            StringBuilder stringBuilder = new StringBuilder();
+            List<String> list = new ArrayList<>();
             if(bindingResult.hasErrors()) {
                 List<ObjectError> errors = bindingResult.getAllErrors();
                 if(errors != null) {
@@ -63,11 +65,12 @@ public class ReactiveGlobalExceptionHandler implements ErrorWebExceptionHandler 
                                 fieldError.getObjectName(),
                                 fieldError.getField(),
                                 fieldError.getDefaultMessage());
-                        stringBuilder.append(fieldError.getDefaultMessage());
+
+                        list.add(fieldError.getField() + fieldError.getDefaultMessage());
                     });
                 }
             }
-            result = new Result(HttpResultEnum.METHOD_ARG_NOT_VALID, stringBuilder.toString());
+            result = new Result(HttpResultEnum.METHOD_ARG_NOT_VALID, list);
         }
         else if(ex instanceof UnexpectedTypeException) {
             log.error("[全局异常处理] [参数校验类型不匹配]{}", ex.getMessage(), ex);
@@ -81,13 +84,17 @@ public class ReactiveGlobalExceptionHandler implements ErrorWebExceptionHandler 
             HttpException httpException = (HttpException) ex;
             result = new Result(httpException.getErrorCode(), httpException.getMessage());
         }
+        else if(ex instanceof KutaRuntimeException) {
+            KutaRuntimeException kutaRuntimeException = (KutaRuntimeException) ex;
+            result = new Result<>(kutaRuntimeException.getCode(), kutaRuntimeException.getMessage());
+        }
         else {
             log.warn("[全局异常处理] [未处理异常]{}", ex.getMessage(), ex);
             result = new Result<>(HttpResultEnum.UNHANDLED_EXCEPTION.getCode(), ex.getMessage());
         }
         try {
             DataBuffer buffer = response.bufferFactory().wrap(objectMapper.writeValueAsBytes(result));
-            response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
+            response.setStatusCode(HttpStatus.OK);
             return response.writeWith(Mono.just(buffer));
         } catch (JsonProcessingException e) {
             return Mono.error(e);

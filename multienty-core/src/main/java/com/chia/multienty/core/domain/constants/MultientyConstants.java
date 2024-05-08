@@ -33,9 +33,9 @@ public class MultientyConstants {
     public static final long OWNER_PLATFORM = 1;
 
     /**
-     * 缓存平台用户键
+     * REQUEST缓存用户键
      */
-    public static final String CACHED_PLATFORM_USER_KEY = "user";
+    public static final String REQ_ATTR_USER_KEY = "user";
 
     /**
      * 平台的应用类型（所有系统以1为总平台的应用类型）
@@ -62,4 +62,16 @@ public class MultientyConstants {
      * SMS服务BEAN注册前缀
      */
     public static final String SMS_SERVICE_BEAN_PREFIX = "SMS_SVC_";
+    /**
+     * 支付服务BEAN注册前缀
+     */
+    public static final String PAY_SERVICE_BEAN_PREFIX = "PAY_SVC_";
+    /**
+     * 文件上传服务BEAN注册前缀
+     */
+    public static final String FILE_UPLOAD_SERVICE_BEAN_PREFIX = "FILE_UP_SVC_";
+    /**
+     * 默认头像地址
+     */
+    public static final String DEFAULT_AVATAR = "https://kutashop.cn/img/chia.png";
 }

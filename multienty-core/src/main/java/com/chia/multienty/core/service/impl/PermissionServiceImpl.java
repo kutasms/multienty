@@ -2,8 +2,10 @@ package com.chia.multienty.core.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.domain.dto.PermissionDTO;
+import com.chia.multienty.core.domain.enums.ApplicationType;
 import com.chia.multienty.core.domain.enums.StatusEnum;
 import com.chia.multienty.core.domain.enums.SymbolEnum;
+import com.chia.multienty.core.domain.vo.LoggedUserVO;
 import com.chia.multienty.core.domain.vo.permission.PermissionType;
 import com.chia.multienty.core.domain.vo.permission.PermissionVO;
 import com.chia.multienty.core.domain.vo.permission.VueRouteMeta;
@@ -16,9 +18,8 @@ import com.chia.multienty.core.pojo.Permission;
 import com.chia.multienty.core.pojo.Role;
 import com.chia.multienty.core.pojo.RolePermission;
 import com.chia.multienty.core.pojo.UserRole;
-import com.chia.multienty.core.service.PermissionService;
-import com.chia.multienty.core.service.RolePermissionService;
-import com.chia.multienty.core.service.UserRoleService;
+import com.chia.multienty.core.service.*;
+import com.chia.multienty.core.tools.MultientyContext;
 import com.chia.multienty.core.util.ListUtil;
 import com.github.yulichang.toolkit.MPJWrappers;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -46,30 +47,67 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
     private UserRoleService kutaUserRoleService;
 
     @Autowired
+    private TenantRoleService tenantRoleService;
+
+    @Autowired
+    private TenantSubAccountRoleService tenantSubAccountRoleService;
+    @Autowired
     private RolePermissionService kutaRolePermissionService;
 
     @Override
-    public List<PermissionDTO> getUserPermissions(Long userId, Long owner) {
-        List<PermissionDTO> permissions = kutaUserRoleService.selectJoinList(PermissionDTO.class,
-                new MPJLambdaWrapper<UserRole>()
+    public List<PermissionDTO> getUserPermissions(LoggedUserVO user) {
+        List<Role> roles = null;
+        switch (user.getApplicationType()) {
+            case PLATFORM:
+                roles = kutaUserRoleService.getRoles(user.getUserId());
+                break;
+            case MERCHANT:
+                if(user.getIsMainAcc()) {
+                    roles = tenantRoleService.getRoles(user.getUserId());
+                } else {
+                    roles = tenantSubAccountRoleService.getRoles(user.getUserId());
+                }
+                break;
+        }
+
+        boolean isSuperAdmin = roles.stream().filter(p->p.getSuperAdmin()!=null && p.getSuperAdmin()).findAny().isPresent();
+
+        if(isSuperAdmin) {
+            List<PermissionDTO> permissionDTOS = selectJoinList(PermissionDTO.class,
+                    new MPJLambdaWrapper<Permission>()
+                            .selectAll(Permission.class)
+                            .selectAs(Role::getName, PermissionDTO::getRoleName)
+                            .eq(Permission::getType, PermissionType.MENU.getCode())
+                            .eq(Permission::getOwner, user.getApplicationType().getValue())
+                            .in(Permission::getStatus, StatusEnum.NORMAL.getCode())
+
+                            .orderByAsc(Permission::getSort)
+                            .groupBy(Permission::getPermissionId)
+            );
+            String roleName = roles.stream()
+                    .filter(p->p.getSuperAdmin()!=null && p.getSuperAdmin()).findAny().get().getName();
+            permissionDTOS.forEach(permissionDTO -> permissionDTO.setRoleName(roleName));
+            return permissionDTOS;
+        }
+        return selectJoinList(PermissionDTO.class,
+                new MPJLambdaWrapper<Permission>()
                         .selectAll(Permission.class)
                         .selectAs(Role::getName, PermissionDTO::getRoleName)
-                        .innerJoin(RolePermission.class, RolePermission::getRoleId, UserRole::getRoleId)
-                        .innerJoin(Role.class, Role::getRoleId, RolePermission::getRoleId)
-                        .innerJoin(RolePermission.class, on ->
-                                on.eq(Permission::getOwner, owner)
-                                        .eq(Permission::getPermissionId, RolePermission::getPermissionId))
-                        .and(on ->
-                                on.eq(UserRole::getUserId, userId)
-                                        .or().eq(Role::getSuperAdmin, true)
+                        .innerJoin(RolePermission.class, RolePermission::getPermissionId, Permission::getPermissionId)
+                        .innerJoin(Role.class, on-> on
+                                .eq(Role::getRoleId, RolePermission::getRoleId)
+                                .eq(Role::getOwner, user.getApplicationType().getValue()))
+                        .innerJoin(UserRole.class, on->
+                                on.eq(UserRole::getRoleId, Role::getRoleId)
+                                        .eq(UserRole::getUserId, user.getUserId())
                         )
                         .eq(Permission::getType, PermissionType.MENU.getCode())
-                        .eq(Permission::getOwner, 1L)
+                        .eq(Permission::getOwner, user.getApplicationType().getValue())
                         .in(Permission::getStatus, StatusEnum.NORMAL.getCode())
+
                         .orderByAsc(Permission::getSort)
                         .groupBy(Permission::getPermissionId)
         );
-        return permissions;
     }
 
     @Override
@@ -80,7 +118,6 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
                         .selectAll(Permission.class)
                         .eq(Permission::getOwner, parameter.getOwner())
                         .eq(Permission::getPid, 0L)
-                        .eq(Permission::getOwner, 1L)
                         .notIn(Permission::getStatus, StatusEnum.DELETED.getCode())
                         .orderByAsc(Permission::getSort)
         );
@@ -198,7 +235,6 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
         permission.setVersion(1L);
         permission.setStatus(StatusEnum.NORMAL.getCode());
         permission.setCreateTime(LocalDateTime.now());
-        permission.setOwner(1L);
         int result = baseMapper.insert(permission);
         parameter.setPermissionId(permission.getPermissionId());
         return result;
@@ -243,9 +279,7 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
     }
     @Override
     public List<PermissionDTO> getFuncPermissions(FuncPermissionListGetParameter parameter) {
-        List<Role> roles = kutaUserRoleService
-                .getRoles(parameter.getUserId());
-        boolean isSuperAdmin = roles.stream()
+        boolean isSuperAdmin = parameter.getRoles().stream()
                 .filter(p->p.getSuperAdmin()!=null && p.getSuperAdmin()).findAny() != null;
         if(isSuperAdmin) {
             // 超管帐号
@@ -264,7 +298,7 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
                             on-> on.eq(RolePermission::getPermissionId,
                                             Permission::getPermissionId)
                                     .in(RolePermission::getRoleId,
-                                            roles.stream().map(m->m.getRoleId()).collect(Collectors.toList()))
+                                            parameter.getRoles().stream().map(m->m.getRoleId()).collect(Collectors.toList()))
                     )
                     .eq(Permission::getType, PermissionType.INTERACTIVE.getCode())
                     .eq(Permission::getOwner, parameter.getOwner())
@@ -273,39 +307,49 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
         }
     }
 
+
     @Override
-    public List<PermissionDTO> getPermissions(PermissionListGetParameter parameter) {
+    public List<PermissionDTO> findPermissions(PermissionListGetParameter parameter) {
         boolean isSuperAdmin = parameter.getRoles().stream()
                 .filter(p->p.getSuperAdmin()!=null && p.getSuperAdmin()).findAny().isPresent();
         if(isSuperAdmin) {
             // 超管帐号
-            return selectJoinList(PermissionDTO.class, new MTLambdaWrapper<Permission>()
-                    .select(Permission::getPermissionId)
-                    .select(Permission::getComponent)
-                    .select(Permission::getApi)
-                    .eq(Permission::getOwner, parameter.getOwner())
-                    .eq(Permission::getStatus, StatusEnum.NORMAL.getCode())
-            );
+            return getAllPermissions(parameter);
         } else {
-            return selectJoinList(PermissionDTO.class, new MTLambdaWrapper<Permission>()
-                    .select(Permission::getPermissionId)
-                    .select(Permission::getComponent)
-                    .select(Permission::getApi)
-                    .select(Permission::getType)
-                    .innerJoin(RolePermission.class,
-                            on-> on.eq(RolePermission::getPermissionId,
-                                            Permission::getPermissionId)
-                                    .in(parameter.getRoles()!=null && parameter.getRoles().size() > 0,
-                                            RolePermission::getRoleId,
-                                            parameter.getRoles())
-                    )
-                    .eq(Permission::getOwner, parameter.getOwner())
-                    .eq(Permission::getStatus, StatusEnum.NORMAL.getCode())
-            );
+            return getPermissions(parameter);
         }
     }
 
+    @Override
+    public List<PermissionDTO> getAllPermissions(PermissionListGetParameter parameter) {
+        // 超管帐号
+        return selectJoinList(PermissionDTO.class, new MTLambdaWrapper<Permission>()
+                .select(Permission::getPermissionId)
+                .select(Permission::getComponent)
+                .select(Permission::getApi)
+                .eq(Permission::getOwner, parameter.getOwner())
+                .eq(Permission::getStatus, StatusEnum.NORMAL.getCode())
+        );
+    }
 
+    @Override
+    public List<PermissionDTO> getPermissions(PermissionListGetParameter parameter) {
+        return selectJoinList(PermissionDTO.class, new MTLambdaWrapper<Permission>()
+                .select(Permission::getPermissionId)
+                .select(Permission::getComponent)
+                .select(Permission::getApi)
+                .select(Permission::getType)
+                .innerJoin(RolePermission.class,
+                        on-> on.eq(RolePermission::getPermissionId,
+                                        Permission::getPermissionId)
+                                .in(parameter.getRoles()!=null && parameter.getRoles().size() > 0,
+                                        RolePermission::getRoleId,
+                                        parameter.getRoles())
+                )
+                .eq(Permission::getOwner, parameter.getOwner())
+                .eq(Permission::getStatus, StatusEnum.NORMAL.getCode())
+        );
+    }
 
     @Override
     public PermissionDTO getDetail(PermissionDetailGetParameter parameter) {
@@ -323,6 +367,8 @@ public class PermissionServiceImpl extends KutaBaseServiceImpl<PermissionMapper,
         return selectJoinListPage(parameter.getPageObj(), PermissionDTO.class,
                 new MTLambdaWrapper<Permission>()
                         .solveGenericParameters(parameter)
+                        .eq(MultientyContext.getAppType().equals(ApplicationType.MERCHANT),
+                                Permission::getOwner, ApplicationType.MERCHANT.getValue())
                         .in(!ListUtil.isEmpty(parameter.getPermissionIds()), Permission::getPermissionId, parameter.getPermissionIds())
         );
     }

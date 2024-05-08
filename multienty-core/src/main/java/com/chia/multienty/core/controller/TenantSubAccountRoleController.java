@@ -1,22 +1,16 @@
 package com.chia.multienty.core.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.TenantSubAccountRoleDTO;
+import com.chia.multienty.core.parameter.tenant.*;
 import com.chia.multienty.core.service.TenantSubAccountRoleService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.chia.multienty.core.parameter.user.TenantSubAccountRoleDetailGetParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountRolePageGetParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountRoleDeleteParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountRoleSaveParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountRoleUpdateParameter;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 /**
  * <p>
  * 租户子账号角色关联 服务
@@ -48,7 +42,7 @@ public class TenantSubAccountRoleController {
 
     @PostMapping("/update")
     @ApiOperation("更新租户子账号角色关联")
-    @WebLog
+    @WebLog(target = "TenantSubAccountRole")
     public Result<Boolean> update(@RequestBody TenantSubAccountRoleUpdateParameter parameter) {
         tenantSubAccountRoleService.update(parameter);
         return new Result<>(true);
@@ -56,7 +50,7 @@ public class TenantSubAccountRoleController {
 
     @PostMapping("/save")
     @ApiOperation("保存租户子账号角色关联")
-    @WebLog
+    @WebLog(target = "TenantSubAccountRole")
     public Result<Boolean> save(@RequestBody TenantSubAccountRoleSaveParameter parameter) {
         tenantSubAccountRoleService.save(parameter);
         return new Result<>(true);
@@ -65,7 +59,7 @@ public class TenantSubAccountRoleController {
 
     @DeleteMapping("/delete")
     @ApiOperation("删除租户子账号角色关联")
-    @WebLog
+    @WebLog(target = "TenantSubAccountRole")
     public Result<Boolean> delete(@RequestBody TenantSubAccountRoleDeleteParameter parameter) {
         tenantSubAccountRoleService.delete(parameter);
         return new Result<>(true);

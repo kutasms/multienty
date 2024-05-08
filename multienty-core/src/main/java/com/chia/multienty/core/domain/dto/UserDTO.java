@@ -43,7 +43,12 @@ public class UserDTO extends User implements IWebLogUser {
     }
 
     @Override
-    public String getUserName() {
+    public Long getLogUserId() {
+        return getUserId();
+    }
+
+    @Override
+    public String getLogUserName() {
         return getName();
     }
 

@@ -27,4 +27,6 @@ public class WebLogPageGetParameter extends DefaultListGetParameter<WebLogDTO> {
 
     private Long metaId;
     private Integer type;
+
+    private String target;
 }

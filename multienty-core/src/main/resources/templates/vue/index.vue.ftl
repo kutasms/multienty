@@ -1,57 +1,165 @@
 <template>
   <div class="box white fill flex-col scroll-hidden">
-    <div class="box gray flex-row h-between">
-      <div class="left">
+    <div class="box pad white flex-row h-between bottom-border mar-b-10">
+      <div class="search-left-box flex-row h-start">
+        <el-form label-width="55px">
+          <div class="flex-col h-start">
+            <div class="flex-row h-start">
         <#list view.index.searchInputItems as searchItem>
-        	<#if searchItem == 'city'>
-        <span class="margin-right">城市</span>
-        <kt-city-selector
-          v-model="searchParams.city"
-          class="w150"
-        ></kt-city-selector>
-            </#if>
             <#if searchItem == "keywords">
-        <span class="margin-left margin-right">关键字</span>
-        <el-input
-          v-model="searchParams.keywords"
-          prefix-icon="kt-icon-name-fill"
-          placeholder="${view.index.keywordsPlaceHolder}"
-          class="w180 margin-right"
-        ></el-input>
+              <el-form-item label="关键字">
+                <el-input
+                  v-model="searchParams.keywords"
+                  prefix-icon="kt-icon-name-fill"
+                  placeholder="请输入搜索关键字"
+                ></el-input>
+              </el-form-item>
             </#if>
             <#if searchItem == 'status'>
-        <span class="margin-left margin-right">状态</span>
-        <kt-status-selector
-          v-model="statusObj"
-          :option-ids="${view.index.selectableStatus}"
-          class="margin-right"
-        ></kt-status-selector>
+              <el-form-item label="状态">
+                <kt-status-selector
+                  v-model="statusObj"
+                  :option-ids="${view.index.selectableStatus}"
+                  class="margin-right"
+                ></kt-status-selector>
+              </el-form-item>
+            </#if>
+            <#if searchItem == 'city'>
+              <el-form-item label="城市">
+                <kt-city-selector
+                  v-model="searchParams.city"
+                  class="w150"
+                ></kt-city-selector>
+              </el-form-item>
             </#if>
         </#list>
-        <el-button type="primary" size="small" @click="getList">搜索</el-button>
-        <el-button type="default" size="small" @click="reset">重置</el-button>
+            </div>
+          </div>
+        </el-form>
+        <div class="flex-row h-start v-end mar-l-10">
+          <el-button
+            icon="el-icon-s-operation"
+            type="default"
+            @click="toggleMoreSearchOption"
+          >
+            {{ moreSearchOptionVisible ? '折叠' : '展开' }}
+          </el-button>
+        </div>
       </div>
-      <#if view.index.dataCreateEnabled>
-      <div class="right">
+      <div class="search-right-box flex-row h-end">
+        <div>
+          <el-button
+            type="primary"
+            size="small"
+            icon="kt-icon-search"
+            @click="getList"
+          >
+            搜索
+          </el-button>
+          <el-button
+            type="default"
+            size="small"
+            icon="kt-icon-reset"
+            @click="reset"
+          >
+            重置
+          </el-button>
+        </div>
+      </div>
+    </div>
+    <div class="action-box box rad-none flex-row h-between v-center">
+      <div class="left pad-l-10">
+        <el-button
+          icon="kt-icon-batch-select"
+          size="mini"
+          @click="selectAll($refs.table, list)"
+        >
+          全选
+        </el-button>
+        <el-button
+          icon="kt-icon-batch-cancel-select"
+          size="mini"
+          @click="unselectAll($refs.table, list)"
+        >
+          取消全选
+        </el-button>
+        <el-button
+          icon="kt-icon-batch-del"
+          size="mini"
+          :loading="executing"
+          @click="removeSelected"
+        >
+          批量删除
+        </el-button>
+      </div>
+      <div class="right pad-r-10">
         <el-button
           v-permission="'add-${controllerMappingHyphen}'"
           type="success"
           icon="kt-icon-add"
+          size="mini"
           @click="showAdd"
         >
           新增${table.comment!}
         </el-button>
+        <el-button
+          type="default"
+          icon="kt-icon-download"
+          size="mini"
+          @click="export2Excel($refs.table)"
+        >
+          导出
+        </el-button>
+        <el-button
+          type="default"
+          icon="el-icon-printer"
+          size="mini"
+          @click="printTable('table')"
+        >
+          打印
+        </el-button>
+        <el-popover
+          placement="bottom-start"
+          title="请选择隐藏列"
+          width="200"
+          trigger="click"
+          class="mar-l-10"
+        >
+          <el-table
+            v-if="$refs.table"
+            ref="columnFilterTable"
+            :data="columnData"
+            @selection-change="onColumnFilterChange"
+          >
+            <el-table-column type="selection"></el-table-column>
+            <el-table-column label="数据列" prop="label"></el-table-column>
+          </el-table>
+          <el-button
+            slot="reference"
+            icon="kt-icon-filter"
+            type="default"
+            size="mini"
+          >
+            筛选项
+          </el-button>
+        </el-popover>
       </div>
-      </#if>
-
     </div>
     <div v-loading="listLoading" class="list-box auto-fill scroll-hidden">
       <el-table
+        id="table"
+        ref="table"
         :data="list"
         header-cell-class-name="u-th-gradient bold"
         :border="true"
+        fit
+        stripe
         height="100%"
+        @sort-change="onTableSortChange"
+        @selection-change="onSelectionChange"
+        @row-dblclick="(row) => toggleRow($refs.table, row)"
       >
+        <el-table-column type="selection"></el-table-column>
         <#if view.index.table.serialNumberEnabled>
         <el-table-column
           label="序号"
@@ -75,13 +183,22 @@
           </#list>
           <#if field??>
             <#if (formatter[column])??>
-        <el-table-column label="${field.comment!}" prop="${column}" align="center">
+        <el-table-column
+          v-if="isColumnShown('${column}')"
+          label="${field.comment!}"
+          prop="${column}"
+          align="center"
+        >
           <template slot-scope="scope">
             {{ scope.row.${column} | ${formatter[column]} }}
           </template>
         </el-table-column>
             <#else>
-        <el-table-column label="${field.comment!}" prop="${field.propertyName}" align="center" />
+        <el-table-column
+           v-if="isColumnShown('${field.propertyName}')"
+           label="${field.comment!}"
+           prop="${field.propertyName}"
+           align="center" />
             </#if>
           </#if>
         </#list>
@@ -147,7 +264,7 @@
               class="mar-r-10"
               <#list table.fields as fd>
                 <#if fd.keyFlag>
-              @click="showWebLog(scope.row.${fd.propertyName})"
+              @click="showWebLog(scope.row.${fd.propertyName}, '${entity}')"
                 </#if>
               </#list>
             >
@@ -170,12 +287,18 @@
       @current-change="onPageIndexChanged"
     />
     <${controllerMappingHyphen}-editor
+      v-if="editorVisible"
       :visible.sync="editorVisible"
       :mode="editorMode"
-      :hospital="current"
+      :value="current"
       @success="onEditSuccess"
     ></${controllerMappingHyphen}-editor>
-    <kt-web-log :visible.sync="webLogVisible" :meta-id="webLogMetaId" />
+    <kt-web-log
+      :visible.sync="webLogVisible"
+      :meta-id="webLogMetaId"
+      :target="webLogTarget"
+      :type="webLogType"
+    />
   </div>
 </template>
 <script>
@@ -185,19 +308,21 @@
       </#if>
   </#list>
   <#if haveStatusColumn??>
-  import { getList, remove, enable, disable } from '@/${apis.path}/${entity?uncap_first}'
+  import { getList, remove, enable, disable } from '@/${apis.path}/${pkg}/${entity?uncap_first}'
   <#else>
-  import { getList, remove } from '@/${apis.path}/${entity?uncap_first}'
+  import { getList, remove } from '@/${apis.path}/${pkg}/${entity?uncap_first}'
   </#if>
   import ${entity?uncap_first}Editor from './component/${entity?uncap_first}Editor.vue'
+  import { tableMixin } from '@/mixins/table'
   const origSearchParams = {
     currentPage: 1,
     pageSize: 10,
     total: 0,
     keywords: '',
     createTimeDuration: [null, null],
-    status: '',
+    status: null,
     city: null,
+    orderBy: null
   }
   export default {
     components: {
@@ -205,6 +330,7 @@
     },
     filters: {
     },
+    mixins: [tableMixin],
     data() {
       return {
         editorVisible: false,
@@ -214,6 +340,7 @@
         searchParams: JSON.parse(JSON.stringify(origSearchParams)),
         list: [],
         listLoading: false,
+        moreSearchOptionVisible: false
       }
     },
     watch: {
@@ -258,6 +385,10 @@
         this.searchParams.currentPage = pageIndex
         this.getList()
       },
+      onTableSortChange({ column, prop, order }) {
+        this.searchParams.orderBy = { prop, order }
+        this.getList()
+      },
       <#list table.fields as field>
         <#if field.keyFlag>
       remove(row) {
@@ -268,6 +399,9 @@
             type: 'success',
           })
           this.getList()
+        })
+        .catch((e) => {
+          console.log(e)
         })
       },
           <#if haveStatusColumn??>
@@ -280,6 +414,9 @@
           })
           this.getList()
         })
+        .catch((e) => {
+          console.log(e)
+        })
       },
       enable(row) {
         enable({ ${field.propertyName}: row.${field.propertyName} }).then((rsp) => {
@@ -289,6 +426,9 @@
             type: 'success',
           })
           this.getList()
+        })
+        .catch((e) => {
+          console.log(e)
         })
       },
           </#if>

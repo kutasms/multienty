@@ -1,24 +1,16 @@
 package com.chia.multienty.core.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.dto.TenantSubAccountDTO;
+import com.chia.multienty.core.parameter.tenant.*;
 import com.chia.multienty.core.service.TenantSubAccountService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.chia.multienty.core.parameter.user.TenantSubAccountDetailGetParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountPageGetParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountDeleteParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountSaveParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountUpdateParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountEnableParameter;
-import com.chia.multienty.core.parameter.user.TenantSubAccountDisableParameter;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 /**
  * <p>
  * 余额账单 服务
@@ -50,7 +42,7 @@ public class TenantSubAccountController {
 
     @PostMapping("/update")
     @ApiOperation("更新余额账单")
-    @WebLog
+    @WebLog(target = "TenantSubAccount")
     public Result<Boolean> update(@RequestBody TenantSubAccountUpdateParameter parameter) {
         tenantSubAccountService.update(parameter);
         return new Result<>(true);
@@ -58,7 +50,7 @@ public class TenantSubAccountController {
 
     @PostMapping("/save")
     @ApiOperation("保存余额账单")
-    @WebLog
+    @WebLog(target = "TenantSubAccount")
     public Result<Boolean> save(@RequestBody TenantSubAccountSaveParameter parameter) {
         tenantSubAccountService.save(parameter);
         return new Result<>(true);
@@ -66,7 +58,7 @@ public class TenantSubAccountController {
 
     @PostMapping("/enable")
     @ApiOperation("启用余额账单")
-    @WebLog
+    @WebLog(target = "TenantSubAccount")
     public Result<Boolean> enable(@RequestBody TenantSubAccountEnableParameter parameter) {
         tenantSubAccountService.enable(parameter);
         return new Result<>(true);
@@ -74,15 +66,15 @@ public class TenantSubAccountController {
 
     @PostMapping("/disable")
     @ApiOperation("禁用余额账单")
-    @WebLog
-    public Result<Boolean> save(@RequestBody TenantSubAccountDisableParameter parameter) {
+    @WebLog(target = "TenantSubAccount")
+    public Result<Boolean> disable(@RequestBody TenantSubAccountDisableParameter parameter) {
         tenantSubAccountService.disable(parameter);
         return new Result<>(true);
     }
 
     @DeleteMapping("/delete")
     @ApiOperation("删除余额账单")
-    @WebLog
+    @WebLog(target = "TenantSubAccount")
     public Result<Boolean> delete(@RequestBody TenantSubAccountDeleteParameter parameter) {
         tenantSubAccountService.delete(parameter);
         return new Result<>(true);

@@ -7,6 +7,7 @@ import com.chia.multienty.core.mybatis.service.impl.KutaBaseServiceImpl;
 import com.chia.multienty.core.pojo.WebLog;
 import com.chia.multienty.core.service.WebLogService;
 import com.chia.multienty.core.util.ListUtil;
+import io.jsonwebtoken.lang.Strings;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chia.multienty.core.parameter.log.WebLogDetailGetParameter;
@@ -48,6 +49,7 @@ public class WebLogServiceImpl extends KutaBaseServiceImpl<WebLogMapper, WebLog>
                         .in(!ListUtil.isEmpty(parameter.getLogIds()), WebLog::getLogId, parameter.getLogIds())
                         .eq(parameter.getMetaId() != null, WebLog::getMetaId, parameter.getMetaId())
                         .eq(parameter.getType() != null, WebLog::getType, parameter.getType())
+                        .eq(Strings.hasText(parameter.getTarget()), WebLog::getTarget, parameter.getTarget())
                         .orderByDesc(WebLog::getLogId)
         );
     }

@@ -14,6 +14,8 @@ public class YamlMultientySecurityProperties {
 
     private String[] ignorePaths;
 
+    private String[] ignoreVerifyPermissions;
+
     /**
      * 判断当前路径是否需要认证
      * @param path 路径
