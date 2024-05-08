@@ -3,6 +3,6 @@ logs
 multienty-wechat-third-party
 target
 multienty-plugin-testapp
-doc
 .idea
 store
+doc/certs
