@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.flyway.condition;
+package com.chia.multienty.core.infra.flyway.condition;
 
 import com.chia.multienty.core.util.PropertyUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
