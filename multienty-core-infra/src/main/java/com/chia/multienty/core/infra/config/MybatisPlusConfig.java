@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.config;
+package com.chia.multienty.core.infra.config;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
@@ -12,11 +12,15 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.chia.multienty.core.handler.KutaMetaObjectHandler;
 import com.chia.multienty.core.mybatis.KutaMybatisPlusMySqlDialect;
-import com.chia.multienty.core.mybatis.KutaSqlInjector;
+import com.chia.multienty.core.infra.mybatis.KutaSqlInjector;
+import com.chia.multienty.core.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -35,7 +39,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @Slf4j
-public class MybatisPlusConfig {
+public class MybatisPlusConfig implements ApplicationContextAware {
 
     @Autowired
     private DataSource dataSource;
@@ -65,7 +69,7 @@ public class MybatisPlusConfig {
         PaginationInnerInterceptor page = new PaginationInnerInterceptor();
         page.setDialect(new KutaMybatisPlusMySqlDialect());
         mybatisPlusInterceptor.addInnerInterceptor(page);
-        log.info("注册mybatis-plus拦截器");
+        log.info("[Multienty] Registered interceptors for mybatis-plus.");
         return mybatisPlusInterceptor;
     }
 
@@ -112,8 +116,12 @@ public class MybatisPlusConfig {
         globalConfig.setMetaObjectHandler(kutaMetaObjectHandler);
         globalConfig.setSqlInjector(new KutaSqlInjector());
         mybatisPlus.setGlobalConfig(globalConfig);
-        log.info("MYBATIS PLUS 配置完成");
+        log.info("[Multienty] Mybatis-Plus Configuration completed.");
         return mybatisPlus;
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringUtil.setContext(applicationContext);
+    }
 }

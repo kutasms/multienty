@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.aspect;
+package com.chia.multienty.core.infra.aspect;
 
 import com.chia.multienty.core.annotation.ValidateHeader;
 import com.chia.multienty.core.domain.enums.HttpResultEnum;

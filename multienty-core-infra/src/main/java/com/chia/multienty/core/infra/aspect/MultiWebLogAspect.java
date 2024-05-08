@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.aspect;
+package com.chia.multienty.core.infra.aspect;
 
 import com.chia.multienty.core.annotation.LogMetaId;
 import com.chia.multienty.core.annotation.MultiWebLog;
@@ -106,18 +106,18 @@ public class MultiWebLogAspect {
                 webLog.setIp(HttpUtil.getClientIp(request));
                 webLog.setUrl(request.getServletPath());
                 webLog.setBrowser(browserName);
-
+                webLog.setTarget(annoWebLog.target());
                 try {
                     webLog.setArgs(objectMapper.writeValueAsString(finalParameter));
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
-                webLog.setName(user !=null && user.getUserName() != null ? user.getUserName() : "未知");
-                webLog.setUid(user !=null && user.getUserId()!=null ? user.getUserId() : 0);
+                webLog.setName(user !=null && user.getLogUserName() != null ? user.getLogUserName() : "未知");
+                webLog.setUid(user !=null && user.getLogUserId()!=null ? user.getLogUserId() : 0);
                 webLog.setMetaId(m);
                 webLog.setType((short)annoWebLog.type());
                 webLog.setApi(api != null ? api.value() : null);
-
+                webLog.setTarget(annoWebLog.target());
                 webLog.setDescription(result.getDescription());
                 webLog.setTime(System.currentTimeMillis() - startTime);
                 return webLog;
@@ -132,9 +132,10 @@ public class MultiWebLogAspect {
             webLog.setUrl(request.getServletPath());
             webLog.setBrowser(browserName);
             webLog.setArgs(objectMapper.writeValueAsString(parameter));
-            webLog.setName(user.getUserName());
-            webLog.setUid(user.getUserId());
+            webLog.setName(user.getLogUserName());
+            webLog.setUid(user.getLogUserId());
             webLog.setApi(api != null ? api.value() : null);
+            webLog.setTarget(annoWebLog.target());
             webLog.setDescription(result.getDescription());
             webLog.setTime(System.currentTimeMillis() - startTime);
             dubboMultientyService.saveWebLog(webLog);

@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.config;
+package com.chia.multienty.core.infra.config;
 
 import com.alibaba.nacos.api.exception.NacosException;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;

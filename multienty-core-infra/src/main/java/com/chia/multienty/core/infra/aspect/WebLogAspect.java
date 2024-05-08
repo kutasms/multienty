@@ -1,7 +1,7 @@
-package com.chia.multienty.core.fusion.aspect;
+package com.chia.multienty.core.infra.aspect;
 
-import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.annotation.LogMetaId;
+import com.chia.multienty.core.annotation.WebLog;
 import com.chia.multienty.core.domain.basic.IWebLogUser;
 import com.chia.multienty.core.domain.basic.Result;
 import com.chia.multienty.core.domain.basic.WebLogUser;
@@ -32,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Aspect
 @Component
@@ -102,9 +104,21 @@ public class WebLogAspect {
         webLog.setBrowser(browserName);
         webLog.setType((short) annoWebLog.type());
         webLog.setArgs(objectMapper.writeValueAsString(parameter));
-        webLog.setName(user !=null && user.getUserName() != null ? user.getUserName() : "未知");
-        webLog.setUid(user !=null && user.getUserId()!=null ? user.getUserId() : 0);
-        webLog.setMetaId(getMetaId(parameter));
+        webLog.setName(user !=null && user.getLogUserName() != null ? user.getLogUserName() : "未知");
+        webLog.setUid(user !=null && user.getLogUserId()!=null ? user.getLogUserId() : 0);
+        List<Long> metaIds = getMetaIds(parameter);
+        if(metaIds.size() > 1) {
+            webLog.setMetaId(metaIds.get(0));
+            webLog.setMetaId2(metaIds.get(1));
+            if(metaIds.size() > 2) {
+                webLog.setMetaId3(metaIds.get(2));
+            }
+        } else {
+            if(metaIds.size() > 0) {
+                webLog.setMetaId(metaIds.get(0));
+            }
+        }
+        webLog.setTarget(annoWebLog.target());
         webLog.setApi(annoApi != null ? annoApi.value() : null);
         webLog.setDescription(result.getDescription());
         webLog.setTime(System.currentTimeMillis() - startTime);
@@ -112,10 +126,12 @@ public class WebLogAspect {
         return result;
     }
 
-    private Long getMetaId(Object parameter) throws IllegalAccessException {
+
+    private List<Long> getMetaIds(Object parameter) throws IllegalAccessException {
         if(parameter == null) {
             return null;
         }
+        List<Long> metaIds = new ArrayList<>();
         Field[] fields = parameter.getClass().getDeclaredFields();
         for(int i=0;i<fields.length;i++) {
             Field field = fields[i];
@@ -126,14 +142,12 @@ public class WebLogAspect {
                         || field.getType().equals(Integer.class)
                         || field.getType().equals(Short.class)
                         || field.getType().equals(Byte.class)) {
-                    result = (Long) field.get(parameter);
-                } else {
-                    result = null;
+                    metaIds.add ((Long) field.get(parameter));
                 }
                 field.setAccessible(false);
-                return result;
             }
         }
-        return null;
+        return metaIds;
     }
+
 }

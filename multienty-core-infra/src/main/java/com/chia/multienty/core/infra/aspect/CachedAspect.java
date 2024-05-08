@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.aspect;
+package com.chia.multienty.core.infra.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 

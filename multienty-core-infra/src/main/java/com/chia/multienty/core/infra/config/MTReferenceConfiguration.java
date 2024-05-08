@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.config;
+package com.chia.multienty.core.infra.config;
 
 import com.chia.multienty.core.dubbo.service.DubboMultientyService;
 import org.apache.dubbo.config.annotation.DubboReference;

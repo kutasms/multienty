@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.config;
+package com.chia.multienty.core.infra.config;
 
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.chia.multienty.core.properties.KutaDynamicDataSourceProperties;
