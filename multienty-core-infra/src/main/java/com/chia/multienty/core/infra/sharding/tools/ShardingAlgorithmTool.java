@@ -1,14 +1,17 @@
-package com.chia.multienty.core.fusion.sharding.tools;
+package com.chia.multienty.core.infra.sharding.tools;
 
 import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.cloud.nacos.client.NacosPropertySource;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.chia.multienty.core.domain.constants.MultientyConstants;
 import com.chia.multienty.core.domain.enums.SymbolEnum;
-import com.chia.multienty.core.fusion.flyway.util.FlywayUtil;
-import com.chia.multienty.core.fusion.sharding.registry.MTShardingAlgorithmProvidedBeanRegistry;
+import com.chia.multienty.core.infra.flyway.util.FlywayUtil;
+import com.chia.multienty.core.infra.sharding.config.YamlMultientyShardingRuleConfiguration;
+import com.chia.multienty.core.infra.sharding.registry.MTShardingAlgorithmProvidedBeanRegistry;
+import com.chia.multienty.core.mybatis.generator.ShardingInfo;
 import com.chia.multienty.core.tools.TableCopier;
 import com.chia.multienty.core.util.SpringUtil;
+import com.chia.multienty.core.util.StringUtil;
 import com.chia.multienty.core.util.TimeUtil;
 import com.google.common.base.Strings;
 import lombok.SneakyThrows;
@@ -22,6 +25,9 @@ import org.apache.shardingsphere.sharding.algorithm.config.AlgorithmProvidedShar
 import org.apache.shardingsphere.sharding.spi.KeyGenerateAlgorithm;
 import org.apache.shardingsphere.sharding.spi.ShardingAlgorithm;
 import org.apache.shardingsphere.sharding.spring.boot.rule.YamlShardingRuleSpringBootConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.YamlShardingRuleConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.rule.YamlTableRuleConfiguration;
+import org.apache.shardingsphere.sharding.yaml.config.strategy.sharding.YamlShardingStrategyConfiguration;
 import org.apache.shardingsphere.sharding.yaml.swapper.YamlShardingRuleAlgorithmProviderConfigurationSwapper;
 import org.apache.shardingsphere.spring.boot.datasource.AopProxyUtils;
 import org.apache.shardingsphere.spring.boot.datasource.DataSourceMapSetter;
@@ -134,6 +140,9 @@ public class ShardingAlgorithmTool {
     @SneakyThrows
     public static Map<String, DataSource> getDataSourceMap() {
         DataSource dataSource = SpringUtil.getBean(DataSource.class);
+        if(dataSource == null) {
+            return null;
+        }
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         if(ds.getDataSources().containsKey(MultientyConstants.DS_SHARDING)) {
             DataSource shardingDS = ds.getDataSources().get(MultientyConstants.DS_SHARDING);
@@ -141,6 +150,61 @@ public class ShardingAlgorithmTool {
             ContextManager contextManager = getContextManager(shardingSphereDataSource);
             String dbName = getDbName(shardingSphereDataSource);
             return contextManager.getDataSourceMap(dbName);
+        }
+        return null;
+    }
+
+    public static ShardingInfo getShardingInfo(String tableName) {
+        ShardingInfo shardingInfo = new ShardingInfo();
+        YamlMultientyShardingRuleConfiguration multientyRuleConfig = SpringUtil.getBean(YamlMultientyShardingRuleConfiguration.class);
+        if(multientyRuleConfig == null) {
+            return null;
+        }
+        YamlShardingRuleConfiguration ruleConfig = multientyRuleConfig.getSharding();
+        if(ruleConfig != null) {
+            YamlTableRuleConfiguration yamlTableRuleConfiguration = ruleConfig.getTables().get(tableName);
+            if (yamlTableRuleConfiguration != null) {
+                YamlShardingStrategyConfiguration databaseStrategy;
+                if (ruleConfig.getDefaultDatabaseStrategy() != null) {
+                    databaseStrategy = ruleConfig.getDefaultDatabaseStrategy();
+                } else {
+                    databaseStrategy = yamlTableRuleConfiguration.getDatabaseStrategy();
+                }
+                if (databaseStrategy != null && databaseStrategy.getStandard() != null) {
+                    shardingInfo.setDatabaseShardingColumnName(databaseStrategy.getStandard().getShardingColumn());
+                    shardingInfo.setDatabaseShardingProperty(StringUtil.toCamelCase(databaseStrategy.getStandard().getShardingColumn()));
+                }
+                shardingInfo.setShardingDatabase(shardingInfo.getDatabaseShardingColumnName() != null);
+                YamlShardingStrategyConfiguration ssc = yamlTableRuleConfiguration.getTableStrategy();
+                if(ssc == null) {
+                    ssc = ruleConfig.getDefaultTableStrategy();
+                }
+                if(ssc != null) {
+                    if(ssc.getStandard() != null) {
+                        shardingInfo.setTableShardingProperty(StringUtil.toCamelCase(ssc.getStandard().getShardingColumn()));
+                        shardingInfo.setTableShardingColumnName(ssc.getStandard().getShardingColumn());
+                        shardingInfo.setShardingTable(true);
+                    } else {
+                        shardingInfo.setShardingTable(false);
+                    }
+                }
+            }
+        }
+        return shardingInfo;
+    }
+
+    @SneakyThrows
+    public static ContextManager getContextManager() {
+        DataSource dataSource = SpringUtil.getBean(DataSource.class);
+        if(dataSource == null) {
+            return null;
+        }
+        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+        if(ds.getDataSources().containsKey(MultientyConstants.DS_SHARDING)) {
+            DataSource shardingDS = ds.getDataSources().get(MultientyConstants.DS_SHARDING);
+            ShardingSphereDataSource shardingSphereDataSource = (ShardingSphereDataSource) AopProxyUtils.getTarget(shardingDS);
+            ContextManager contextManager = getContextManager(shardingSphereDataSource);
+            return contextManager;
         }
         return null;
     }

@@ -1,4 +1,4 @@
-package com.chia.multienty.core.fusion.sharding.util;
+package com.chia.multienty.core.infra.sharding.util;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
