@@ -207,9 +207,9 @@ public class DelayedMessageProducer {
                 .setIdempotent(idempotent)
                 .setDataType(dataType.name())
                 .setRoutingKey(routingKey)
-                .setHalfMode(true)
+                .setHalfMode(false)
                 .setMetaId(metaId)
-                .setStatus(StatusEnum.HALF.getCode());
+                .setStatus(StatusEnum.WAITING.getCode());
 
         // 将消息放入数据库中
         rabbitLogService.saveTE(rabbitLog);
